@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">جانا</string>
+    <string name="splash_headline">أسلوبك، بمستوى أعلى</string>
+    <string name="splash_tagline">اكتشف الموضة التي تواكب حياتك</string>
+    <string name="btn_get_started">ابدأ الآن</string>
+    <string name="btn_sign_in">تسجيل الدخول</string>
+    <string name="splash_feature_discover_title">اكتشف</string>
+    <string name="splash_feature_discover_desc">استكشف مجموعات مختارة تناسب ذوقك</string>
+    <string name="splash_feature_shop_title">تسوّق بسهولة</string>
+    <string name="splash_feature_shop_desc">دفع سلس مع مدفوعات آمنة</string>
+    <string name="splash_feature_track_title">تتبع طلباتك</string>
+    <string name="splash_feature_track_desc">تحديثات فورية على كل شحنة</string>
+    <string name="login_title">أهلاً بعودتك</string>
+    <string name="login_subtitle">سجّل الدخول للمتابعة</string>
+    <string name="register_title">إنشاء حساب</string>
+    <string name="register_subtitle">انضم إلى جانا اليوم</string>
+    <string name="email_label">البريد الإلكتروني</string>
+    <string name="password_label">كلمة المرور</string>
+    <string name="name_label">الاسم الكامل</string>
+    <string name="btn_login">تسجيل الدخول</string>
+    <string name="btn_register">إنشاء حساب</string>
+    <string name="error_invalid_email">يرجى إدخال بريد إلكتروني صحيح</string>
+    <string name="error_weak_password">يجب أن تكون كلمة المرور 8 أحرف على الأقل</string>
+    <string name="already_have_account">لديك حساب بالفعل؟ تسجيل الدخول</string>
+    <string name="dont_have_account">ليس لديك حساب؟ إنشاء حساب</string>
+    <string name="home_title">الرئيسية</string>
+    <string name="tab_home">الرئيسية</string>
+    <string name="tab_discover">استكشاف</string>
+    <string name="tab_wishlist">المفضلة</string>
+    <string name="tab_profile">الملف الشخصي</string>
+    <string name="btn_ok">حسناً</string>
+    <string name="btn_cancel">إلغاء</string>
+    <string name="btn_retry">حاول مجدداً</string>
+    <string name="loading">جارٍ التحميل…</string>
+    <string name="error_generic">حدث خطأ ما. يرجى المحاولة مرة أخرى.</string>
+    <string name="btn_continue">متابعة</string>
+    <string name="btn_save">حفظ</string>
+    <string name="btn_back">رجوع</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_dark_mode">الوضع الداكن</string>
+    <string name="language_english">الإنجليزية</string>
+    <string name="language_arabic">العربية</string>
+</resources>
