@@ -2,9 +2,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.kotlinSerialization)
-    // Note: KSP 2.1.0-1.0.29 is incompatible with com.android.kotlin.multiplatform.library
-    // (ClassCastException in KotlinMultiplatformAndroidCompilationImpl).
-    // KSP / Room code generation is deferred to a future iteration with compatible versions.
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 kotlin {
@@ -25,4 +24,15 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
         }
     }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
+}
+
+dependencies {
+    add("kspAndroid", libs.room.compiler)
+    add("kspIosArm64", libs.room.compiler)
+    add("kspIosSimulatorArm64", libs.room.compiler)
+    add("kspJvm", libs.room.compiler)
 }
