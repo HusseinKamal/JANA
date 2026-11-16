@@ -23,6 +23,7 @@ class JanaApp : Application() {
         initDataStoreContext(this)
         initSecureStorageContext(this)
         initDatabaseContext(this)
+        initAppBaseUrl(BuildConfig.BASE_URL)
         initKoin {
             androidLogger(Level.ERROR)
             androidContext(this@JanaApp)

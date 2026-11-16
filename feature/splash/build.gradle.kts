@@ -43,6 +43,10 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
         }
+        jvmTest.dependencies {
+            implementation(libs.kotlin.testJunit)
+            implementation(libs.kotlinx.coroutines.test)
+        }
     }
 }
 

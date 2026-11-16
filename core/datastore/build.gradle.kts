@@ -23,5 +23,9 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.security.crypto)
         }
+        jvmTest.dependencies {
+            implementation(libs.kotlin.testJunit)
+            implementation(libs.kotlinx.coroutines.test)
+        }
     }
 }
