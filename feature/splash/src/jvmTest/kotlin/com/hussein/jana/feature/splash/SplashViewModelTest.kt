@@ -40,7 +40,8 @@ class SplashViewModelTest {
     }
 
     @Test
-    fun `emits NavigateToAuth when user has no stored token`() = runTest(testDispatcher) {
+    fun `guest user receives no auto-redirect after timer elapses`() = runTest(testDispatcher) {
+        // New behavior: unauthenticated users stay on the splash screen and choose their own path.
         val tokenRepository = TokenRepository(secureStorage)
         val viewModel = SplashViewModel(tokenRepository)
 
@@ -49,7 +50,7 @@ class SplashViewModelTest {
 
         advanceTimeBy(2_500)
 
-        assertEquals(SplashEffect.NavigateToAuth, effects.firstOrNull())
+        assertEquals(true, effects.isEmpty())
         collector.cancel()
     }
 
@@ -83,4 +84,19 @@ class SplashViewModelTest {
             assertEquals(SplashEffect.NavigateToAuth, effects.firstOrNull())
             collector.cancel()
         }
+
+    @Test
+    fun `SignInClicked intent emits NavigateToSignIn`() = runTest(testDispatcher) {
+        val tokenRepository = TokenRepository(secureStorage)
+        val viewModel = SplashViewModel(tokenRepository)
+
+        val effects = mutableListOf<SplashEffect>()
+        val collector = launch { viewModel.effect.collect { effects.add(it) } }
+
+        viewModel.onIntent(SplashIntent.SignInClicked)
+        advanceTimeBy(100)
+
+        assertEquals(SplashEffect.NavigateToSignIn, effects.firstOrNull())
+        collector.cancel()
+    }
 }

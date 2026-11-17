@@ -8,16 +8,17 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun SplashFlow(
     onNavigateToHome: () -> Unit,
-    onNavigateToAuth: () -> Unit,
+    onNavigateToAuth: () -> Unit,       // Get Started → registration / onboarding
+    onNavigateToSignIn: () -> Unit,     // Sign In → returning-user login
 ) {
     val viewModel: SplashViewModel = koinViewModel()
 
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                SplashEffect.NavigateToHome -> onNavigateToHome()
-                SplashEffect.NavigateToAuth -> onNavigateToAuth()
-                SplashEffect.NavigateToSignIn -> onNavigateToAuth()
+                SplashEffect.NavigateToHome    -> onNavigateToHome()
+                SplashEffect.NavigateToAuth    -> onNavigateToAuth()
+                SplashEffect.NavigateToSignIn  -> onNavigateToSignIn()
             }
         }
     }

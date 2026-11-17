@@ -53,6 +53,7 @@ import com.hussein.jana.core.designsystem.OutlineVariant
 import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.ScholarlyTeal
 import com.hussein.jana.core.designsystem.VellumCanvas
+import com.hussein.jana.core.designsystem.app_name
 import com.hussein.jana.core.designsystem.app_name_arabic
 import com.hussein.jana.core.designsystem.app_version
 import com.hussein.jana.core.designsystem.btn_get_started
@@ -118,7 +119,7 @@ fun SplashContent(
         // ── App name row ──────────────────────────────────────────────────────
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = "JANA",
+                text = stringResource(Res.string.app_name),
                 style = MaterialTheme.typography.displaySmall,
                 fontWeight = FontWeight.Black,
                 color = ScholarlyTeal,
