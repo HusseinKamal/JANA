@@ -72,4 +72,35 @@
     <string name="settings_dark_mode">الوضع الداكن</string>
     <string name="language_english">الإنجليزية</string>
     <string name="language_arabic">العربية</string>
+
+    <!-- Register — student registration screen -->
+    <string name="register_step_label">خطوة ١ من ٢: الملف الأكاديمي</string>
+    <string name="register_step_progress">٥٠٪ مكتمل</string>
+    <string name="register_personal_title">البيانات الشخصية</string>
+    <string name="register_full_name_label">الاسم القانوني الكامل</string>
+    <string name="register_full_name_hint">حسين السيد</string>
+    <string name="register_full_name_bilingual">بالعربية أو الإنجليزية</string>
+    <string name="register_phone_label">واتساب / جهة اتصال المحمول</string>
+    <string name="register_phone_hint">102 345 6789</string>
+    <string name="register_country_code">EG +20</string>
+    <string name="register_security_title">أمان الحساب</string>
+    <string name="register_create_password">إنشاء كلمة مرور</string>
+    <string name="register_confirm_password">تأكيد كلمة المرور</string>
+    <string name="register_password_strong">كلمة مرور قوية</string>
+    <string name="register_password_medium">كلمة مرور متوسطة</string>
+    <string name="register_password_weak">كلمة مرور ضعيفة</string>
+    <string name="register_password_requirements">١٠+ أحرف، أحرف كبيرة ورموز</string>
+    <string name="register_password_match">كلمتا المرور متطابقتان</string>
+    <string name="register_terms_text">أوافق على الشروط والأحكام</string>
+    <string name="register_btn">إنشاء حساب طالب والمطالبة بالاعتمادات</string>
+    <string name="register_have_account">هل لديك بالفعل بطاقة عالم نشطة؟</string>
+    <string name="register_sign_in_link">تسجيل الدخول</string>
+    <string name="error_name_required">الاسم الكامل مطلوب</string>
+    <string name="error_name_too_short">يجب أن يكون الاسم حرفين على الأقل</string>
+    <string name="error_phone_required">رقم الهاتف مطلوب</string>
+    <string name="error_phone_invalid">يرجى إدخال رقم هاتف صحيح</string>
+    <string name="error_password_too_short">يجب أن تكون كلمة المرور ١٠ أحرف على الأقل</string>
+    <string name="error_password_no_uppercase">تحتاج كلمة المرور إلى أحرف كبيرة</string>
+    <string name="error_passwords_mismatch">كلمتا المرور غير متطابقتين</string>
+    <string name="error_terms_required">يرجى قبول الشروط والأحكام</string>
 </resources>

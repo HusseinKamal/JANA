@@ -72,4 +72,35 @@
     <string name="settings_dark_mode">Dark Mode</string>
     <string name="language_english">English</string>
     <string name="language_arabic">Arabic</string>
+
+    <!-- Register — student registration screen -->
+    <string name="register_step_label">STEP 1 OF 2: ACADEMIC PROFILE</string>
+    <string name="register_step_progress">50% Complete</string>
+    <string name="register_personal_title">Personal Credentials</string>
+    <string name="register_full_name_label">Full Legal Name</string>
+    <string name="register_full_name_hint">Hussein Al-Sayed</string>
+    <string name="register_full_name_bilingual">Arabic or English</string>
+    <string name="register_phone_label">WhatsApp / Mobile Contact</string>
+    <string name="register_phone_hint">102 345 6789</string>
+    <string name="register_country_code">EG +20</string>
+    <string name="register_security_title">Account Security</string>
+    <string name="register_create_password">Create Password</string>
+    <string name="register_confirm_password">Confirm Password</string>
+    <string name="register_password_strong">Strong Password</string>
+    <string name="register_password_medium">Medium Password</string>
+    <string name="register_password_weak">Weak Password</string>
+    <string name="register_password_requirements">10+ chars, uppercase &amp; symbols</string>
+    <string name="register_password_match">Passwords match</string>
+    <string name="register_terms_text">I accept Terms and Conditions</string>
+    <string name="register_btn">Create Student Account &amp; Claim Credits</string>
+    <string name="register_have_account">Already registered with an active scholar pass?</string>
+    <string name="register_sign_in_link">Log In</string>
+    <string name="error_name_required">Full name is required</string>
+    <string name="error_name_too_short">Name must be at least 2 characters</string>
+    <string name="error_phone_required">Phone number is required</string>
+    <string name="error_phone_invalid">Please enter a valid phone number</string>
+    <string name="error_password_too_short">Password must be at least 10 characters</string>
+    <string name="error_password_no_uppercase">Password needs uppercase letters</string>
+    <string name="error_passwords_mismatch">Passwords do not match</string>
+    <string name="error_terms_required">Please accept the terms and conditions</string>
 </resources>
