@@ -144,4 +144,36 @@
     <string name="home_ai_coming_soon">JANA AI Coming Soon</string>
     <string name="home_schedule_coming_soon">Schedule Coming Soon</string>
     <string name="home_progress_coming_soon">Progress Coming Soon</string>
+
+    <!-- Home – snackbar messages -->
+    <string name="home_snack_joining">Joining live session…</string>
+    <string name="home_snack_quiz">Quick quiz starting…</string>
+    <string name="home_snack_formula">Opening formula sheet…</string>
+    <string name="home_snack_breakdown">Loading concept breakdown…</string>
+    <string name="home_snack_calendar">Opening calendar…</string>
+    <string name="home_snack_refill">Opening refill plan…</string>
+    <string name="home_snack_notifications">Notifications</string>
+
+    <!-- Home – subject names (localizable labels) -->
+    <string name="home_subject_algebra">Algebra</string>
+    <string name="home_subject_geometry">Geometry</string>
+    <string name="home_subject_physics">Physics</string>
+
+    <!-- Home – subject trend labels (mock static data) -->
+    <string name="home_trend_algebra">+12% this week</string>
+    <string name="home_trend_geometry">Analytical proofs pending</string>
+    <string name="home_trend_physics">Kinematics completed</string>
+
+    <!-- Home – day labels for upcoming sessions -->
+    <string name="home_day_tomorrow">Tomorrow</string>
+    <string name="home_day_thursday">Thursday</string>
+
+    <!-- Home – live session field labels -->
+    <string name="home_live_subject_math">MATHEMATICS</string>
+    <string name="home_live_level_senior">HIGH SCHOOL SENIOR</string>
+
+    <!-- Home – AI companion content -->
+    <string name="home_ai_message_default">Want to prepare for today\'s algebra session? Dr. Hassan usually begins with discriminant formulas and polynomial factoring.</string>
+    <string name="home_ai_phrase_discriminant">discriminant formulas</string>
+    <string name="home_ai_phrase_polynomial">polynomial factoring</string>
 </resources>

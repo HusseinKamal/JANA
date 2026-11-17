@@ -71,9 +71,9 @@ fun LiveSessionCard(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Subject · Level
+            // Subject · Level (locale-aware)
             Text(
-                text = "${session.subject} \u2022 ${session.level}",
+                text = "${stringResource(session.subjectRes)} \u2022 ${stringResource(session.levelRes)}",
                 style = MaterialTheme.typography.labelSmall,
                 color = AmberGold,
                 letterSpacing = 1.sp,

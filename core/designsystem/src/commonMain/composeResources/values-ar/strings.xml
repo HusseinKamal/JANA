@@ -144,4 +144,36 @@
     <string name="home_ai_coming_soon">جَنَى AI قريباً</string>
     <string name="home_schedule_coming_soon">الجدول قريباً</string>
     <string name="home_progress_coming_soon">التقدم قريباً</string>
+
+    <!-- Home – snackbar messages -->
+    <string name="home_snack_joining">جارٍ الانضمام إلى الفصل المباشر…</string>
+    <string name="home_snack_quiz">الاختبار السريع يبدأ الآن…</string>
+    <string name="home_snack_formula">جارٍ فتح ورقة المعادلات…</string>
+    <string name="home_snack_breakdown">جارٍ تحميل شرح المفاهيم…</string>
+    <string name="home_snack_calendar">جارٍ فتح التقويم…</string>
+    <string name="home_snack_refill">جارٍ فتح خطة التجديد…</string>
+    <string name="home_snack_notifications">الإشعارات</string>
+
+    <!-- Home – subject names (localizable labels) -->
+    <string name="home_subject_algebra">الجبر</string>
+    <string name="home_subject_geometry">الهندسة</string>
+    <string name="home_subject_physics">الفيزياء</string>
+
+    <!-- Home – subject trend labels (mock static data) -->
+    <string name="home_trend_algebra">‎+١٢٪ هذا الأسبوع</string>
+    <string name="home_trend_geometry">مسائل البراهين التحليلية معلّقة</string>
+    <string name="home_trend_physics">الحركيات مكتملة</string>
+
+    <!-- Home – day labels for upcoming sessions -->
+    <string name="home_day_tomorrow">غداً</string>
+    <string name="home_day_thursday">الخميس</string>
+
+    <!-- Home – live session field labels -->
+    <string name="home_live_subject_math">الرياضيات</string>
+    <string name="home_live_level_senior">الصف الثانوي الأخير</string>
+
+    <!-- Home – AI companion content -->
+    <string name="home_ai_message_default">هل تريد الاستعداد لجلسة الجبر اليوم؟ عادةً ما يبدأ د. حسن بمعادلات المميّز والتحليل الكثيري.</string>
+    <string name="home_ai_phrase_discriminant">معادلات المميّز</string>
+    <string name="home_ai_phrase_polynomial">التحليل الكثيري</string>
 </resources>

@@ -77,7 +77,7 @@ fun HomeScreen(
                 .padding(innerPadding),
         ) {
             when (state.selectedTab) {
-                HomeTab.HOME     -> HomeTabScreen()
+                HomeTab.HOME     -> HomeTabScreen(credits = state.credits)
                 HomeTab.TEACHERS -> TeachersTabScreen()
                 HomeTab.JANA_AI  -> JanaAiTabScreen()
                 HomeTab.SCHEDULE -> ScheduleTabScreen()

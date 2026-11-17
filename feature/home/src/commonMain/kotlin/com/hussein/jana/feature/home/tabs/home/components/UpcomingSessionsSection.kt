@@ -105,7 +105,7 @@ private fun UpcomingSessionCard(session: UpcomingSessionData) {
                     )
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
-                        text = "${session.dayLabel} \u2022 ${session.timeLabel}",
+                        text = "${stringResource(session.dayLabelRes)} \u2022 ${session.timeLabel}",
                         style = MaterialTheme.typography.labelSmall,
                         color = OnSurfaceVariant,
                         modifier = Modifier.weight(1f),

@@ -13,7 +13,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -24,33 +26,52 @@ import com.hussein.jana.feature.home.tabs.home.components.CreditsBanner
 import com.hussein.jana.feature.home.tabs.home.components.GreetingHeader
 import com.hussein.jana.feature.home.tabs.home.components.LiveSessionCard
 import com.hussein.jana.feature.home.tabs.home.components.UpcomingSessionsSection
+import org.jetbrains.compose.resources.StringResource
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 // ── Entry point (stateful) ────────────────────────────────────────────────────
 
+/**
+ * @param credits Number of credits owned by the student — provided by the
+ *   parent [HomeScreen] from [HomeState] so there is a single source of truth.
+ */
 @Composable
-fun HomeTabScreen() {
+fun HomeTabScreen(credits: Int) {
     val viewModel: HomeTabViewModel = koinViewModel()
     val state by viewModel.state.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
+    // Step 1 — Collect the effect and store the StringResource in composable state.
+    //           (Cannot call stringResource() inside a suspend lambda.)
+    var pendingSnackbarRes by remember { mutableStateOf<StringResource?>(null) }
     LaunchedEffect(viewModel) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                is HomeTabEffect.ShowSnackbar -> snackbarHostState.showSnackbar(effect.message)
+                is HomeTabEffect.ShowSnackbar -> pendingSnackbarRes = effect.messageRes
             }
+        }
+    }
+
+    // Step 2 — Resolve the StringResource in composable scope, then show the snackbar.
+    val resolvedSnackbar = pendingSnackbarRes?.let { stringResource(it) }
+    LaunchedEffect(resolvedSnackbar) {
+        if (resolvedSnackbar != null) {
+            snackbarHostState.showSnackbar(resolvedSnackbar)
+            pendingSnackbarRes = null
         }
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
         HomeTabContent(
             state = state,
+            credits = credits,
             onIntent = viewModel::onIntent,
         )
 
         // Sticky credits banner pinned to the bottom
         CreditsBanner(
-            credits = state.credits,
+            credits = credits,
             onRefillClick = { viewModel.onIntent(HomeTabIntent.RefillPlanClicked) },
             modifier = Modifier.align(Alignment.BottomCenter),
         )
@@ -70,8 +91,13 @@ fun HomeTabScreen() {
 @Composable
 private fun HomeTabContent(
     state: HomeTabState,
+    credits: Int,
     onIntent: (HomeTabIntent) -> Unit,
 ) {
+    // Resolve StringResources in composable scope before passing to child composables.
+    val aiMessage = stringResource(state.aiMessageRes)
+    val aiHighlightPhrases = state.aiHighlightPhrases.map { stringResource(it) }
+
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
@@ -79,6 +105,7 @@ private fun HomeTabContent(
         item {
             GreetingHeader(
                 userName = state.userName,
+                greetingRes = state.greetingRes,
                 onNotificationClick = { onIntent(HomeTabIntent.NotificationClicked) },
             )
         }
@@ -96,7 +123,8 @@ private fun HomeTabContent(
         item { Spacer(modifier = Modifier.height(16.dp)) }
         item {
             AiCompanionCard(
-                message = state.aiMessage,
+                message = aiMessage,
+                highlightPhrases = aiHighlightPhrases,
                 onQuizClick = { onIntent(HomeTabIntent.QuickQuizClicked) },
                 onFormulaClick = { onIntent(HomeTabIntent.FormulaSheetClicked) },
             )
@@ -115,7 +143,7 @@ private fun HomeTabContent(
                 onViewCalendarClick = { onIntent(HomeTabIntent.ViewCalendarClicked) },
             )
         }
-        // Extra space so content clears the sticky credits banner
+        // Extra space so content clears the sticky credits banner (~76dp) + NavigationBar padding.
         item { Spacer(modifier = Modifier.height(80.dp)) }
     }
 }

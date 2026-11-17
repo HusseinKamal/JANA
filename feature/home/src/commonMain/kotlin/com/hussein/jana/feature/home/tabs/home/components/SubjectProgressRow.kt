@@ -49,6 +49,10 @@ fun SubjectProgressRow(
         else         -> SurfaceContainerHigh to stringResource(Res.string.home_foundations)
     }
 
+    // Resolve localised display strings in composable scope.
+    val subjectName = stringResource(subject.nameRes)
+    val trendText = subject.trendRes?.let { stringResource(it) }
+
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -59,14 +63,14 @@ fun SubjectProgressRow(
         Spacer(modifier = Modifier.width(12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = subject.nameKey,
+                text = subjectName,
                 style = MaterialTheme.typography.titleSmall,
                 color = ScholarlyTeal,
                 fontWeight = FontWeight.SemiBold,
             )
-            if (subject.trend.isNotEmpty()) {
+            if (!trendText.isNullOrEmpty()) {
                 Text(
-                    text = subject.trend,
+                    text = trendText,
                     style = MaterialTheme.typography.bodySmall,
                     color = OnSurfaceVariant,
                 )

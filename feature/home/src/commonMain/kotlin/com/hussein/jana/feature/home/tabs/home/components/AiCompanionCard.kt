@@ -38,9 +38,18 @@ import com.hussein.jana.core.designsystem.home_formula_sheet
 import com.hussein.jana.core.designsystem.home_quick_quiz
 import org.jetbrains.compose.resources.stringResource
 
+/**
+ * AI companion card with a localised message and bold highlights.
+ *
+ * @param message           Resolved (locale-aware) AI message string.
+ * @param highlightPhrases  Resolved phrases to highlight in [message] with
+ *                          bold ScholarlyTeal style. These are sourced from the
+ *                          same locale as [message] so highlights stay in sync.
+ */
 @Composable
 fun AiCompanionCard(
     message: String,
+    highlightPhrases: List<String>,
     onQuizClick: () -> Unit,
     onFormulaClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -78,9 +87,9 @@ fun AiCompanionCard(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // AI message with highlighted key phrases
+            // AI message with highlighted key phrases (locale-aware)
             Text(
-                text = highlightKeyPhrases(message),
+                text = highlightKeyPhrases(message, highlightPhrases),
                 style = MaterialTheme.typography.bodyMedium,
             )
 
@@ -126,13 +135,19 @@ fun AiCompanionCard(
     }
 }
 
-// ── Helper: highlights academic key phrases in bold ScholarlyTeal ─────────────
+// ── Highlight helper ──────────────────────────────────────────────────────────
 
-private val KEY_PHRASES = listOf("discriminant formulas", "polynomial factoring")
-
-private fun highlightKeyPhrases(message: String) = buildAnnotatedString {
+/**
+ * Builds an [androidx.compose.ui.text.AnnotatedString] from [message],
+ * bolding each occurrence of every phrase in [phrases] with [ScholarlyTeal].
+ *
+ * Phrases are matched case-insensitively. The list is locale-sourced so Arabic
+ * phrases highlight correctly when [message] is in Arabic.
+ */
+private fun highlightKeyPhrases(message: String, phrases: List<String>) = buildAnnotatedString {
     append(message)
-    KEY_PHRASES.forEach { phrase ->
+    phrases.forEach { phrase ->
+        if (phrase.isBlank()) return@forEach
         var start = 0
         while (true) {
             val index = message.indexOf(phrase, start, ignoreCase = true)

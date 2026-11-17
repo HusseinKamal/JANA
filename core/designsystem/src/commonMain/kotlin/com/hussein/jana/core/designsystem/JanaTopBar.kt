@@ -69,7 +69,7 @@ fun JanaTopBar(
                 IconButton(onClick = onBackClick) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                        contentDescription = "Back",
+                        contentDescription = stringResource(Res.string.nav_back),
                         tint = OnSurfaceVariant,
                     )
                 }

@@ -1,7 +1,6 @@
 package com.hussein.jana.feature.home.tabs.home.components
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.NotificationsNone
@@ -14,14 +13,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.hussein.jana.core.designsystem.OnSurfaceVariant
-import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.ScholarlyTeal
-import com.hussein.jana.core.designsystem.home_greeting_morning
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 
+/**
+ * Greeting row: '<Good morning>, Hussein 👋' + notification bell.
+ *
+ * The [greetingRes] is resolved to a string here so the greeting text
+ * switches correctly when the device locale changes at runtime.
+ */
 @Composable
 fun GreetingHeader(
     userName: String,
+    greetingRes: StringResource,
     onNotificationClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -29,9 +34,8 @@ fun GreetingHeader(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // weight(1f) is a RowScope extension – accessed via the Row lambda receiver
         Text(
-            text = "${stringResource(Res.string.home_greeting_morning)}, $userName 👋",
+            text = "${stringResource(greetingRes)}, $userName 👋",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             color = ScholarlyTeal,
