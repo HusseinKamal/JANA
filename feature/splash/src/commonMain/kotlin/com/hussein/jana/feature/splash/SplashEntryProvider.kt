@@ -15,8 +15,8 @@ class SplashEntryProvider : FeatureEntryProvider {
             val navigator = koinInject<AppNavigator>()
             SplashFlow(
                 onNavigateToHome   = { navigator.replaceAll(HomeRoute.Root()) },
-                onNavigateToAuth   = { navigator.replaceAll(AuthRoute.Register) },  // Get Started → register
-                onNavigateToSignIn = { navigator.replaceAll(AuthRoute.Login()) },    // Sign In → login
+                onNavigateToAuth   = { navigator.replaceAll(AuthRoute.Register) },
+                onNavigateToSignIn = { navigator.replaceAll(AuthRoute.Login()) },
             )
         }
         else -> null

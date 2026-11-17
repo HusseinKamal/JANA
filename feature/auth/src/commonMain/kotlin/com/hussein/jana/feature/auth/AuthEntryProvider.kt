@@ -14,7 +14,6 @@ class AuthEntryProvider : FeatureEntryProvider {
         is AuthRoute.Login -> NavEntry(key) {
             val navigator = koinInject<AppNavigator>()
             AuthFlow(
-                initialTab           = key.initialTab,
                 onNavigateToHome     = { navigator.replaceAll(HomeRoute.Root()) },
                 onNavigateToRegister = { navigator.navigate(AuthRoute.Register) },
                 onNavigateBack       = { navigator.back() },
@@ -22,7 +21,7 @@ class AuthEntryProvider : FeatureEntryProvider {
         }
         is AuthRoute.Register -> NavEntry(key) {
             val navigator = koinInject<AppNavigator>()
-            // Register screen placeholder — navigate straight to Home
+            // Registration placeholder — navigate straight to Home for now
             LaunchedEffect(Unit) { navigator.replaceAll(HomeRoute.Root()) }
         }
         else -> null

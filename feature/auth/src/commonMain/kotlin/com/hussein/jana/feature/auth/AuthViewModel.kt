@@ -1,8 +1,8 @@
 package com.hussein.jana.feature.auth
 
+import androidx.lifecycle.viewModelScope
 import com.hussein.jana.core.common.mvi.BaseMviViewModel
 import com.hussein.jana.core.datastore.TokenRepository
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -20,37 +20,17 @@ class AuthViewModel(
         strings = newStrings
     }
 
-    override fun onIntent(intent: LoginIntent) {
-        when (intent) {
-            is LoginIntent.TabSelected ->
-                setState { copy(activeTab = intent.tab, error = null) }
-            is LoginIntent.IdentifierChanged ->
-                setState { copy(identifier = intent.value) }
-            is LoginIntent.PasswordChanged ->
-                setState { copy(password = intent.value) }
-            LoginIntent.TogglePasswordVisibility ->
-                setState { copy(isPasswordVisible = !isPasswordVisible) }
-            LoginIntent.ToggleRememberDevice ->
-                setState { copy(rememberDevice = !rememberDevice) }
-            LoginIntent.ToggleKeepSession ->
-                setState { copy(keepSession = !keepSession) }
-            LoginIntent.SignInClicked ->
-                handleSignIn()
-            LoginIntent.GoogleSignInClicked ->
-                sendEffect(LoginEffect.TriggerGoogleSignIn)
-            LoginIntent.FacebookSignInClicked ->
-                sendEffect(LoginEffect.TriggerFacebookSignIn)
-            LoginIntent.ForgotPasswordClicked ->
-                sendEffect(LoginEffect.NavigateToForgotPassword)
-            LoginIntent.RegisterClicked ->
-                sendEffect(LoginEffect.NavigateToRegister)
-            LoginIntent.InstitutionalSSOClicked ->
-                sendEffect(LoginEffect.ShowSnackbar(strings.errorSsoComingSoon))
-            LoginIntent.CallAdmissionsClicked ->
-                sendEffect(LoginEffect.OpenDialer("+20237498000"))
-            LoginIntent.WhatsAppFacultyClicked ->
-                sendEffect(LoginEffect.OpenWhatsApp("+20237498000"))
-        }
+    override fun onIntent(intent: LoginIntent) = when (intent) {
+        is LoginIntent.IdentifierChanged    -> setState { copy(identifier = intent.value) }
+        is LoginIntent.PasswordChanged      -> setState { copy(password = intent.value) }
+        LoginIntent.TogglePasswordVisibility -> setState { copy(isPasswordVisible = !isPasswordVisible) }
+        LoginIntent.ToggleRememberDevice    -> setState { copy(rememberDevice = !rememberDevice) }
+        LoginIntent.SignInClicked           -> handleSignIn()
+        LoginIntent.GoogleSignInClicked     -> sendEffect(LoginEffect.ShowSnackbar(strings.googleComingSoon))
+        LoginIntent.FacebookSignInClicked   -> sendEffect(LoginEffect.ShowSnackbar(strings.facebookComingSoon))
+        LoginIntent.ForgotPasswordClicked   -> sendEffect(LoginEffect.NavigateToForgotPassword)
+        LoginIntent.RegisterClicked         -> sendEffect(LoginEffect.NavigateToRegister)
+        is LoginIntent.ShowInfoMessage      -> setState { copy(error = intent.message) }
     }
 
     private fun handleSignIn() {
@@ -61,13 +41,9 @@ class AuthViewModel(
         }
         setState { copy(isLoading = true, error = null) }
         viewModelScope.launch {
-            delay(1000)
+            delay(1_000)
             setState { copy(isLoading = false) }
-            if (currentState().activeTab == LoginTab.STUDENT) {
-                sendEffect(LoginEffect.NavigateToStudentHome)
-            } else {
-                sendEffect(LoginEffect.NavigateToTeacherHome)
-            }
+            sendEffect(LoginEffect.NavigateToHome)
         }
     }
 }

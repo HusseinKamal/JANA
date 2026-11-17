@@ -1,0 +1,10 @@
+{
+  "verdict": "APPROVED",
+  "findings": [
+    "Hardcoded loading label — StudentLoginContent and TeacherLoginContent render the literal \"Loading…\" string during sign-in, bypassing stringResource(); Arabic-locale users see English on the loading button. Replace with stringResource(Res.string.loading).",
+    "Silent social sign-in stubs — TriggerGoogleSignIn and TriggerFacebookSignIn are handled as silent no-ops in AuthFlow with no user feedback, while InstitutionalSSOClicked at least carries a ShowSnackbar message. Add a coming-soon snackbar to both social paths before shipping.",
+    "Unused auth_apple string — auth_apple / معرف آبل are defined in both XML files but referenced by no component. Remove the dead keys or add an Apple button to SocialLoginRow.",
+    "Spacer with padding instead of width — FacultyOnboardingCard uses Spacer(modifier = Modifier.padding(start = 8.dp)) instead of Spacer(modifier = Modifier.width(8.dp)); collapses to zero if parent constraints change."
+  ],
+  "reviewDoc": "d:/AndroidApps/JANA/JANA/.agents/tasks/auth_review.md"
+}

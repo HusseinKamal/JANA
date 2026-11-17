@@ -6,14 +6,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AlternateEmail
-import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
@@ -34,13 +33,12 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.hussein.jana.core.designsystem.AmberDark
-import com.hussein.jana.core.designsystem.AmberGold
+import com.hussein.jana.core.designsystem.JanaLogoCard
 import com.hussein.jana.core.designsystem.OnSurfaceVariant
 import com.hussein.jana.core.designsystem.Res
+import com.hussein.jana.core.designsystem.loading
 import com.hussein.jana.core.designsystem.ScholarlyTeal
-import com.hussein.jana.core.designsystem.SuccessGreen
 import com.hussein.jana.core.designsystem.auth_btn_student
-import com.hussein.jana.core.designsystem.auth_country_code
 import com.hussein.jana.core.designsystem.auth_forgot_password
 import com.hussein.jana.core.designsystem.auth_identifier_hint
 import com.hussein.jana.core.designsystem.auth_identifier_label
@@ -54,7 +52,6 @@ import com.hussein.jana.core.designsystem.auth_subtitle_student
 import com.hussein.jana.core.designsystem.auth_welcome_student
 import com.hussein.jana.feature.auth.LoginIntent
 import com.hussein.jana.feature.auth.LoginState
-import com.hussein.jana.feature.auth.LoginTab
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -66,32 +63,18 @@ fun StudentLoginContent(
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .statusBarsPadding()
+            .navigationBarsPadding()
             .padding(horizontal = 24.dp, vertical = 16.dp),
     ) {
-        // Avatar card
+        // Hero — centered JANA logo replaces the generic Person icon
         Box(
-            contentAlignment = Alignment.BottomEnd,
-            modifier = Modifier.padding(bottom = 20.dp),
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 20.dp),
         ) {
-            Surface(
-                shape = CircleShape,
-                color = ScholarlyTeal.copy(alpha = 0.1f),
-                modifier = Modifier.size(72.dp),
-            ) {
-                Box(contentAlignment = Alignment.Center, modifier = Modifier.size(72.dp)) {
-                    Icon(
-                        imageVector = Icons.Rounded.Person,
-                        contentDescription = null,
-                        tint = ScholarlyTeal,
-                        modifier = Modifier.size(40.dp),
-                    )
-                }
-            }
-            Surface(
-                shape = CircleShape,
-                color = AmberGold,
-                modifier = Modifier.size(16.dp),
-            ) {}
+            JanaLogoCard(size = 72.dp)
         }
 
         // Headline
@@ -111,24 +94,13 @@ fun StudentLoginContent(
         )
         Spacer(modifier = Modifier.height(20.dp))
 
-        // Tab switcher
-        LoginTabSwitcher(
-            activeTab = state.activeTab,
-            onTabSelected = { onIntent(LoginIntent.TabSelected(it)) },
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-
-        // Identifier field
+        // Identifier field — plain text, user types phone or email directly
         AuthTextField(
             label = "${stringResource(Res.string.auth_identifier_label)} *",
             value = state.identifier,
             onValueChange = { onIntent(LoginIntent.IdentifierChanged(it)) },
             placeholder = stringResource(Res.string.auth_identifier_hint),
             leadingContent = {
-                CountryCodeChip(text = stringResource(Res.string.auth_country_code) + " ▾")
-            },
-            trailingContent = {
                 Icon(
                     imageVector = Icons.Rounded.AlternateEmail,
                     contentDescription = null,
@@ -199,7 +171,7 @@ fun StudentLoginContent(
         ) {
             if (state.isLoading) {
                 Text(
-                    text = "Loading…",
+                    text = stringResource(Res.string.loading),
                     style = MaterialTheme.typography.labelLarge,
                     color = Color.White,
                 )

@@ -5,15 +5,15 @@
     <string name="app_name_arabic">جَنَى</string>
 
     <!-- Splash -->
-    <string name="splash_category">We learn today, so we can reap tomorrow.</string>
-    <string name="splash_ai_chip">Live Cohorts × Powered by AI</string>
+    <string name="splash_category">Classics &amp; AI</string>
+    <string name="splash_ai_chip">Live Cohorts × Personal Socratic AI</string>
     <string name="splash_description">JANA: The live-learning sanctuary where master educators guide live cohorts and reflective AI nurtures lifelong mastery.</string>
-    <string name="splash_stats">Many live lectures &amp; recitations completed</string>
+    <string name="splash_stats">12,480+ live lectures &amp; recitations completed</string>
     <string name="splash_sign_in_prompt">I already have an account —</string>
     <string name="splash_sign_in_link">Sign In</string>
     <string name="btn_get_started">Get Started</string>
 
-    <!-- Auth -->
+    <!-- Auth - generic -->
     <string name="login_title">Welcome back</string>
     <string name="login_subtitle">Sign in to continue</string>
     <string name="register_title">Create Account</string>
@@ -46,48 +46,26 @@
     <string name="btn_save">Save</string>
     <string name="btn_back">Back</string>
 
-    <!-- Auth — feature:auth strings -->
-    <string name="auth_student_login_label">Student Login</string>
-    <string name="auth_faculty_studio">FACULTY STUDIO</string>
-    <string name="auth_tab_student">Student</string>
-    <string name="auth_tab_teacher">Teacher / Faculty</string>
-    <string name="auth_tab_faculty">Faculty &amp; Educator</string>
-    <string name="auth_tab_student_portal">Student Portal</string>
+    <!-- Auth — feature:auth student login -->
     <string name="auth_forgot_password">Forgot Password?</string>
     <string name="auth_password_label">Password</string>
     <string name="auth_password_hint">Enter your security passphrase</string>
     <string name="auth_password_protected">✦ PROTECTED</string>
+    <string name="auth_password_dots">••••••••</string>
     <string name="auth_or_continue">OR CONTINUE WITH</string>
     <string name="auth_google">Google</string>
     <string name="auth_facebook">Facebook</string>
-    <string name="auth_apple">Apple ID</string>
     <string name="auth_welcome_student">Welcome Back to JANA</string>
     <string name="auth_subtitle_student">Sign in to access your live cohorts, mentor notes, and AI study orbit.</string>
     <string name="auth_identifier_label">Phone Number or Email</string>
     <string name="auth_identifier_hint">010 1234 5678 or student@...</string>
-    <string name="auth_country_code">EG +20</string>
     <string name="auth_remember_device">Remember this device</string>
     <string name="auth_btn_student">Sign In to Live Classroom</string>
-    <string name="auth_no_account">Don\'t have a JANA student account?</string>
-    <string name="auth_register_link">Register for scholarly enrollment</string>
-    <string name="auth_welcome_teacher">Welcome, Esteemed Educator</string>
-    <string name="auth_welcome_teacher_arabic">مرحباً بك أستاذنا الفاضل</string>
-    <string name="auth_subtitle_teacher">Manage your 20-seat interactive cohorts, studio broadcast feeds, and instant InstaPay disbursements.</string>
-    <string name="auth_studio_online">Studio Network Online</string>
-    <string name="auth_cairo_node">CAIRO NODE</string>
-    <string name="auth_faculty_email_label">Academic Email / Faculty ID</string>
-    <string name="auth_faculty_email_hint">dr.ahmed.hassan@jana.faculty.edu</string>
-    <string name="auth_institutional_login">Institutional login</string>
-    <string name="auth_keep_session">Keep studio session active</string>
-    <string name="auth_btn_teacher">Login with JANA</string>
-    <string name="auth_sso_link">Institutional Single Sign-On</string>
-    <string name="auth_onboarding_title">New Faculty Onboarding</string>
-    <string name="auth_onboarding_warning">FACULTY ACCOUNTS CANNOT BE CREATED FROM THE MOBILE APP</string>
-    <string name="auth_onboarding_desc">Educator studio access is granted by institutional review and direct consultation only. Please contact our Faculty Relations team to initiate credential verification and studio cohort setup.</string>
-    <string name="auth_call_admissions">Call Faculty Admissions (+20 2 3749 8000)</string>
-    <string name="auth_whatsapp_faculty">WhatsApp Faculty Desk</string>
+    <string name="auth_no_account">Don't have a JANA student account?</string>
+    <string name="auth_register_link">Register</string>
     <string name="auth_error_missing_fields">Please fill in all required fields</string>
-    <string name="auth_error_sso_coming_soon">SSO coming soon</string>
+    <string name="auth_google_coming_soon">Google Sign-In coming soon</string>
+    <string name="auth_facebook_coming_soon">Facebook Sign-In coming soon</string>
 
     <!-- Settings -->
     <string name="settings_language">Language</string>

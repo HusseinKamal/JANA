@@ -14,40 +14,37 @@ import androidx.compose.ui.Modifier
 import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.VellumCanvas
 import com.hussein.jana.core.designsystem.auth_error_missing_fields
-import com.hussein.jana.core.designsystem.auth_error_sso_coming_soon
-import com.hussein.jana.feature.auth.components.AuthTopBar
+import com.hussein.jana.core.designsystem.auth_facebook_coming_soon
+import com.hussein.jana.core.designsystem.auth_google_coming_soon
 import com.hussein.jana.feature.auth.components.StudentLoginContent
-import com.hussein.jana.feature.auth.components.TeacherLoginContent
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
+/**
+ * Stateful entry point for the student login screen.
+ * Collects one-shot [LoginEffect]s and delegates navigation to callbacks.
+ * No top bar — the screen is fully edge-to-edge with status bar insets
+ * handled inside [StudentLoginContent].
+ */
 @Composable
 fun AuthFlow(
     onNavigateToHome: () -> Unit,
     onNavigateToRegister: () -> Unit,
-    onNavigateBack: () -> Unit,
-    initialTab: String = "STUDENT",
+    onNavigateBack: () -> Unit,   // kept for navigation compatibility
 ) {
     val viewModel: AuthViewModel = koinViewModel()
 
-    // Resolve error strings in the composition layer where stringResource() is available,
-    // then push them into the ViewModel so error messages respect the current locale.
     val errorMissingFields = stringResource(Res.string.auth_error_missing_fields)
-    val errorSsoComingSoon = stringResource(Res.string.auth_error_sso_coming_soon)
-    LaunchedEffect(errorMissingFields, errorSsoComingSoon) {
+    val googleComingSoon   = stringResource(Res.string.auth_google_coming_soon)
+    val facebookComingSoon = stringResource(Res.string.auth_facebook_coming_soon)
+    LaunchedEffect(errorMissingFields, googleComingSoon, facebookComingSoon) {
         viewModel.updateStrings(
             AuthStrings(
                 errorMissingFields = errorMissingFields,
-                errorSsoComingSoon = errorSsoComingSoon,
+                googleComingSoon   = googleComingSoon,
+                facebookComingSoon = facebookComingSoon,
             ),
         )
-    }
-
-    // Apply initialTab hint once
-    LaunchedEffect(initialTab) {
-        if (initialTab == "TEACHER") {
-            viewModel.onIntent(LoginIntent.TabSelected(LoginTab.TEACHER))
-        }
     }
 
     val state by viewModel.state.collectAsState()
@@ -55,49 +52,28 @@ fun AuthFlow(
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                LoginEffect.NavigateToStudentHome -> onNavigateToHome()
-                LoginEffect.NavigateToTeacherHome -> onNavigateToHome()
-                LoginEffect.NavigateToRegister    -> onNavigateToRegister()
-                LoginEffect.NavigateToForgotPassword -> { /* TODO: hook when ForgotPasswordRoute is wired */ }
-                LoginEffect.TriggerGoogleSignIn   -> { /* Google Sign-In coming soon */ }
-                LoginEffect.TriggerFacebookSignIn -> { /* Facebook Sign-In coming soon */ }
-                is LoginEffect.OpenDialer   -> { /* platform intent - no-op for now */ }
-                is LoginEffect.OpenWhatsApp -> { /* platform intent - no-op for now */ }
-                is LoginEffect.ShowSnackbar -> { /* snackbar via scaffold - no-op for now */ }
+                LoginEffect.NavigateToHome           -> onNavigateToHome()
+                LoginEffect.NavigateToRegister       -> onNavigateToRegister()
+                LoginEffect.NavigateToForgotPassword -> { /* TODO: wire ForgotPasswordRoute */ }
+                is LoginEffect.ShowSnackbar          ->
+                    viewModel.onIntent(LoginIntent.ShowInfoMessage(effect.message))
             }
         }
     }
 
-    AuthScreen(
-        state = state,
-        onIntent = viewModel::onIntent,
-        onNavigateBack = onNavigateBack,
-    )
+    AuthScreen(state = state, onIntent = viewModel::onIntent)
 }
 
+/** Stateless student login screen. No top bar — fully edge-to-edge. */
 @Composable
 fun AuthScreen(
     state: LoginState,
     onIntent: (LoginIntent) -> Unit,
-    onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(modifier = modifier.fillMaxSize().background(VellumCanvas)) {
         Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
-            AuthTopBar(
-                isTeacherTab = state.activeTab == LoginTab.TEACHER,
-                onNavigateBack = onNavigateBack,
-            )
-            when (state.activeTab) {
-                LoginTab.STUDENT -> StudentLoginContent(
-                    state = state,
-                    onIntent = onIntent,
-                )
-                LoginTab.TEACHER -> TeacherLoginContent(
-                    state = state,
-                    onIntent = onIntent,
-                )
-            }
+            StudentLoginContent(state = state, onIntent = onIntent)
         }
     }
 }
