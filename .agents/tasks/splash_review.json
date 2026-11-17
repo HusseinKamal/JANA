@@ -1,9 +1,8 @@
 {
-  "verdict": "CHANGES_REQUESTED",
+  "verdict": "APPROVED",
   "findings": [
-    "Stray `-` in EN strings.xml — the `password_label` line in `core/designsystem/src/commonMain/composeResources/values/strings.xml` ends with `</string>-`; the trailing character is extraneous and makes the file formally malformed. Remove the `-`.",
-    "`isLoading` dead contract field — `SplashState.isLoading` is `true` on construction, never updated after the 2s delay, and not observed anywhere in `SplashFlow` or `SplashContent`. Either drive a loading affordance from it during the timer or remove the field.",
-    "app_version comment missing from EN file — the release-bump reminder comment was added to `values-ar/strings.xml` but is absent from `values/strings.xml`, inconsistent with the impl note."
+    "Desktop version string split across two constants — `jvmArgs` fallback `\"2.4.0\"` and `packageVersion = \"2.4.0\"` in `desktopApp/build.gradle.kts` are independent; a version bump that updates one but not the other will silently show the wrong version on the splash screen. Centralise both behind `project.version` at the root build script, or extract a local `val desktopAppVersion` and reference it from both places.",
+    "Logged-in user double-navigation race — `SplashFlow`'s `LaunchedEffect` collects effects for the full composition lifetime. A logged-in user tapping \"Get Started\" before the 2s timer fires generates `NavigateToAuth` immediately and `NavigateToHome` two seconds later; if the `LaunchedEffect` coroutine survives long enough after the first navigation, `replaceAll(HomeRoute.Root())` fires on the already-navigated stack. Guard with a `hasNavigated` flag or cancel the coroutine job after the first effect delivery."
   ],
   "reviewDoc": "d:\\AndroidApps\\JANA\\JANA\\.agents\\tasks\\splash_review.md"
 }

@@ -6,6 +6,11 @@ plugins {
     alias(libs.plugins.composeCompiler)
 }
 
+// Single source of truth for the desktop app version.
+// Update here when releasing — both the JVM runtime property and the
+// native-distribution metadata are derived from this one value.
+val janaVersion = "2.4.0"
+
 dependencies {
     implementation(project(":composeApp"))
     implementation(compose.desktop.currentOs)
@@ -20,14 +25,13 @@ compose.desktop {
     application {
         mainClass = "com.hussein.jana.MainKt"
 
-        // Pass the version as a JVM property so AppVersion.jvm.kt can read it
-        // without duplicating the constant. Keep packageVersion in sync here too.
-        jvmArgs("-Dapp.version=${project.version.takeIf { it != "unspecified" } ?: "2.4.0"}")
+        // AppVersion.jvm.kt reads this property at runtime.
+        jvmArgs("-Dapp.version=$janaVersion")
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName    = "com.hussein.jana"
-            packageVersion = "2.4.0"
+            packageVersion = janaVersion           // derived — no duplication
             linux   { iconFile.set(project.file("src/main/resources/jana_icon.svg")) }
             macOS   { iconFile.set(project.file("src/main/resources/jana_icon.svg")) }
             windows { iconFile.set(project.file("src/main/resources/jana_icon.svg")) }

@@ -1,80 +1,68 @@
-# JANA Splash Screen — Iteration 2 Fixes
+# JANA Splash Screen — Iteration 3 (Final Review)
 
-All five findings from the prior pass have been addressed. The broken test is now correct, `SignInClicked` is covered, `app_name` reads through the resource system, `SplashFlow` properly separates the two auth routes, and `app_version` carries a maintenance comment in the AR file. One new XML defect was introduced in the process, and two pre-existing structural issues in the MVI contract surface for the first time now that the more urgent findings are cleared.
+All three findings from the previous pass are confirmed resolved. The stray `-` is gone, `isLoading` has been removed from the contract entirely, and the `app_version` asymmetry is eliminated by replacing both static strings with a KMP `expect val appVersion`. Build evidence is present in the impl note (`compileKotlinJvm` and `jvmTest` both SUCCESSFUL, 4/4 tests pass, 0 failures). No new blocking concerns introduced.
 
-**Watch for:** A stray `-` character was introduced at the end of the `password_label` line in the EN `strings.xml` — confirmed by `Select-String` on the file. The XML parses through the Compose Resources toolchain (build passes), but the character is an editorial defect that shouldn't ship. The `isLoading` field in `SplashState` starts `true`, is never set to `false` after the 2s timer, and is never observed anywhere in `SplashFlow` or `SplashContent` — it is a dead contract slot.
+**Watch for:** The desktop `jvmArgs` fallback for `app.version` and the `packageVersion` constant in the same build file are two separate hardcoded `"2.4.0"` strings — if `project.version` is not set at the root level, they will drift independently on the next version bump (possible). A logged-in user who taps "Get Started" before the 2s auto-redirect timer fires will receive two effects in sequence — `NavigateToAuth` immediately and `NavigateToHome` two seconds later; whether the second effect reaches the collector after navigation cancels the `LaunchedEffect` is a timing race (possible).
 
-**Verdict**: CHANGES_REQUESTED
+**Verdict**: APPROVED
 
 ---
 
 ## High-level view
 
-All prior findings are verified fixed. Test suite passes with 4 tests, 0 failures — both the guest-stays behavior and the `SignInClicked → NavigateToSignIn` path are now regression-tested. `SplashFlow` correctly routes `NavigateToAuth → AuthRoute.Register` and `NavigateToSignIn → AuthRoute.Login` through distinct callbacks, and `SplashContent` reads `app_name` through `stringResource`.
+The three prior findings are cleared: the EN `strings.xml` `password_label` line no longer carries the stray character (confirmed in diff), `SplashState` is now a no-property `class` with no dead fields, and both locale files are `app_version`-free — the displayed version now comes from a KMP `expect val appVersion` backed by platform actuals (`BuildConfig.VERSION_NAME` on Android, `CFBundleShortVersionString` on iOS, `System.getProperty("app.version")` on JVM). `initAppVersion` is wired before `initKoin` in `JanaApp.onCreate()`, so Android reads the real value from first composition. Build and test evidence in the impl note is present and credible.
 
-The EN `strings.xml` has a stray `-` appended after the `password_label` closing tag. It survived the build because most XML parsers treat PCDATA between sibling resource elements as ignorable content, but it is an accidental character that makes the file malformed and should be removed.
+The `app_version` replacement introduces a minor versioning bookkeeping surface on desktop: `jvmArgs` tries `project.version` first and falls back to `"2.4.0"`, but `packageVersion` in the same file is a separate hardcoded constant that does not read `project.version`. When a developer bumps the version they must update both independently or they drift.
 
-`SplashState.isLoading` is initialized to `true` in the contract but never transitioned to `false` and never observed by any composable. The splash screen renders unconditionally regardless of this field. Either the loading state should drive a visual affordance during the 2s delay, or the field should be removed from the contract to avoid a misleading promise.
-
-The app_version release-bump comment exists in the AR file but not in the EN file, contradicting the impl note's claim that it was added to both.
+The ViewModel's init-block timer and user-intent handlers are both live from the moment the composable enters composition. A logged-in user who taps a CTA in under two seconds produces two effects on the same channel. The `NavigateToHome` effect arrives after the `LaunchedEffect` collector has likely been cancelled by navigation, so the second effect is typically dropped — but the cancellation race is not tested.
 
 ---
 
 <details>
-<summary>Issues (3)</summary>
+<summary>Issues (2)</summary>
 
-1. **Stray `-` in EN strings.xml** — `password_label` line ends with `</string>-`; the trailing character is extraneous and makes the file formally malformed. Remove the `-`.
-2. **`isLoading` dead contract field** — `SplashState.isLoading` is `true` on construction, never updated after the 2s delay, and not observed anywhere. Either drive a loading affordance from it or remove the field.
-3. **app_version comment missing from EN file** — the release-bump reminder comment was added to `values-ar/strings.xml` but is absent from `values/strings.xml`, inconsistent with the impl note.
+1. **Desktop version string split across two constants** — `jvmArgs` fallback `"2.4.0"` and `packageVersion = "2.4.0"` in `desktopApp/build.gradle.kts` are independent; a version bump that updates one but not the other will silently show the wrong version at runtime. Centralise both behind `project.version` at the root build script, or extract a `val appVersion` local to the desktop build file and reference it from both places.
+
+2. **Logged-in user double-navigation race** — `SplashFlow`'s `LaunchedEffect` collects effects for the full composition lifetime. A logged-in user tapping "Get Started" before 2 s generates `NavigateToAuth` immediately and `NavigateToHome` two seconds later; if the `LaunchedEffect` coroutine survives long enough after the first navigation, `replaceAll(HomeRoute.Root())` fires on the already-navigated stack. Add a `Job` cancel on first effect delivery, or debounce by clearing the ViewModel's effect channel once it has fired.
 
 </details>
 
 <details>
 <summary>Details</summary>
 
-### Prior findings — build evidence
+### Prior findings — all three resolved (confirmed)
 
-`feature/splash/build/test-results/jvmTest/TEST-com.hussein.jana.feature.splash.SplashViewModelTest.xml` records 4 tests, 0 failures, 0 skipped against commit `d77a66c`. All five prior findings are confirmed fixed through direct code inspection.
+The diff confirms all three fixes directly: `password_label` has no trailing character, `SplashContract.kt` is now `class SplashState : MviState` with no body (using `class` rather than `data class` because Kotlin disallows a zero-parameter `data class`), and neither locale file contains `app_version` — `SplashContent` reads `"v$appVersion"` from the platform actual instead.
 
-### Stray character in EN strings.xml
+### Desktop version drift
 
-`Select-String` on the live file returns:
-
-```
-    <string name="password_label">Password</string>-
-```
-
-The `-` appears after the element's closing tag and before the newline. The git diff confirms it was introduced in this change (`+    <string name="password_label">Password</string>-`). The Compose Resources toolchain and Android resource parser both pass on it because PCDATA between sibling elements is legal in XML and typically discarded, but the character is an accidental edit artifact that does not belong in a resource file.
-
-### Dead `isLoading` state slot
-
-`SplashState(val isLoading: Boolean = true)` is defined in the contract and initialized to `true`. The ViewModel never emits a state update:
+`desktopApp/build.gradle.kts` after this change:
 
 ```kotlin
-init {
-    viewModelScope.launch {
-        delay(2_000)
-        if (tokenRepository.isLoggedIn()) {
-            sendEffect(SplashEffect.NavigateToHome)
+jvmArgs("-Dapp.version=${project.version.takeIf { it != "unspecified" } ?: "2.4.0"}")
+…
+packageVersion = "2.4.0"
+```
+
+When `project.version` is set, `jvmArgs` picks it up and the displayed splash version matches the binary. `packageVersion` does not read `project.version`; it stays at `"2.4.0"` regardless. A developer bumping the version who updates only `packageVersion` will ship a correctly versioned installer but splash still shows `"2.4.0"`. The fix is either `packageVersion = project.version.toString()` or a local `val desktopAppVersion = "X.Y.Z"` referenced from both lines.
+
+### Logged-in user double-navigation race
+
+The ViewModel emits at most one auto-redirect (guarded by `isLoggedIn()`), and manual intents emit immediately. `SplashFlow` collects on `viewModel.effect` in a `LaunchedEffect(Unit)`:
+
+```kotlin
+LaunchedEffect(Unit) {
+    viewModel.effect.collect { effect ->
+        when (effect) {
+            SplashEffect.NavigateToHome   -> onNavigateToHome()
+            SplashEffect.NavigateToAuth   -> onNavigateToAuth()
+            SplashEffect.NavigateToSignIn -> onNavigateToSignIn()
         }
-        // no updateState { copy(isLoading = false) }
     }
 }
 ```
 
-`SplashFlow` never subscribes to `viewModel.state`. `SplashContent` renders unconditionally. The field serves no purpose in the current implementation. Either use it to show a loading indicator during the 2s wait (the most natural read of `isLoading = true` as an initial value) or remove it to keep the MVI contract honest.
-
-### app_version comment parity
-
-The AR file has:
-
-```xml
-<!-- NOTE: app_version must be bumped manually on each release; it is a shared Compose Resource
-     string so it can be read from common KMP code without platform-specific BuildConfig boilerplate. -->
-<string name="app_version">v2.4.0</string>
-```
-
-The EN file does not. The impl note states the comment was added to both locale files.
+If a logged-in user taps "Get Started" at t=0.5s, `onNavigateToAuth()` fires and navigation replaces the splash entry. The composable leaves the tree and its coroutine scope is cancelled — but cancellation is cooperative and the effect channel might already have the `NavigateToHome` message queued when the 2s timer fires. In practice the LaunchedEffect is likely cancelled before the second effect arrives, but the scenario is untested. A simple guard (`var hasNavigated = false`) or cancelling the `LaunchedEffect`'s job after the first delivery would make the invariant explicit.
 
 </details>
 
@@ -85,16 +73,24 @@ The EN file does not. The impl note states the comment was added to both locale 
 
 | File | Change |
 |------|--------|
-| `core/designsystem/.../values/strings.xml` | Added JANA splash strings, reorganised into sections, `app_name_arabic`/`app_version` added; trailing `-` introduced on `password_label` line |
-| `core/designsystem/.../values-ar/strings.xml` | Arabic translations matching all EN keys; `app_version` comment added |
-| `core/designsystem/.../JanaLogoCard.kt` | New Canvas composable: open-book brand icon with radial glow, broadcast arcs, sparkle stars, LIVE badge |
-| `feature/splash/.../SplashContract.kt` | `SplashState` with `isLoading`, `SignInClicked` intent, `NavigateToSignIn` effect |
-| `feature/splash/.../SplashViewModel.kt` | 2s init-block timer, logged-in users → `NavigateToHome`, guests stay; `SignInClicked → NavigateToSignIn` handler |
-| `feature/splash/.../SplashScreen.kt` | `SplashFlow` gains `onNavigateToSignIn` callback; all three effect branches mapped distinctly |
-| `feature/splash/.../SplashEntryProvider.kt` | `NavigateToAuth → AuthRoute.Register`, `NavigateToSignIn → AuthRoute.Login` |
-| `feature/splash/.../SplashContent.kt` | VellumCanvas background, 9-element JANA education layout, `JanaLogoCard` integration, `app_name` via `stringResource` |
-| `feature/splash/src/jvmTest/.../SplashViewModelTest.kt` | Guest-stays test corrected; `SignInClicked → NavigateToSignIn` test added; 4/4 pass |
+| `core/designsystem/.../values/strings.xml` | JANA education splash keys; old fashion-app keys removed; `app_version` removed; sections commented |
+| `core/designsystem/.../values-ar/strings.xml` | Matching Arabic translations; `app_version` removed |
+| `core/designsystem/.../JanaLogoCard.kt` | New Canvas composable: open-book brand icon, radial glow, broadcast arcs, sparkle stars, LIVE badge |
+| `core/common/.../AppVersion.kt` | `expect val appVersion: String` |
+| `core/common/.../AppVersion.android.kt` | `actual` backed by `_appVersion` var; `initAppVersion(version)` for `Application.onCreate` wiring |
+| `core/common/.../AppVersion.ios.kt` | `actual` reads `CFBundleShortVersionString`; falls back to `"1.0.0"` |
+| `core/common/.../AppVersion.jvm.kt` | `actual` reads `System.getProperty("app.version", "1.0.0")` |
+| `feature/splash/.../SplashContract.kt` | `SplashState` is now a no-property `class`; `SignInClicked` intent; `NavigateToSignIn` effect |
+| `feature/splash/.../SplashViewModel.kt` | 2s init timer redirects logged-in users only; guests stay; `GetStartedClicked → NavigateToAuth`; `SignInClicked → NavigateToSignIn` |
+| `feature/splash/.../SplashScreen.kt` | `SplashFlow` gains `onNavigateToSignIn`; all three effect branches mapped |
+| `feature/splash/.../SplashEntryProvider.kt` | `NavigateToAuth → AuthRoute.Register`; `NavigateToSignIn → AuthRoute.Login` |
+| `feature/splash/.../SplashContent.kt` | VellumCanvas background; 9-element JANA education layout; `JanaLogoCard`; `app_name` via `stringResource`; version via `appVersion` |
+| `feature/splash/src/jvmTest/.../SplashViewModelTest.kt` | Guest-stays assertion corrected; `SignInClicked → NavigateToSignIn` test added; 4/4 pass |
+| `androidApp/.../JanaApp` / `MainActivity.kt` | `initAppVersion(BuildConfig.VERSION_NAME)` wired before `initKoin` |
+| `androidApp/build.gradle.kts` | `versionName` bumped to `"2.4.0"` |
+| `desktopApp/build.gradle.kts` | `jvmArgs("-Dapp.version=…")` added; `packageVersion` bumped to `"2.4.0"` |
+| `androidApp/.../values-ar/strings.xml` | `app_name` updated to `جَنَى` |
 
-Full diff: `git diff origin/master HEAD`
+Full diff: `git diff 678cd75 HEAD`
 
 </details>

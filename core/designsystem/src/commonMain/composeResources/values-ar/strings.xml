@@ -5,10 +5,10 @@
     <string name="app_name_arabic">جَنَى</string>
 
     <!-- Splash -->
-    <string name="splash_category">الكلاسيكيات والذكاء الاصطناعي</string>
-    <string name="splash_ai_chip">فصول مباشرة × ذكاء سقراطي شخصي</string>
+    <string name="splash_category">نتعلّم اليوم، لنحصد غداً.</string>
+    <string name="splash_ai_chip">فصول مباشرة × مدعوم بالذكاء الاصطناعي</string>
     <string name="splash_description">جَنَى: الملاذ التعليمي المباشر حيث يقود المعلمون الكبار فصولاً جماعية مباشرة ويرعى الذكاء الاصطناعي التأملي الإتقانَ مدى الحياة.</string>
-    <string name="splash_stats">+١٢٬٤٨٠ محاضرة وتلاوة مباشرة مكتملة</string>
+    <string name="splash_stats">محاضرة كثيرة وتلاوة مباشرة مكتملة</string>
     <string name="splash_sign_in_prompt">لديك حساب بالفعل —</string>
     <string name="splash_sign_in_link">تسجيل الدخول</string>
     <string name="btn_get_started">ابدأ الآن</string>
