@@ -45,6 +45,7 @@
     <string name="btn_continue">Continue</string>
     <string name="btn_save">Save</string>
     <string name="btn_back">Back</string>
+    <string name="nav_back">Back</string>
 
     <!-- Auth — feature:auth student login -->
     <string name="auth_forgot_password">Forgot Password?</string>

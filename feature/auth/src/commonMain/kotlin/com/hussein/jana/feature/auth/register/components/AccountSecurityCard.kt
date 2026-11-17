@@ -8,24 +8,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Key
 import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Sync
-import androidx.compose.material.icons.rounded.Visibility
-import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.hussein.jana.core.designsystem.JanaCard
 import com.hussein.jana.core.designsystem.OnSurfaceVariant
@@ -37,7 +30,7 @@ import com.hussein.jana.core.designsystem.register_create_password
 import com.hussein.jana.core.designsystem.register_password_match
 import com.hussein.jana.core.designsystem.register_security_title
 import com.hussein.jana.core.designsystem.error_passwords_mismatch
-import com.hussein.jana.feature.auth.components.AuthTextField
+import com.hussein.jana.feature.auth.components.PasswordField
 import com.hussein.jana.feature.auth.register.PasswordStrength
 import com.hussein.jana.feature.auth.register.RegisterIntent
 import com.hussein.jana.feature.auth.register.RegisterState
@@ -45,6 +38,9 @@ import org.jetbrains.compose.resources.stringResource
 
 /**
  * "Account Security" card — Create Password (with strength indicator) + Confirm Password.
+ *
+ * Both fields delegate to [PasswordField] so visibility-toggle logic, keyboard type, and
+ * PasswordVisualTransformation are not duplicated here.
  */
 @Composable
 fun AccountSecurityCard(
@@ -52,7 +48,7 @@ fun AccountSecurityCard(
     onIntent: (RegisterIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val passwordMatch   = stringResource(Res.string.register_password_match)
+    val passwordMatch    = stringResource(Res.string.register_password_match)
     val passwordMismatch = stringResource(Res.string.error_passwords_mismatch)
 
     JanaCard(modifier = modifier.fillMaxWidth()) {
@@ -77,29 +73,20 @@ fun AccountSecurityCard(
             Spacer(modifier = Modifier.height(16.dp))
 
             // ── Create Password field ─────────────────────────────────────────
-            AuthTextField(
+            PasswordField(
                 label = stringResource(Res.string.register_create_password),
                 value = state.password,
                 onValueChange = { onIntent(RegisterIntent.PasswordChanged(it)) },
+                isVisible = state.isPasswordVisible,
+                onToggleVisibility = { onIntent(RegisterIntent.TogglePasswordVisibility) },
                 placeholder = "••••••••••",
                 modifier = Modifier.fillMaxWidth(),
-                visualTransformation = if (state.isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                leadingContent = {
+                leadingIcon = {
                     Icon(
                         imageVector = Icons.Rounded.Key,
                         contentDescription = null,
                         tint = OnSurfaceVariant,
                     )
-                },
-                trailingContent = {
-                    IconButton(onClick = { onIntent(RegisterIntent.TogglePasswordVisibility) }) {
-                        Icon(
-                            imageVector = if (state.isPasswordVisible) Icons.Rounded.Visibility else Icons.Rounded.VisibilityOff,
-                            contentDescription = if (state.isPasswordVisible) "Hide password" else "Show password",
-                            tint = OnSurfaceVariant,
-                        )
-                    }
                 },
             )
 
@@ -121,29 +108,20 @@ fun AccountSecurityCard(
             Spacer(modifier = Modifier.height(16.dp))
 
             // ── Confirm Password field ────────────────────────────────────────
-            AuthTextField(
+            PasswordField(
                 label = stringResource(Res.string.register_confirm_password),
                 value = state.confirmPassword,
                 onValueChange = { onIntent(RegisterIntent.ConfirmPasswordChanged(it)) },
+                isVisible = state.isConfirmPasswordVisible,
+                onToggleVisibility = { onIntent(RegisterIntent.ToggleConfirmPasswordVisibility) },
                 placeholder = "••••••••••",
                 modifier = Modifier.fillMaxWidth(),
-                visualTransformation = if (state.isConfirmPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                leadingContent = {
+                leadingIcon = {
                     Icon(
                         imageVector = Icons.Rounded.Sync,
                         contentDescription = null,
                         tint = OnSurfaceVariant,
                     )
-                },
-                trailingContent = {
-                    IconButton(onClick = { onIntent(RegisterIntent.ToggleConfirmPasswordVisibility) }) {
-                        Icon(
-                            imageVector = if (state.isConfirmPasswordVisible) Icons.Rounded.Visibility else Icons.Rounded.VisibilityOff,
-                            contentDescription = if (state.isConfirmPasswordVisible) "Hide password" else "Show password",
-                            tint = OnSurfaceVariant,
-                        )
-                    }
                 },
             )
 

@@ -38,6 +38,7 @@ fun PasswordField(
     placeholder: String = "••••••••",
     protectedBadge: Boolean = false,
     trailingLabel: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
 ) {
     AuthTextField(
         label = label,
@@ -75,7 +76,7 @@ fun PasswordField(
                 }
             }
         },
-        leadingContent = {
+        leadingContent = leadingIcon ?: {
             Icon(
                 imageVector = Icons.Rounded.Lock,
                 contentDescription = null,

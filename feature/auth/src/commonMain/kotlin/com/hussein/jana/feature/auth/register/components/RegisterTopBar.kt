@@ -22,6 +22,7 @@ import com.hussein.jana.core.designsystem.OnSurfaceVariant
 import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.ScholarlyTeal
 import com.hussein.jana.core.designsystem.app_name
+import com.hussein.jana.core.designsystem.nav_back
 import org.jetbrains.compose.resources.stringResource
 
 /**
@@ -44,7 +45,7 @@ fun RegisterTopBar(
         IconButton(onClick = onNavigateBack) {
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                contentDescription = "Back",
+                contentDescription = stringResource(Res.string.nav_back),
                 tint = OnSurfaceVariant,
             )
         }

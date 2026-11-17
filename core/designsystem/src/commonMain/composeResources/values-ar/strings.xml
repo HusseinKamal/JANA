@@ -45,6 +45,7 @@
     <string name="btn_continue">متابعة</string>
     <string name="btn_save">حفظ</string>
     <string name="btn_back">رجوع</string>
+    <string name="nav_back">رجوع</string>
 
     <!-- Auth — feature:auth student login -->
     <string name="auth_forgot_password">نسيت كلمة المرور؟</string>

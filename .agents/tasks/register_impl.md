@@ -7,6 +7,47 @@ MVI + state-hoisting + clean modularisation pattern that matches the existing lo
 
 ---
 
+## Iteration 2 — Review findings resolved
+
+Three findings from `register_review.json` / `register_review.md` were fixed:
+
+| # | Finding | Fix |
+|---|---------|-----|
+| 1 | `PasswordField` not reused in `AccountSecurityCard` — both password fields duplicated inline `AuthTextField` with `PasswordVisualTransformation`, `KeyboardType.Password`, and visibility toggle | Added `leadingIcon: @Composable (() -> Unit)? = null` parameter to `PasswordField` (defaults to Lock icon); replaced both `AuthTextField` blocks in `AccountSecurityCard` with `PasswordField(leadingIcon = { Icon(Key) })` and `PasswordField(leadingIcon = { Icon(Sync) })` |
+| 2 | Back arrow `contentDescription = "Back"` hardcoded in `RegisterTopBar` | Added `nav_back` key to both locale files; replaced literal with `stringResource(Res.string.nav_back)` |
+| 3 | `"Hide password"` / `"Show password"` literals on both toggle buttons in `AccountSecurityCard` | Resolved automatically by finding #1 — toggle logic now lives solely in `PasswordField` |
+
+### Files changed in iteration 2
+
+| File | Change |
+|------|--------|
+| `feature/auth/…/components/PasswordField.kt` | Added `leadingIcon` parameter (nullable composable lambda, defaults to Lock icon) |
+| `feature/auth/…/register/components/AccountSecurityCard.kt` | Replaced both inline `AuthTextField` + toggle blocks with `PasswordField(leadingIcon = …)` calls; removed duplicate imports |
+| `feature/auth/…/register/components/RegisterTopBar.kt` | Imported `nav_back` resource; replaced hardcoded `"Back"` with `stringResource(Res.string.nav_back)` |
+| `core/designsystem/…/values/strings.xml` | Added `nav_back` = "Back" |
+| `core/designsystem/…/values-ar/strings.xml` | Added `nav_back` = "رجوع" |
+
+### Verification — iteration 2
+
+```
+.\gradlew :feature:auth:jvmTest :composeApp:compileKotlinJvm --rerun-tasks
+```
+Result: **BUILD SUCCESSFUL** in 47s — no errors.
+
+```
+.\gradlew :feature:auth:jvmTest --rerun-tasks
+```
+Result: **BUILD SUCCESSFUL** in 31s.
+Test report: `feature/auth/build/test-results/jvmTest/`
+- `RegisterViewModelTest[jvm]` — **22 tests, 0 failures, 0 errors**
+- `AuthViewModelTest[jvm]` — **14 tests, 0 failures, 0 errors**
+
+---
+
+## Original implementation (iteration 1)
+
+---
+
 ## Files Created / Modified
 
 ### New files
