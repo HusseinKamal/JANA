@@ -24,6 +24,10 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "com.hussein.jana"
             packageVersion = "1.0.0"
+            // Platform-specific icon files referenced from desktopApp/src/main/resources/
+            linux   { iconFile.set(project.file("src/main/resources/jana_icon.svg")) }
+            macOS   { iconFile.set(project.file("src/main/resources/jana_icon.svg")) }
+            windows { iconFile.set(project.file("src/main/resources/jana_icon.svg")) }
         }
     }
 }

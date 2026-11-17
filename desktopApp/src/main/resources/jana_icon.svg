@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#1A5048"/>
+      <stop offset="100%" stop-color="#0A2520"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="55%" r="45%">
+      <stop offset="0%" stop-color="#2A6E62" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="transparent" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bookL" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBF24"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <linearGradient id="bookR" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#B45309"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="512" height="512" rx="115" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="115" fill="url(#glow)"/>
+  <!-- Book left page -->
+  <path d="M256,312 Q175,246 100,260 L100,370 Q178,353 256,342 Z" fill="url(#bookL)"/>
+  <!-- Book right page -->
+  <path d="M256,312 Q337,246 412,260 L412,370 Q334,353 256,342 Z" fill="url(#bookR)"/>
+  <!-- Book spine -->
+  <rect x="248" y="312" width="16" height="30" fill="#92400E"/>
+  <!-- Book bottom arc -->
+  <path d="M120,384 Q256,414 392,384" stroke="#F59E0B" stroke-width="14" fill="none" stroke-linecap="round"/>
+  <!-- Broadcast arcs (left) -->
+  <path d="M168,248 Q140,198 150,148" stroke="#F59E0B" stroke-width="12" fill="none" stroke-linecap="round"/>
+  <path d="M192,238 Q168,200 176,162" stroke="#F59E0B" stroke-width="11" fill="none" stroke-linecap="round"/>
+  <path d="M212,228 Q196,204 200,178" stroke="#F59E0B" stroke-width="9" fill="none" stroke-linecap="round"/>
+  <!-- Stem -->
+  <rect x="248" y="210" width="16" height="102" fill="#F59E0B"/>
+  <!-- Emitter circle -->
+  <circle cx="256" cy="198" r="20" fill="#F59E0B"/>
+  <!-- AI 4-point sparkle star -->
+  <path d="M330,172 L342,138 L354,172 L342,206 Z" fill="#818CF8"/>
+  <path d="M308,180 L342,168 L376,180 L342,192 Z" fill="#6366F1"/>
+  <circle cx="342" cy="180" r="10" fill="#FFFFFF"/>
+  <!-- Cyan mini-star -->
+  <path d="M384,128 L390,112 L396,128 L390,144 Z" fill="#22D3EE"/>
+  <path d="M372,134 L390,128 L408,134 L390,140 Z" fill="#06B6D4"/>
+  <!-- LIVE badge -->
+  <rect x="296" y="376" width="184" height="56" rx="28" fill="#DC2626"/>
+  <circle cx="330" cy="404" r="16" fill="white"/>
+  <circle cx="330" cy="404" r="8" fill="#FCA5A5"/>
+  <text x="360" y="412" font-family="sans-serif" font-weight="800" font-size="30" fill="white">LIVE</text>
+</svg>
