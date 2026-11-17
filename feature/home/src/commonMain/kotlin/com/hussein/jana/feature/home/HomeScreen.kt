@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.hussein.jana.core.designsystem.JanaTopBar
 import com.hussein.jana.core.designsystem.OnSurfaceVariant
 import com.hussein.jana.core.designsystem.PrimaryContainer
@@ -95,9 +96,9 @@ private fun HomeBottomNav(
     onTabSelected: (HomeTab) -> Unit,
 ) {
     val itemColors = NavigationBarItemDefaults.colors(
-        indicatorColor = PrimaryContainer,
-        selectedIconColor = ScholarlyTeal,
-        selectedTextColor = ScholarlyTeal,
+        indicatorColor      = ScholarlyTeal,   // deep teal pill on selected tab
+        selectedIconColor   = Color.White,     // white icon on the teal pill
+        selectedTextColor   = ScholarlyTeal,   // teal label below the pill
         unselectedIconColor = OnSurfaceVariant,
         unselectedTextColor = OnSurfaceVariant,
     )
