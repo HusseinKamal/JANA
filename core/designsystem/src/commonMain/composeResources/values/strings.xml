@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- App -->
     <string name="app_name">JANA</string>
-    <string name="splash_headline">Your Style, Elevated</string>
-    <string name="splash_tagline">Discover fashion that moves with you</string>
+    <string name="app_name_arabic">جَنَى</string>
+    <string name="app_version">v2.4.0</string>
+
+    <!-- Splash -->
+    <string name="splash_category">Classics &amp; AI</string>
+    <string name="splash_ai_chip">Live Cohorts × Personal Socratic AI</string>
+    <string name="splash_description">JANA: The live-learning sanctuary where master educators guide live cohorts and reflective AI nurtures lifelong mastery.</string>
+    <string name="splash_stats">12,480+ live lectures &amp; recitations completed</string>
+    <string name="splash_sign_in_prompt">I already have an account —</string>
+    <string name="splash_sign_in_link">Sign In</string>
     <string name="btn_get_started">Get Started</string>
-    <string name="btn_sign_in">Sign In</string>
-    <string name="splash_feature_discover_title">Discover</string>
-    <string name="splash_feature_discover_desc">Explore curated collections tailored to your taste</string>
-    <string name="splash_feature_shop_title">Shop Effortlessly</string>
-    <string name="splash_feature_shop_desc">Seamless checkout with secure payments</string>
-    <string name="splash_feature_track_title">Track Your Orders</string>
-    <string name="splash_feature_track_desc">Real-time updates on every delivery</string>
+
+    <!-- Auth -->
     <string name="login_title">Welcome back</string>
     <string name="login_subtitle">Sign in to continue</string>
     <string name="register_title">Create Account</string>
@@ -20,15 +24,20 @@
     <string name="name_label">Full Name</string>
     <string name="btn_login">Sign In</string>
     <string name="btn_register">Create Account</string>
+    <string name="btn_sign_in">Sign In</string>
     <string name="error_invalid_email">Please enter a valid email</string>
     <string name="error_weak_password">Password must be at least 8 characters</string>
     <string name="already_have_account">Already have an account? Sign In</string>
     <string name="dont_have_account">Don\'t have an account? Register</string>
+
+    <!-- Home -->
     <string name="home_title">Home</string>
     <string name="tab_home">Home</string>
     <string name="tab_discover">Discover</string>
     <string name="tab_wishlist">Wishlist</string>
     <string name="tab_profile">Profile</string>
+
+    <!-- Common -->
     <string name="btn_ok">OK</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_retry">Try Again</string>
@@ -37,6 +46,8 @@
     <string name="btn_continue">Continue</string>
     <string name="btn_save">Save</string>
     <string name="btn_back">Back</string>
+
+    <!-- Settings -->
     <string name="settings_language">Language</string>
     <string name="settings_dark_mode">Dark Mode</string>
     <string name="language_english">English</string>

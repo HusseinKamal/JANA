@@ -17,14 +17,21 @@ fun SplashFlow(
             when (effect) {
                 SplashEffect.NavigateToHome -> onNavigateToHome()
                 SplashEffect.NavigateToAuth -> onNavigateToAuth()
+                SplashEffect.NavigateToSignIn -> onNavigateToAuth()
             }
         }
     }
 
-    SplashScreen(onGetStarted = { viewModel.onIntent(SplashIntent.GetStartedClicked) })
+    SplashScreen(
+        onGetStarted = { viewModel.onIntent(SplashIntent.GetStartedClicked) },
+        onSignIn = { viewModel.onIntent(SplashIntent.SignInClicked) },
+    )
 }
 
 @Composable
-fun SplashScreen(onGetStarted: () -> Unit) {
-    SplashContent(onGetStarted = onGetStarted)
+fun SplashScreen(
+    onGetStarted: () -> Unit,
+    onSignIn: () -> Unit,
+) {
+    SplashContent(onGetStarted = onGetStarted, onSignIn = onSignIn)
 }

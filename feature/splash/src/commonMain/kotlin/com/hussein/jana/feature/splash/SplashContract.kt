@@ -8,9 +8,11 @@ data class SplashState(val isLoading: Boolean = true) : MviState
 
 sealed interface SplashIntent : MviIntent {
     data object GetStartedClicked : SplashIntent
+    data object SignInClicked : SplashIntent
 }
 
 sealed interface SplashEffect : MviEffect {
     data object NavigateToHome : SplashEffect
     data object NavigateToAuth : SplashEffect
+    data object NavigateToSignIn : SplashEffect
 }

@@ -13,23 +13,21 @@ class SplashViewModel(
     init {
         viewModelScope.launch {
             delay(2_000)
-            autoRedirect()
+            if (tokenRepository.isLoggedIn()) {
+                sendEffect(SplashEffect.NavigateToHome)
+            }
+            // Guests remain on the splash screen and choose their own path.
         }
     }
 
     override fun onIntent(intent: SplashIntent) {
         when (intent) {
-            SplashIntent.GetStartedClicked -> viewModelScope.launch { redirect() }
-        }
-    }
-
-    private suspend fun autoRedirect() = redirect()
-
-    private suspend fun redirect() {
-        if (tokenRepository.isLoggedIn()) {
-            sendEffect(SplashEffect.NavigateToHome)
-        } else {
-            sendEffect(SplashEffect.NavigateToAuth)
+            SplashIntent.GetStartedClicked -> viewModelScope.launch {
+                sendEffect(SplashEffect.NavigateToAuth)
+            }
+            SplashIntent.SignInClicked -> viewModelScope.launch {
+                sendEffect(SplashEffect.NavigateToSignIn)
+            }
         }
     }
 }
