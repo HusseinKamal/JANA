@@ -2,6 +2,17 @@ package com.hussein.jana.core.datastore
 
 import java.util.prefs.Preferences
 
+/**
+ * Desktop/JVM SecureStorage backed by [java.util.prefs.Preferences].
+ *
+ * ⚠️  **NOT encrypted.** Values are stored in the OS preferences store
+ * (Windows registry / macOS plist / Linux XML file) in plain text.
+ * This is intentionally minimal for development and internal tooling.
+ *
+ * **Do NOT route production credentials or tokens through the Desktop
+ * target** until a DPAPI (Windows) / Keychain Services (macOS) backed
+ * implementation replaces this stub.
+ */
 private val node: Preferences = Preferences.userRoot().node("jana/secure")
 
 actual class SecureStorage actual constructor() {
