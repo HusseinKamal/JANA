@@ -4,7 +4,7 @@ import com.hussein.jana.core.common.mvi.MviEffect
 import com.hussein.jana.core.common.mvi.MviIntent
 import com.hussein.jana.core.common.mvi.MviState
 
-data class SplashState(val isLoading: Boolean = true) : MviState
+class SplashState : MviState
 
 sealed interface SplashIntent : MviIntent {
     data object GetStartedClicked : SplashIntent

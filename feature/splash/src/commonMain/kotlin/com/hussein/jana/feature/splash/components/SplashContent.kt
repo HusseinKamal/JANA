@@ -43,6 +43,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.hussein.jana.core.common.appVersion
 import com.hussein.jana.core.designsystem.AmberDark
 import com.hussein.jana.core.designsystem.AmberGold
 import com.hussein.jana.core.designsystem.JanaLogoCard
@@ -55,7 +56,6 @@ import com.hussein.jana.core.designsystem.ScholarlyTeal
 import com.hussein.jana.core.designsystem.VellumCanvas
 import com.hussein.jana.core.designsystem.app_name
 import com.hussein.jana.core.designsystem.app_name_arabic
-import com.hussein.jana.core.designsystem.app_version
 import com.hussein.jana.core.designsystem.btn_get_started
 import com.hussein.jana.core.designsystem.splash_ai_chip
 import com.hussein.jana.core.designsystem.splash_category
@@ -259,9 +259,9 @@ fun SplashContent(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        // ── App version ───────────────────────────────────────────────────────
+        // ── App version — live from platform configuration ────────────────────
         Text(
-            text = stringResource(Res.string.app_version),
+            text = "v$appVersion",
             style = MaterialTheme.typography.labelSmall,
             color = Outline,
         )

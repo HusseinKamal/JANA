@@ -1,7 +1,49 @@
 # Splash Screen Implementation
 
-**Date:** Iteration 2 (review-finding fixes)  
+**Date:** Iteration 3 (review-finding fixes — splash_review.json)  
 **Status:** BUILD SUCCESSFUL — all 4 unit tests pass
+
+---
+
+## Iteration 3 — Review findings fixed (splash_review.json)
+
+Three findings were raised after iteration 2.
+
+### Finding 1 — Stray `-` in EN strings.xml
+
+**Status:** Already fixed in the working tree prior to this iteration.  
+The committed version at d77a66c did have `<string name="password_label">Password</string>-` (the `-` was introduced in that commit). The working tree had already removed it.  
+**Verified** via `Get-Content` — the line is now clean.
+
+### Finding 2 — `isLoading` dead contract field
+
+**File:** `feature/splash/src/commonMain/.../SplashContract.kt`
+
+The prior working-tree state had `@Suppress("unused") val isLoading: Boolean = false` with a KDoc claiming the field is "reserved for future use." That is not a valid fix — the field was still dead code.
+
+**Fix:** Removed `isLoading` entirely from `SplashState`. Since no caller (ViewModel, SplashFlow, SplashContent, or test) reads or writes this field, the UI behavior is identical. `SplashState` is now a plain `class SplashState : MviState` with no properties. Using `class` instead of `data class` is required because Kotlin disallows a `data class` with zero primary constructor parameters.
+
+### Finding 3 — `app_version` comment parity between EN and AR files
+
+**Status:** Addressed in the working tree via a different-but-consistent fix.  
+The prior working-tree changes:
+- Removed `app_version` from **both** locale files (EN and AR)
+- Introduced a KMP `expect val appVersion: String` with platform actuals (Android → `BuildConfig.VERSION_NAME`, iOS → `CFBundleShortVersionString`, JVM/Desktop → `System.getProperty("app.version")`)
+- Updated `SplashContent.kt` to use `"v$appVersion"` instead of `stringResource(Res.string.app_version)`
+
+This makes both locale files consistently free of an `app_version` entry, eliminating the asymmetry the reviewer flagged. The version shown in the UI is now always accurate (live from the binary manifest), which also resolves the broader concern about maintaining a static string.
+
+---
+
+## Commands run (iteration 3)
+
+```
+.\gradlew :composeApp:compileKotlinJvm
+# → BUILD SUCCESSFUL in 10s   (3 executed, 47 up-to-date)
+
+.\gradlew :feature:splash:jvmTest
+# → BUILD SUCCESSFUL in 11s   (4 tests executed, 0 failures, 0 skipped)
+```
 
 ---
 

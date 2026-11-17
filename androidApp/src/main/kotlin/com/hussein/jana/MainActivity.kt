@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.hussein.jana.core.common.initAppBaseUrl
+import com.hussein.jana.core.common.initAppVersion
 import com.hussein.jana.core.database.initDatabaseContext
 import com.hussein.jana.core.datastore.initDataStoreContext
 import com.hussein.jana.core.datastore.initSecureStorageContext
@@ -23,6 +24,7 @@ class JanaApp : Application() {
         initDataStoreContext(this)
         initSecureStorageContext(this)
         initDatabaseContext(this)
+        initAppVersion(BuildConfig.VERSION_NAME)
         initAppBaseUrl(BuildConfig.BASE_URL)
         initKoin {
             androidLogger(Level.ERROR)

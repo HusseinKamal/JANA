@@ -3,13 +3,12 @@
     <!-- App -->
     <string name="app_name">JANA</string>
     <string name="app_name_arabic">جَنَى</string>
-    <string name="app_version">v2.4.0</string>
 
     <!-- Splash -->
-    <string name="splash_category">We learn today, so we can reap tomorrow.</string>
-    <string name="splash_ai_chip">Live Cohorts × Powered by AI</string>
+    <string name="splash_category">Classics &amp; AI</string>
+    <string name="splash_ai_chip">Live Cohorts × Personal Socratic AI</string>
     <string name="splash_description">JANA: The live-learning sanctuary where master educators guide live cohorts and reflective AI nurtures lifelong mastery.</string>
-    <string name="splash_stats">Many live lectures &amp; recitations completed</string>
+    <string name="splash_stats">12,480+ live lectures &amp; recitations completed</string>
     <string name="splash_sign_in_prompt">I already have an account —</string>
     <string name="splash_sign_in_link">Sign In</string>
     <string name="btn_get_started">Get Started</string>

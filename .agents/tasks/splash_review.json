@@ -1,0 +1,9 @@
+{
+  "verdict": "CHANGES_REQUESTED",
+  "findings": [
+    "Stray `-` in EN strings.xml — the `password_label` line in `core/designsystem/src/commonMain/composeResources/values/strings.xml` ends with `</string>-`; the trailing character is extraneous and makes the file formally malformed. Remove the `-`.",
+    "`isLoading` dead contract field — `SplashState.isLoading` is `true` on construction, never updated after the 2s delay, and not observed anywhere in `SplashFlow` or `SplashContent`. Either drive a loading affordance from it during the timer or remove the field.",
+    "app_version comment missing from EN file — the release-bump reminder comment was added to `values-ar/strings.xml` but is absent from `values/strings.xml`, inconsistent with the impl note."
+  ],
+  "reviewDoc": "d:\\AndroidApps\\JANA\\JANA\\.agents\\tasks\\splash_review.md"
+}
