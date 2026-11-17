@@ -105,4 +105,43 @@
     <string name="error_password_no_symbol">تحتاج كلمة المرور إلى رقم أو رمز على الأقل</string>
     <string name="error_passwords_mismatch">كلمتا المرور غير متطابقتين</string>
     <string name="error_terms_required">يرجى قبول الشروط والأحكام</string>
+
+    <!-- Home – student home screen & bottom nav -->
+    <string name="home_student_label">الصفحة الرئيسية للطالب</string>
+    <string name="home_credits_label">اعتماد</string>
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_teachers">المعلمون</string>
+    <string name="nav_jana_ai">جَنَى AI</string>
+    <string name="nav_schedule">الجدول</string>
+    <string name="nav_progress">التقدم</string>
+    <string name="home_greeting_morning">صباح الخير</string>
+    <string name="home_greeting_afternoon">مساء الخير</string>
+    <string name="home_greeting_evening">مساء النور</string>
+    <string name="home_active_session_msg">لديك جلسة نشطة تبدأ خلال</string>
+    <string name="home_minutes">دقيقة</string>
+    <string name="home_live_badge">بث مباشر خلال</string>
+    <string name="home_min_suffix">دقيقة</string>
+    <string name="home_group_session">جلسة جماعية</string>
+    <string name="home_enrolled">مسجّل</string>
+    <string name="home_prepare_join">تحضّر وانضم إلى الفصل المباشر</string>
+    <string name="home_ai_chip">مرافق التعلم بالذكاء الاصطناعي</string>
+    <string name="home_quick_quiz">اختبار سريع (٥ دقائق)</string>
+    <string name="home_formula_sheet">ورقة المعادلات</string>
+    <string name="home_concept_mastery">إتقان المفاهيم</string>
+    <string name="home_concept_subtitle">مُتحقَّق منه عبر تقييمات المعلمين والاختبارات</string>
+    <string name="home_breakdown">تفاصيل</string>
+    <string name="home_upcoming_sessions">جلساتك القادمة</string>
+    <string name="home_view_calendar">عرض التقويم</string>
+    <string name="home_credits_banner">اعتمادات الجلسة المتاحة</string>
+    <string name="home_credits_subtitle">تغطّي أسابيعك الأربعة القادمة من الحجوزات</string>
+    <string name="home_refill_plan">تجديد الخطة</string>
+    <string name="home_reserved">محجوز</string>
+    <string name="home_proficient">متقدم</string>
+    <string name="home_developing">في التطور</string>
+    <string name="home_foundations">أساسيات</string>
+    <string name="home_today">اليوم</string>
+    <string name="home_teachers_coming_soon">المعلمون قريباً</string>
+    <string name="home_ai_coming_soon">جَنَى AI قريباً</string>
+    <string name="home_schedule_coming_soon">الجدول قريباً</string>
+    <string name="home_progress_coming_soon">التقدم قريباً</string>
 </resources>

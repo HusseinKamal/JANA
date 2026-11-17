@@ -5,7 +5,7 @@ import com.hussein.jana.core.common.mvi.BaseMviViewModel
 class HomeViewModel : BaseMviViewModel<HomeState, HomeIntent, HomeEffect>(HomeState()) {
     override fun onIntent(intent: HomeIntent) {
         when (intent) {
-            is HomeIntent.SelectTab -> setState { copy(selectedTab = intent.tabIndex) }
+            is HomeIntent.TabSelected -> setState { copy(selectedTab = intent.tab) }
         }
     }
 }

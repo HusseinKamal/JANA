@@ -105,4 +105,43 @@
     <string name="error_password_no_symbol">Password needs at least one number or symbol</string>
     <string name="error_passwords_mismatch">Passwords do not match</string>
     <string name="error_terms_required">Please accept the terms and conditions</string>
+
+    <!-- Home – student home screen & bottom nav -->
+    <string name="home_student_label">Student Home</string>
+    <string name="home_credits_label">Credits</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_teachers">Teachers</string>
+    <string name="nav_jana_ai">JANA AI</string>
+    <string name="nav_schedule">Schedule</string>
+    <string name="nav_progress">Progress</string>
+    <string name="home_greeting_morning">Good morning</string>
+    <string name="home_greeting_afternoon">Good afternoon</string>
+    <string name="home_greeting_evening">Good evening</string>
+    <string name="home_active_session_msg">You have an active session starting in</string>
+    <string name="home_minutes">minutes</string>
+    <string name="home_live_badge">LIVE ZOOM IN</string>
+    <string name="home_min_suffix">MIN</string>
+    <string name="home_group_session">Group Session</string>
+    <string name="home_enrolled">Enrolled</string>
+    <string name="home_prepare_join">Prepare &amp; Join Live Session</string>
+    <string name="home_ai_chip">AI Learning Companion</string>
+    <string name="home_quick_quiz">Quick Quiz (5m)</string>
+    <string name="home_formula_sheet">Formula Cheat Sheet</string>
+    <string name="home_concept_mastery">Concept Mastery</string>
+    <string name="home_concept_subtitle">Validated through tutor evaluations &amp; quizzes</string>
+    <string name="home_breakdown">Breakdown</string>
+    <string name="home_upcoming_sessions">Your Upcoming Sessions</string>
+    <string name="home_view_calendar">View Calendar</string>
+    <string name="home_credits_banner">Session Credits Available</string>
+    <string name="home_credits_subtitle">Covers your next 4 weeks of reservations</string>
+    <string name="home_refill_plan">Refill Plan</string>
+    <string name="home_reserved">Reserved</string>
+    <string name="home_proficient">Proficient</string>
+    <string name="home_developing">Developing</string>
+    <string name="home_foundations">Foundations</string>
+    <string name="home_today">Today</string>
+    <string name="home_teachers_coming_soon">Teachers Coming Soon</string>
+    <string name="home_ai_coming_soon">JANA AI Coming Soon</string>
+    <string name="home_schedule_coming_soon">Schedule Coming Soon</string>
+    <string name="home_progress_coming_soon">Progress Coming Soon</string>
 </resources>
