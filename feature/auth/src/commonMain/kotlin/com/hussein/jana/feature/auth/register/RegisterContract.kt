@@ -12,6 +12,7 @@ data class RegisterStrings(
     val errorPhoneInvalid: String = "",
     val errorPasswordTooShort: String = "",
     val errorPasswordNoUppercase: String = "",
+    val errorPasswordNoSymbol: String = "",
     val errorPasswordsMismatch: String = "",
     val errorTermsRequired: String = "",
 )

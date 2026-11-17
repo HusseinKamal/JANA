@@ -124,7 +124,7 @@ fun StudentLoginContent(
         )
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Remember device + Forgot password
+        // Remember device + Forgot password — weight splits the row cleanly on one line
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth(),
@@ -133,17 +133,21 @@ fun StudentLoginContent(
                 checked = state.rememberDevice,
                 onCheckedChange = { onIntent(LoginIntent.ToggleRememberDevice) },
             )
+            // Weight(1f): takes all space that "Forgot Password?" doesn't need
             Text(
                 text = stringResource(Res.string.auth_remember_device),
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.labelSmall,
                 color = OnSurfaceVariant,
+                modifier = Modifier.weight(1f),
+                maxLines = 1,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
             )
-            Spacer(modifier = Modifier.weight(1f))
             TextButton(onClick = { onIntent(LoginIntent.ForgotPasswordClicked) }) {
                 Text(
                     text = stringResource(Res.string.auth_forgot_password),
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.labelSmall,
                     color = AmberDark,
+                    maxLines = 1,
                 )
             }
         }

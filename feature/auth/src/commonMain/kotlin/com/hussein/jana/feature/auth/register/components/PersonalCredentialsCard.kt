@@ -9,8 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Lock
+import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.RecentActors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -50,7 +51,7 @@ fun PersonalCredentialsCard(
             // ── Section header ────────────────────────────────────────────────
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    imageVector = Icons.Rounded.Lock,
+                    imageVector = Icons.Rounded.RecentActors,
                     contentDescription = null,
                     tint = ScholarlyTeal,
                     modifier = Modifier.size(20.dp),
@@ -115,12 +116,19 @@ fun PersonalCredentialsCard(
             Spacer(modifier = Modifier.height(16.dp))
 
             // ── WhatsApp / Mobile Contact field ───────────────────────────────
-            PhoneField(
+            AuthTextField(
                 label = stringResource(Res.string.register_phone_label),
                 value = state.phone,
                 onValueChange = { onIntent(RegisterIntent.PhoneChanged(it)) },
                 placeholder = stringResource(Res.string.register_phone_hint),
                 modifier = Modifier.fillMaxWidth(),
+                leadingContent = {
+                    Icon(
+                        imageVector = Icons.Rounded.Phone,
+                        contentDescription = null,
+                        tint = OnSurfaceVariant,
+                    )
+                },
             )
 
             if (state.phoneError != null) {

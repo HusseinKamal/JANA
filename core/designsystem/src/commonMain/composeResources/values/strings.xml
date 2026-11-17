@@ -5,8 +5,8 @@
     <string name="app_name_arabic">جَنَى</string>
 
     <!-- Splash -->
-    <string name="splash_category">Classics &amp; AI</string>
-    <string name="splash_ai_chip">Live Cohorts × Personal Socratic AI</string>
+    <string name="splash_category">We learn today, so we can reap tomorrow.</string>
+    <string name="splash_ai_chip">Live Cohorts × Powered by AI</string>
     <string name="splash_description">JANA: The live-learning sanctuary where master educators guide live cohorts and reflective AI nurtures lifelong mastery.</string>
     <string name="splash_stats">12,480+ live lectures &amp; recitations completed</string>
     <string name="splash_sign_in_prompt">I already have an account —</string>
@@ -79,7 +79,7 @@
     <string name="register_step_progress">50% Complete</string>
     <string name="register_personal_title">Personal Credentials</string>
     <string name="register_full_name_label">Full Legal Name</string>
-    <string name="register_full_name_hint">Hussein Al-Sayed</string>
+    <string name="register_full_name_hint">Hussein Kamal</string>
     <string name="register_full_name_bilingual">Arabic or English</string>
     <string name="register_phone_label">WhatsApp / Mobile Contact</string>
     <string name="register_phone_hint">102 345 6789</string>
@@ -102,6 +102,7 @@
     <string name="error_phone_invalid">Please enter a valid phone number</string>
     <string name="error_password_too_short">Password must be at least 10 characters</string>
     <string name="error_password_no_uppercase">Password needs uppercase letters</string>
+    <string name="error_password_no_symbol">Password needs at least one number or symbol</string>
     <string name="error_passwords_mismatch">Passwords do not match</string>
     <string name="error_terms_required">Please accept the terms and conditions</string>
 </resources>

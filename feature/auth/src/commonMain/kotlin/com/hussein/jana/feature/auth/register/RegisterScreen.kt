@@ -1,6 +1,8 @@
 package com.hussein.jana.feature.auth.register
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,17 +28,18 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -47,6 +50,7 @@ import com.hussein.jana.core.designsystem.ScholarlyTeal
 import com.hussein.jana.core.designsystem.VellumCanvas
 import com.hussein.jana.core.designsystem.error_name_required
 import com.hussein.jana.core.designsystem.error_name_too_short
+import com.hussein.jana.core.designsystem.error_password_no_symbol
 import com.hussein.jana.core.designsystem.error_password_no_uppercase
 import com.hussein.jana.core.designsystem.error_password_too_short
 import com.hussein.jana.core.designsystem.error_passwords_mismatch
@@ -65,6 +69,7 @@ import com.hussein.jana.feature.auth.register.components.PersonalCredentialsCard
 import com.hussein.jana.feature.auth.register.components.RegisterTopBar
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import androidx.compose.ui.text.style.TextOverflow
 
 // ── Stateful entry point ───────────────────────────────────────────────────────
 
@@ -87,12 +92,13 @@ fun RegisterFlow(
     val errPhoneInvalid     = stringResource(Res.string.error_phone_invalid)
     val errPwTooShort       = stringResource(Res.string.error_password_too_short)
     val errPwNoUppercase    = stringResource(Res.string.error_password_no_uppercase)
+    val errPwNoSymbol       = stringResource(Res.string.error_password_no_symbol)
     val errPwMismatch       = stringResource(Res.string.error_passwords_mismatch)
     val errTermsRequired    = stringResource(Res.string.error_terms_required)
 
     LaunchedEffect(
         errNameRequired, errNameTooShort, errPhoneRequired, errPhoneInvalid,
-        errPwTooShort, errPwNoUppercase, errPwMismatch, errTermsRequired,
+        errPwTooShort, errPwNoUppercase, errPwNoSymbol, errPwMismatch, errTermsRequired,
     ) {
         viewModel.updateStrings(
             RegisterStrings(
@@ -100,9 +106,10 @@ fun RegisterFlow(
                 errorNameTooShort      = errNameTooShort,
                 errorPhoneRequired     = errPhoneRequired,
                 errorPhoneInvalid      = errPhoneInvalid,
-                errorPasswordTooShort  = errPwTooShort,
+                errorPasswordTooShort    = errPwTooShort,
                 errorPasswordNoUppercase = errPwNoUppercase,
-                errorPasswordsMismatch = errPwMismatch,
+                errorPasswordNoSymbol    = errPwNoSymbol,
+                errorPasswordsMismatch   = errPwMismatch,
                 errorTermsRequired     = errTermsRequired,
             ),
         )
@@ -338,35 +345,41 @@ private fun FooterSignInLink(
     onIntent: (RegisterIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val haveAccount = stringResource(Res.string.register_have_account)
+    val signInLink  = stringResource(Res.string.register_sign_in_link)
+
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
-            text = stringResource(Res.string.register_have_account),
-            style = MaterialTheme.typography.bodySmall,
-            color = OnSurfaceVariant,
+            text      = haveAccount,
+            style     = MaterialTheme.typography.labelSmall,
+            color     = OnSurfaceVariant,
+            modifier  = Modifier.weight(1f),
+            maxLines  = 1,
+            overflow  = TextOverflow.Ellipsis,
+            textAlign = TextAlign.Start, // Keeps text at the start edge
         )
-        Spacer(modifier = Modifier.width(4.dp))
-        TextButton(
-            onClick = { onIntent(RegisterIntent.SignInClicked) },
-            contentPadding = androidx.compose.foundation.layout.PaddingValues(0.dp),
-        ) {
-            Text(
-                text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            color = AmberDark,
-                            fontWeight = FontWeight.SemiBold,
-                            textDecoration = TextDecoration.Underline,
-                        ),
-                    ) {
-                        append(stringResource(Res.string.register_sign_in_link))
-                    }
-                },
-                style = MaterialTheme.typography.bodySmall,
-            )
-        }
+        Spacer(modifier = Modifier.width(8.dp)) // Adds breathing room before ellipsizing
+        Text(
+            text = buildAnnotatedString {
+                withStyle(
+                    SpanStyle(
+                        color          = AmberDark,
+                        fontWeight     = FontWeight.SemiBold,
+                        textDecoration = TextDecoration.Underline,
+                    ),
+                ) { append(signInLink) }
+            },
+            style    = MaterialTheme.typography.labelSmall,
+            modifier = Modifier.clickable(
+                indication        = null,
+                interactionSource = remember { MutableInteractionSource() },
+                onClick           = { onIntent(RegisterIntent.SignInClicked) },
+            ),
+            maxLines = 1,
+        )
     }
 }

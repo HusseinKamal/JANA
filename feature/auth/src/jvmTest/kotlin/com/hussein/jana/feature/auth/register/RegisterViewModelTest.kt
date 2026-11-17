@@ -44,14 +44,15 @@ class RegisterViewModelTest {
     private fun buildViewModel() = RegisterViewModel(
         tokenRepository = tokenRepository,
         strings = RegisterStrings(
-            errorNameRequired      = "Full name is required",
-            errorNameTooShort      = "Name must be at least 2 characters",
-            errorPhoneRequired     = "Phone number is required",
-            errorPhoneInvalid      = "Please enter a valid phone number",
-            errorPasswordTooShort  = "Password must be at least 10 characters",
+            errorNameRequired        = "Full name is required",
+            errorNameTooShort        = "Name must be at least 2 characters",
+            errorPhoneRequired       = "Phone number is required",
+            errorPhoneInvalid        = "Please enter a valid phone number",
+            errorPasswordTooShort    = "Password must be at least 10 characters",
             errorPasswordNoUppercase = "Password needs uppercase letters",
-            errorPasswordsMismatch = "Passwords do not match",
-            errorTermsRequired     = "Please accept the terms and conditions",
+            errorPasswordNoSymbol    = "Password needs at least one number or symbol",
+            errorPasswordsMismatch   = "Passwords do not match",
+            errorTermsRequired       = "Please accept the terms and conditions",
         ),
     )
 
@@ -226,6 +227,19 @@ class RegisterViewModelTest {
         vm.onIntent(RegisterIntent.ToggleTerms)
         vm.onIntent(RegisterIntent.RegisterClicked)
         assertEquals("Password needs uppercase letters", vm.state.value.passwordError)
+    }
+
+    @Test
+    fun `RegisterClicked with no symbol or digit sets errorPasswordNoSymbol`() = runTest(testDispatcher) {
+        val vm = buildViewModel()
+        vm.onIntent(RegisterIntent.FullNameChanged("Hussein"))
+        vm.onIntent(RegisterIntent.PhoneChanged("01012345678"))
+        // 10+ chars, uppercase, but NO digit/symbol
+        vm.onIntent(RegisterIntent.PasswordChanged("AbCdEfGhIjKl"))
+        vm.onIntent(RegisterIntent.ConfirmPasswordChanged("AbCdEfGhIjKl"))
+        vm.onIntent(RegisterIntent.ToggleTerms)
+        vm.onIntent(RegisterIntent.RegisterClicked)
+        assertEquals("Password needs at least one number or symbol", vm.state.value.passwordError)
     }
 
     @Test

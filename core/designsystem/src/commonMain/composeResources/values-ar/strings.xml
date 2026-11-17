@@ -5,7 +5,7 @@
     <string name="app_name_arabic">جَنَى</string>
 
     <!-- Splash -->
-    <string name="splash_category">الكلاسيكيات والذكاء الاصطناعي</string>
+    <string name="splash_category">نتعلّم اليوم، لنحصد غداً</string>
     <string name="splash_ai_chip">فصول مباشرة × ذكاء سقراطي شخصي</string>
     <string name="splash_description">جَنَى: الملاذ التعليمي المباشر حيث يقود المعلمون الكبار فصولاً جماعية مباشرة ويرعى الذكاء الاصطناعي التأملي الإتقانَ مدى الحياة.</string>
     <string name="splash_stats">+١٢٬٤٨٠ محاضرة وتلاوة مباشرة مكتملة</string>
@@ -79,7 +79,7 @@
     <string name="register_step_progress">٥٠٪ مكتمل</string>
     <string name="register_personal_title">البيانات الشخصية</string>
     <string name="register_full_name_label">الاسم القانوني الكامل</string>
-    <string name="register_full_name_hint">حسين السيد</string>
+    <string name="register_full_name_hint">حسين كمال</string>
     <string name="register_full_name_bilingual">بالعربية أو الإنجليزية</string>
     <string name="register_phone_label">واتساب / جهة اتصال المحمول</string>
     <string name="register_phone_hint">102 345 6789</string>
@@ -102,6 +102,7 @@
     <string name="error_phone_invalid">يرجى إدخال رقم هاتف صحيح</string>
     <string name="error_password_too_short">يجب أن تكون كلمة المرور ١٠ أحرف على الأقل</string>
     <string name="error_password_no_uppercase">تحتاج كلمة المرور إلى أحرف كبيرة</string>
+    <string name="error_password_no_symbol">تحتاج كلمة المرور إلى رقم أو رمز على الأقل</string>
     <string name="error_passwords_mismatch">كلمتا المرور غير متطابقتين</string>
     <string name="error_terms_required">يرجى قبول الشروط والأحكام</string>
 </resources>

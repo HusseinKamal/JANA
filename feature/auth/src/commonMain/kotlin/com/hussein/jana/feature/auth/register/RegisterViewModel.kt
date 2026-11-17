@@ -83,15 +83,16 @@ class RegisterViewModel(
         }
 
         val phoneError = when {
-            s.phone.isBlank()   -> strings.errorPhoneRequired
-            s.phone.length < 7  -> strings.errorPhoneInvalid
-            else                 -> null
+            s.phone.isBlank()    -> strings.errorPhoneRequired
+            s.phone.length < 10  -> strings.errorPhoneInvalid   // EG numbers are 10–11 digits
+            else                  -> null
         }
 
         val passwordError = when {
-            s.password.length < 10  -> strings.errorPasswordTooShort
-            !s.passwordHasUpperCase -> strings.errorPasswordNoUppercase
-            else                     -> null
+            s.password.length < 10   -> strings.errorPasswordTooShort
+            !s.passwordHasUpperCase  -> strings.errorPasswordNoUppercase
+            !s.passwordHasSymbol     -> strings.errorPasswordNoSymbol
+            else                      -> null
         }
 
         val confirmError = if (s.confirmPassword != s.password) strings.errorPasswordsMismatch else null
