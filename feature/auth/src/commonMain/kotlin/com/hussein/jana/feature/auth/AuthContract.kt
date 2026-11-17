@@ -6,6 +6,12 @@ import com.hussein.jana.core.common.mvi.MviState
 
 enum class LoginTab { STUDENT, TEACHER }
 
+/** Localized strings injected into [AuthViewModel] from the composition layer. */
+data class AuthStrings(
+    val errorMissingFields: String = "Please fill in all required fields",
+    val errorSsoComingSoon: String = "SSO coming soon",
+)
+
 data class LoginState(
     val activeTab: LoginTab = LoginTab.STUDENT,
     val identifier: String = "",

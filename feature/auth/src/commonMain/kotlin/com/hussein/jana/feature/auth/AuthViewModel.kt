@@ -8,7 +8,17 @@ import kotlinx.coroutines.launch
 
 class AuthViewModel(
     @Suppress("unused") private val tokenRepository: TokenRepository,
+    private var strings: AuthStrings = AuthStrings(),
 ) : BaseMviViewModel<LoginState, LoginIntent, LoginEffect>(LoginState()) {
+
+    /**
+     * Called from the composition layer to supply localized strings resolved via
+     * `stringResource()`. Must be invoked in a [androidx.compose.runtime.LaunchedEffect]
+     * so that locale changes propagate without recreating the ViewModel.
+     */
+    fun updateStrings(newStrings: AuthStrings) {
+        strings = newStrings
+    }
 
     override fun onIntent(intent: LoginIntent) {
         when (intent) {
@@ -35,7 +45,7 @@ class AuthViewModel(
             LoginIntent.RegisterClicked ->
                 sendEffect(LoginEffect.NavigateToRegister)
             LoginIntent.InstitutionalSSOClicked ->
-                sendEffect(LoginEffect.ShowSnackbar("SSO coming soon"))
+                sendEffect(LoginEffect.ShowSnackbar(strings.errorSsoComingSoon))
             LoginIntent.CallAdmissionsClicked ->
                 sendEffect(LoginEffect.OpenDialer("+20237498000"))
             LoginIntent.WhatsAppFacultyClicked ->
@@ -46,7 +56,7 @@ class AuthViewModel(
     private fun handleSignIn() {
         val state = currentState()
         if (state.identifier.isBlank() || state.password.isBlank()) {
-            setState { copy(error = "Please fill in all required fields") }
+            setState { copy(error = strings.errorMissingFields) }
             return
         }
         setState { copy(isLoading = true, error = null) }

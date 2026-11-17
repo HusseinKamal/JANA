@@ -11,10 +11,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.VellumCanvas
+import com.hussein.jana.core.designsystem.auth_error_missing_fields
+import com.hussein.jana.core.designsystem.auth_error_sso_coming_soon
 import com.hussein.jana.feature.auth.components.AuthTopBar
 import com.hussein.jana.feature.auth.components.StudentLoginContent
 import com.hussein.jana.feature.auth.components.TeacherLoginContent
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -25,6 +29,19 @@ fun AuthFlow(
     initialTab: String = "STUDENT",
 ) {
     val viewModel: AuthViewModel = koinViewModel()
+
+    // Resolve error strings in the composition layer where stringResource() is available,
+    // then push them into the ViewModel so error messages respect the current locale.
+    val errorMissingFields = stringResource(Res.string.auth_error_missing_fields)
+    val errorSsoComingSoon = stringResource(Res.string.auth_error_sso_coming_soon)
+    LaunchedEffect(errorMissingFields, errorSsoComingSoon) {
+        viewModel.updateStrings(
+            AuthStrings(
+                errorMissingFields = errorMissingFields,
+                errorSsoComingSoon = errorSsoComingSoon,
+            ),
+        )
+    }
 
     // Apply initialTab hint once
     LaunchedEffect(initialTab) {

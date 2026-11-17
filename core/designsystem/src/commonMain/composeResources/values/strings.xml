@@ -86,6 +86,8 @@
     <string name="auth_onboarding_desc">Educator studio access is granted by institutional review and direct consultation only. Please contact our Faculty Relations team to initiate credential verification and studio cohort setup.</string>
     <string name="auth_call_admissions">Call Faculty Admissions (+20 2 3749 8000)</string>
     <string name="auth_whatsapp_faculty">WhatsApp Faculty Desk</string>
+    <string name="auth_error_missing_fields">Please fill in all required fields</string>
+    <string name="auth_error_sso_coming_soon">SSO coming soon</string>
 
     <!-- Settings -->
     <string name="settings_language">Language</string>

@@ -22,7 +22,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.hussein.jana.core.designsystem.OnSurfaceVariant
+import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.ScholarlyTeal
+import com.hussein.jana.core.designsystem.auth_password_protected
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun PasswordField(
@@ -63,7 +66,7 @@ fun PasswordField(
                         color = ScholarlyTeal.copy(alpha = 0.1f),
                     ) {
                         Text(
-                            text = "✦ PROTECTED",
+                            text = stringResource(Res.string.auth_password_protected),
                             style = MaterialTheme.typography.labelSmall,
                             color = ScholarlyTeal,
                             modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),

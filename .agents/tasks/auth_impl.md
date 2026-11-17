@@ -80,3 +80,54 @@ feature/auth/
 - ForgotPassword route: effect fires, navigation handler is a no-op comment
 - Dialer / WhatsApp: effects fire but platform intents not wired
 - Register screen: placeholder `LaunchedEffect` navigates straight to `HomeRoute.Root()`
+
+---
+
+## Review Findings — Iteration 2
+
+The following four findings from `auth_review.md` were addressed:
+
+### Finding 1 — Arabic password label double-asterisk (fixed)
+
+`StudentLoginContent` appends `" *"` to the password label in code. The Arabic `auth_password_label` previously contained a trailing ` *` (`كلمة المرور *`), producing a doubled indicator. Removed the ` *` suffix from the Arabic string; the code-side append now governs both locales uniformly.
+
+**File changed**: `core/designsystem/src/commonMain/composeResources/values-ar/strings.xml`
+
+### Finding 2 — Hardcoded `PROTECTED` badge (fixed)
+
+`PasswordField.kt` rendered the badge as the literal string `"✦ PROTECTED"`, bypassing the `auth_password_protected` string resource and its Arabic translation `"✦ محمي"`. Replaced with `stringResource(Res.string.auth_password_protected)`.
+
+**File changed**: `feature/auth/src/commonMain/…/components/PasswordField.kt`
+
+### Finding 3 — ViewModel error messages not localized (fixed)
+
+Added `AuthStrings` data class (default: English literals) to `AuthContract.kt`. `AuthViewModel` now accepts `AuthStrings` as a constructor parameter. `AuthFlow` resolves the two error strings via `stringResource()` and pushes them into the VM with `viewModel.updateStrings(...)` inside a `LaunchedEffect(errorMissingFields, errorSsoComingSoon)`. This keeps `LoginState.error: String?` unchanged per the spec contract, avoids Koin parameter complexity, and re-runs automatically when the locale changes.
+
+New string keys added to both XML files:
+- `auth_error_missing_fields` = "Please fill in all required fields" / "يرجى ملء جميع الحقول المطلوبة"
+- `auth_error_sso_coming_soon` = "SSO coming soon" / "الدخول الموحد قريباً"
+
+**Files changed**: `AuthContract.kt`, `AuthViewModel.kt`, `AuthScreen.kt`, both `strings.xml` files
+
+### Finding 4 — No test coverage (fixed)
+
+Created `feature/auth/src/jvmTest/…/AuthViewModelTest.kt` with 17 tests covering:
+- Tab selection state changes and error clearing
+- `IdentifierChanged` / `PasswordChanged` state updates
+- Three toggle intents (password visibility, remember device, keep session)
+- `handleSignIn` validation: blank identifier, blank password, localized error via `AuthStrings`
+- Successful sign-in routing: STUDENT → `NavigateToStudentHome`, TEACHER → `NavigateToTeacherHome`
+- All 7 direct-effect intents (Google, Facebook, ForgotPassword, Register, InstitutionalSSO, CallAdmissions, WhatsAppFaculty)
+- `updateStrings` propagation test
+
+All tests pass: `.\gradlew :feature:auth:jvmTest — BUILD SUCCESSFUL`
+
+### Verification after fixes
+
+```
+.\gradlew :feature:auth:jvmTest
+BUILD SUCCESSFUL in 7s   (17 tests, 0 failures)
+
+.\gradlew :composeApp:compileKotlinJvm
+BUILD SUCCESSFUL in 3s
+```

@@ -54,7 +54,7 @@
     <string name="auth_tab_faculty">أعضاء هيئة التدريس</string>
     <string name="auth_tab_student_portal">بوابة الطالب</string>
     <string name="auth_forgot_password">نسيت كلمة المرور؟</string>
-    <string name="auth_password_label">كلمة المرور *</string>
+    <string name="auth_password_label">كلمة المرور</string>
     <string name="auth_password_hint">أدخل عبارة المرور الخاصة بك</string>
     <string name="auth_password_protected">✦ محمي</string>
     <string name="auth_or_continue">أو تابع باستخدام</string>
@@ -86,6 +86,8 @@
     <string name="auth_onboarding_desc">يُمنح وصول استوديو المعلم بمراجعة مؤسسية واستشارة مباشرة فقط. يرجى التواصل مع فريق علاقات أعضاء هيئة التدريس لبدء التحقق من بيانات الاعتماد وإعداد فصل الاستوديو.</string>
     <string name="auth_call_admissions">اتصل بقبول أعضاء هيئة التدريس (+20 2 3749 8000)</string>
     <string name="auth_whatsapp_faculty">واتساب مكتب أعضاء هيئة التدريس</string>
+    <string name="auth_error_missing_fields">يرجى ملء جميع الحقول المطلوبة</string>
+    <string name="auth_error_sso_coming_soon">الدخول الموحد قريباً</string>
 
     <!-- Settings -->
     <string name="settings_language">اللغة</string>
