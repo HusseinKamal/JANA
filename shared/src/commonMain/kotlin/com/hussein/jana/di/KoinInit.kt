@@ -2,6 +2,7 @@ package com.hussein.jana.di
 
 import com.hussein.jana.core.di.coreModule
 import com.hussein.jana.core.navigation.FeatureEntryProvider
+import com.hussein.jana.feature.auth.di.authModule
 import com.hussein.jana.feature.home.di.homeModule
 import com.hussein.jana.feature.splash.di.splashModule
 import org.koin.core.context.startKoin
@@ -14,6 +15,7 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) = startKoin {
         coreModule,
         splashModule,
         homeModule,
+        authModule,
         module {
             single<List<FeatureEntryProvider>> { getAll<FeatureEntryProvider>() }
         },

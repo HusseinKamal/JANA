@@ -46,6 +46,47 @@
     <string name="btn_save">حفظ</string>
     <string name="btn_back">رجوع</string>
 
+    <!-- Auth — feature:auth strings -->
+    <string name="auth_student_login_label">تسجيل دخول الطالب</string>
+    <string name="auth_faculty_studio">استوديو أعضاء هيئة التدريس</string>
+    <string name="auth_tab_student">الطالب</string>
+    <string name="auth_tab_teacher">المعلم / أعضاء هيئة التدريس</string>
+    <string name="auth_tab_faculty">أعضاء هيئة التدريس</string>
+    <string name="auth_tab_student_portal">بوابة الطالب</string>
+    <string name="auth_forgot_password">نسيت كلمة المرور؟</string>
+    <string name="auth_password_label">كلمة المرور *</string>
+    <string name="auth_password_hint">أدخل عبارة المرور الخاصة بك</string>
+    <string name="auth_password_protected">✦ محمي</string>
+    <string name="auth_or_continue">أو تابع باستخدام</string>
+    <string name="auth_google">جوجل</string>
+    <string name="auth_facebook">فيسبوك</string>
+    <string name="auth_apple">معرف آبل</string>
+    <string name="auth_welcome_student">مرحباً بعودتك إلى جَنَى</string>
+    <string name="auth_subtitle_student">سجّل الدخول للوصول إلى فصولك المباشرة وملاحظات المرشد ومسار الدراسة بالذكاء الاصطناعي.</string>
+    <string name="auth_identifier_label">رقم الهاتف أو البريد الإلكتروني</string>
+    <string name="auth_identifier_hint">010 1234 5678 أو student@...</string>
+    <string name="auth_country_code">EG +20</string>
+    <string name="auth_remember_device">تذكر هذا الجهاز</string>
+    <string name="auth_btn_student">تسجيل الدخول إلى الفصل المباشر</string>
+    <string name="auth_no_account">لا تمتلك حساب طالب في جَنَى؟</string>
+    <string name="auth_register_link">سجّل للحصول على تسجيل أكاديمي</string>
+    <string name="auth_welcome_teacher">أهلاً بك أستاذنا الموقر</string>
+    <string name="auth_welcome_teacher_arabic">مرحباً بك أستاذنا الفاضل</string>
+    <string name="auth_subtitle_teacher">أدر فصولك التفاعلية ذات المقاعد العشرين وخلاصات بث الاستوديو وصرف InstaPay الفوري.</string>
+    <string name="auth_studio_online">شبكة الاستوديو متصلة</string>
+    <string name="auth_cairo_node">عقدة القاهرة</string>
+    <string name="auth_faculty_email_label">البريد الأكاديمي / معرّف عضو هيئة التدريس</string>
+    <string name="auth_faculty_email_hint">dr.ahmed.hassan@jana.faculty.edu</string>
+    <string name="auth_institutional_login">تسجيل دخول مؤسسي</string>
+    <string name="auth_keep_session">الإبقاء على جلسة الاستوديو نشطة</string>
+    <string name="auth_btn_teacher">تسجيل الدخول إلى جَنَى</string>
+    <string name="auth_sso_link">الدخول الموحد المؤسسي</string>
+    <string name="auth_onboarding_title">إعداد أعضاء هيئة التدريس الجدد</string>
+    <string name="auth_onboarding_warning">لا يمكن إنشاء حسابات أعضاء هيئة التدريس من التطبيق</string>
+    <string name="auth_onboarding_desc">يُمنح وصول استوديو المعلم بمراجعة مؤسسية واستشارة مباشرة فقط. يرجى التواصل مع فريق علاقات أعضاء هيئة التدريس لبدء التحقق من بيانات الاعتماد وإعداد فصل الاستوديو.</string>
+    <string name="auth_call_admissions">اتصل بقبول أعضاء هيئة التدريس (+20 2 3749 8000)</string>
+    <string name="auth_whatsapp_faculty">واتساب مكتب أعضاء هيئة التدريس</string>
+
     <!-- Settings -->
     <string name="settings_language">اللغة</string>
     <string name="settings_dark_mode">الوضع الداكن</string>

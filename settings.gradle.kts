@@ -42,4 +42,5 @@ include(":shared-models")
 
 // ---- Feature modules ----
 include(":feature:splash")
+include(":feature:auth")
 include(":feature:home")

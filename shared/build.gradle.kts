@@ -45,6 +45,7 @@ kotlin {
             implementation(project(":shared-models"))
             implementation(project(":feature:splash"))
             implementation(project(":feature:home"))
+            implementation(project(":feature:auth"))
 
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)

@@ -16,7 +16,7 @@ class SplashEntryProvider : FeatureEntryProvider {
             SplashFlow(
                 onNavigateToHome   = { navigator.replaceAll(HomeRoute.Root()) },
                 onNavigateToAuth   = { navigator.replaceAll(AuthRoute.Register) },  // Get Started → register
-                onNavigateToSignIn = { navigator.replaceAll(AuthRoute.Login) },     // Sign In → login
+                onNavigateToSignIn = { navigator.replaceAll(AuthRoute.Login()) },    // Sign In → login
             )
         }
         else -> null
