@@ -104,7 +104,9 @@ data class AiChatState(
     val sessionTime: String = "18:00",
     val sessionFocus: String = "Quadratic Applications & Parabolic Modeling",
     val quickActions: List<AiQuickAction> = defaultQuickActions(),
-    val statsText: String = "16 Sessions • 3 Active Subjects",
+    /** Session and subject counts rendered via [ai_stats_format] in [AiChatHeader]. */
+    val sessionCount: Int = 16,
+    val activeSubjectsCount: Int = 3,
 ) : MviState
 
 // ── MVI Intent ────────────────────────────────────────────────────────────────

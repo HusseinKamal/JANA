@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * Reusable stateless chat input bar shared across JANA chat screens.
@@ -69,7 +70,7 @@ fun JanaChatInput(
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Mic,
-                        contentDescription = "Voice input",
+                        contentDescription = stringResource(Res.string.input_mic_cd),
                         tint = OnSurfaceVariant,
                         modifier = Modifier.size(18.dp),
                     )
@@ -118,7 +119,7 @@ fun JanaChatInput(
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Rounded.Send,
-                        contentDescription = "Send message",
+                        contentDescription = stringResource(Res.string.input_send_cd),
                         tint = Color.White,
                         modifier = Modifier.size(16.dp),
                     )

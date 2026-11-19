@@ -235,4 +235,10 @@
     <string name="ai_session_greeting">Hi %1$s 👋 You have a %2$s session with %3$s.</string>
     <string name="ai_session_focus">Focus: %1$s. Let\'s prime your conceptual intuition beforehand.</string>
     <string name="ai_typing_indicator">JANA AI is composing a reply</string>
+    <!-- AI Chat – accessibility content descriptions -->
+    <string name="input_mic_cd">Voice input</string>
+    <string name="input_send_cd">Send message</string>
+    <string name="ai_menu_cd">Chat menu</string>
+    <!-- AI Chat – stats format: %1$d = session count, %2$d = active subject count -->
+    <string name="ai_stats_format">%1$d Sessions • %2$d Active Subjects</string>
 </resources>

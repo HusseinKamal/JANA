@@ -162,7 +162,9 @@ private fun actionTitleString(key: String): String = when (key) {
     "ai_action_review" -> stringResource(Res.string.ai_action_review)
     "ai_action_socratic" -> stringResource(Res.string.ai_action_socratic)
     "ai_action_exam" -> stringResource(Res.string.ai_action_exam)
-    else -> key
+    // Any new key must be added here; returning "" intentionally hides
+    // the label instead of leaking a raw resource key name to the UI.
+    else -> ""
 }
 
 @Composable
@@ -171,5 +173,7 @@ private fun actionSubtitleString(key: String): String = when (key) {
     "ai_action_review_sub" -> stringResource(Res.string.ai_action_review_sub)
     "ai_action_socratic_sub" -> stringResource(Res.string.ai_action_socratic_sub)
     "ai_action_exam_sub" -> stringResource(Res.string.ai_action_exam_sub)
-    else -> key
+    // Any new key must be added here; returning "" intentionally hides
+    // the label instead of leaking a raw resource key name to the UI.
+    else -> ""
 }

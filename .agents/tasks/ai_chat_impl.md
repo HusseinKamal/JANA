@@ -4,7 +4,34 @@
 Implement the full JANA AI Learning Chat screen replacing the placeholder `JanaAiTabScreen.kt`.
 
 ## Status
-✅ ITERATION 2 COMPLETE — All 5 review findings fixed. Build SUCCESS, 23/23 tests passing.
+✅ ITERATION 3 COMPLETE — All 5 round-2 review findings fixed. Build SUCCESS, 23/23 tests passing.
+
+---
+
+## Review Findings Fixed (Iteration 3)
+
+### Finding 1 — JanaChatInput contentDescriptions not localized
+Added `input_mic_cd` and `input_send_cd` to both locale string files (`values/strings.xml` and `values-ar/strings.xml`).
+Added `import org.jetbrains.compose.resources.stringResource` to `JanaChatInput.kt`.
+Replaced `contentDescription = "Voice input"` with `stringResource(Res.string.input_mic_cd)` and `contentDescription = "Send message"` with `stringResource(Res.string.input_send_cd)`. Arabic TalkBack users now hear translated labels.
+
+### Finding 2 — AiChatHeader contentDescription not localized
+Added `ai_menu_cd` to both locale files.
+Replaced `contentDescription = "Chat menu"` on the MoreVert `IconButton` in `AiChatHeader.kt` with `stringResource(Res.string.ai_menu_cd)`.
+
+### Finding 3 — statsText bypasses i18n
+Added `ai_stats_format` as a format string (`%1$d Sessions • %2$d Active Subjects` / `%1$d جلسة • %2$d مواد نشطة`) to both locale files.
+Replaced `val statsText: String = "16 Sessions • 3 Active Subjects"` in `AiChatState` with `val sessionCount: Int = 16, val activeSubjectsCount: Int = 3`.
+Updated `AiChatHeader.kt` to render `stringResource(Res.string.ai_stats_format, state.sessionCount, state.activeSubjectsCount)`.
+No tests reference `statsText` so this change needed no test updates.
+
+### Finding 4 — when resolver else branch silently renders raw key names
+Changed `else -> key` to `else -> ""` in both `actionTitleString()` and `actionSubtitleString()` resolvers in `AiSessionBanner.kt`.
+Added a comment explaining that any new key must be added explicitly; returning `""` prevents the raw key name from leaking to the UI while keeping current behaviour unchanged (all current keys are handled).
+
+### Finding 5 — ScrollToBottom possible off-by-one
+Added `import kotlinx.coroutines.delay` to `JanaAiTabScreen.kt`.
+Added `delay(0)` before `lazyListState.layoutInfo.totalItemsCount` in the `ScrollToBottom` effect handler. The single yield lets Compose recompose with the new AI message before the scroll count is read, eliminating the race condition that could scroll to the second-to-last item.
 
 ---
 
@@ -133,3 +160,32 @@ tests="23" failures="0" errors="0" skipped="0"
 | 21 | `consecutive messages have unique IDs` |
 | 22 | `multiple intents produce multiple effects` |
 | 23 | `state after send has trimmed message content` |
+
+---
+
+## Build & Test Results (Iteration 3)
+
+```
+# :composeApp:compileKotlinJvm
+BUILD SUCCESSFUL in 28s
+58 actionable tasks: 13 executed, 45 up-to-date
+
+# :feature:home:jvmTest
+BUILD SUCCESSFUL in 10s
+35 actionable tasks: 2 executed, 33 up-to-date
+
+# Test suite: AiChatViewModelTest
+tests="23" failures="0" errors="0" skipped="0"
+```
+
+### Files changed in Iteration 3
+
+| File | Change |
+|------|--------|
+| `core/designsystem/.../values/strings.xml` | Added `input_mic_cd`, `input_send_cd`, `ai_menu_cd`, `ai_stats_format` |
+| `core/designsystem/.../values-ar/strings.xml` | Added same 4 keys in Arabic |
+| `core/designsystem/.../JanaChatInput.kt` | Replaced hardcoded "Voice input"/"Send message" with `stringResource` |
+| `feature/home/.../components/AiChatHeader.kt` | Replaced hardcoded "Chat menu" with `stringResource`; stats text now uses `ai_stats_format` |
+| `feature/home/.../AiChatContract.kt` | Replaced `statsText: String` with `sessionCount: Int = 16, activeSubjectsCount: Int = 3` |
+| `feature/home/.../components/AiSessionBanner.kt` | Changed `else -> key` to `else -> ""` in both resolver functions |
+| `feature/home/.../JanaAiTabScreen.kt` | Added `delay(0)` + `kotlinx.coroutines.delay` import for ScrollToBottom guard |

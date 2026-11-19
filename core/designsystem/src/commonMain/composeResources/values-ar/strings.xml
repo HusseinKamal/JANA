@@ -235,4 +235,10 @@
     <string name="ai_session_greeting">مرحباً %1$s 👋 لديك جلسة %2$s مع %3$s.</string>
     <string name="ai_session_focus">التركيز: %1$s. لنُهيّئ حدسك المفاهيمي مسبقاً.</string>
     <string name="ai_typing_indicator">جَنَى AI يكتب ردّاً</string>
+    <!-- AI Chat – accessibility content descriptions -->
+    <string name="input_mic_cd">إدخال صوتي</string>
+    <string name="input_send_cd">إرسال رسالة</string>
+    <string name="ai_menu_cd">قائمة المحادثة</string>
+    <!-- AI Chat – stats format: %1$d = session count, %2$d = active subject count -->
+    <string name="ai_stats_format">%1$d جلسة • %2$d مواد نشطة</string>
 </resources>

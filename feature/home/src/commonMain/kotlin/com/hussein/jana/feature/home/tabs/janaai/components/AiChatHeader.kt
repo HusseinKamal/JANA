@@ -36,7 +36,9 @@ import com.hussein.jana.core.designsystem.VellumCanvas
 import com.hussein.jana.core.designsystem.ai_active_status
 import com.hussein.jana.core.designsystem.ai_arabic_name
 import com.hussein.jana.core.designsystem.ai_connected_history
+import com.hussein.jana.core.designsystem.ai_menu_cd
 import com.hussein.jana.core.designsystem.ai_rag_active
+import com.hussein.jana.core.designsystem.ai_stats_format
 import com.hussein.jana.core.designsystem.ai_title
 import com.hussein.jana.core.designsystem.ai_tutor_label
 import com.hussein.jana.feature.home.tabs.janaai.AiChatState
@@ -98,7 +100,7 @@ internal fun AiChatHeader(
             IconButton(onClick = onMenuClick) {
                 Icon(
                     imageVector = Icons.Rounded.MoreVert,
-                    contentDescription = "Chat menu",
+                    contentDescription = stringResource(Res.string.ai_menu_cd),
                     tint = OnSurfaceVariant,
                     modifier = Modifier.size(20.dp),
                 )
@@ -159,7 +161,11 @@ internal fun AiChatHeader(
 
         // ── Stats text ────────────────────────────────────────────────────────
         Text(
-            text = state.statsText,
+            text = stringResource(
+                Res.string.ai_stats_format,
+                state.sessionCount,
+                state.activeSubjectsCount,
+            ),
             style = MaterialTheme.typography.labelSmall,
             color = OnSurfaceVariant,
         )

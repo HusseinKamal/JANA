@@ -27,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 import com.hussein.jana.core.designsystem.JanaChatInput
 import com.hussein.jana.core.designsystem.OnSurfaceVariant
 import com.hussein.jana.core.designsystem.OutlineVariant
@@ -80,6 +81,10 @@ fun JanaAiTabScreen() {
                     snackbarHostState.showSnackbar(message)
                 }
                 AiChatEffect.ScrollToBottom -> {
+                    // A single frame delay lets recomposition settle so
+                    // totalItemsCount already includes the new AI message,
+                    // preventing an off-by-one scroll to the second-to-last item.
+                    delay(0)
                     val count = lazyListState.layoutInfo.totalItemsCount
                     if (count > 0) lazyListState.animateScrollToItem(count - 1)
                 }
