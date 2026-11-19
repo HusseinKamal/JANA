@@ -208,4 +208,25 @@
     <string name="teachers_filters_coming_soon">Advanced filters coming soon</string>
     <!-- Stats row: %1$s = formatted student count (e.g. "1.2k"), %2$d = years experience -->
     <string name="teachers_stats_format">%1$s active • %2$d yrs exp</string>
+
+    <!-- AI Chat -->
+    <string name="ai_title">JANA AI</string>
+    <string name="ai_tutor_label">Tutor</string>
+    <string name="ai_arabic_name">مساعد جَنَى الذكي</string>
+    <string name="ai_rag_active">Continuous RAG &amp; Learning History Active</string>
+    <string name="ai_connected_history">Connected to Live History</string>
+    <string name="ai_active_status">Active</string>
+    <string name="ai_choose_response">Choose your response or type below:</string>
+    <string name="ai_input_hint">Work through the calculation…</string>
+    <string name="ai_voice_coming_soon">Voice input coming soon</string>
+    <string name="ai_history_coming_soon">Chat history coming soon</string>
+    <string name="ai_action_coming_soon">Action coming soon</string>
+    <string name="ai_action_prep">Prep for Session</string>
+    <string name="ai_action_prep_sub">Algebra &amp; Roots</string>
+    <string name="ai_action_review">Review Notes</string>
+    <string name="ai_action_review_sub">Yesterday\'s Summary</string>
+    <string name="ai_action_socratic">Socratic 5-D</string>
+    <string name="ai_action_socratic_sub">Conceptual Check</string>
+    <string name="ai_action_exam">Exam Mode</string>
+    <string name="ai_action_exam_sub">Timed, No AI Hints</string>
 </resources>

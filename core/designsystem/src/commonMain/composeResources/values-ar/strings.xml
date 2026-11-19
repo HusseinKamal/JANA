@@ -208,4 +208,25 @@
     <string name="teachers_filters_coming_soon">الفلاتر المتقدمة قريباً</string>
     <!-- Stats row: %1$s = formatted student count, %2$d = years experience -->
     <string name="teachers_stats_format">%1$s طالب نشط • %2$d سنوات خبرة</string>
+
+    <!-- AI Chat -->
+    <string name="ai_title">جَنَى AI</string>
+    <string name="ai_tutor_label">المرشد</string>
+    <string name="ai_arabic_name">مساعد جَنَى الذكي</string>
+    <string name="ai_rag_active">نظام RAG المستمر وسجل التعلم نشط</string>
+    <string name="ai_connected_history">متصل بالسجل المباشر</string>
+    <string name="ai_active_status">نشط</string>
+    <string name="ai_choose_response">اختر ردّك أو اكتب أدناه:</string>
+    <string name="ai_input_hint">تابع الحساب…</string>
+    <string name="ai_voice_coming_soon">الإدخال الصوتي قريباً</string>
+    <string name="ai_history_coming_soon">سجل المحادثة قريباً</string>
+    <string name="ai_action_coming_soon">الإجراء قريباً</string>
+    <string name="ai_action_prep">التحضير للجلسة</string>
+    <string name="ai_action_prep_sub">الجبر والجذور</string>
+    <string name="ai_action_review">مراجعة الملاحظات</string>
+    <string name="ai_action_review_sub">ملخص الأمس</string>
+    <string name="ai_action_socratic">سقراطية ٥-د</string>
+    <string name="ai_action_socratic_sub">فحص مفاهيمي</string>
+    <string name="ai_action_exam">وضع الامتحان</string>
+    <string name="ai_action_exam_sub">موقّت، بلا مساعدة</string>
 </resources>
