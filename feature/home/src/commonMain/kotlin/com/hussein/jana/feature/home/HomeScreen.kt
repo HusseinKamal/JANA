@@ -33,6 +33,7 @@ import com.hussein.jana.core.designsystem.nav_jana_ai
 import com.hussein.jana.core.designsystem.nav_progress
 import com.hussein.jana.core.designsystem.nav_schedule
 import com.hussein.jana.core.designsystem.nav_teachers
+import com.hussein.jana.core.designsystem.schedule_title
 import com.hussein.jana.feature.home.tabs.home.HomeTabScreen
 import com.hussein.jana.feature.home.tabs.janaai.JanaAiTabScreen
 import com.hussein.jana.feature.home.tabs.progress.ProgressTabScreen
@@ -62,6 +63,7 @@ fun HomeScreen(
             val topBarTitle = when (state.selectedTab) {
                 HomeTab.TEACHERS -> stringResource(Res.string.teachers_title)
                 HomeTab.JANA_AI  -> stringResource(Res.string.nav_jana_ai)
+                HomeTab.SCHEDULE -> stringResource(Res.string.schedule_title)
                 else             -> stringResource(Res.string.home_student_label)
             }
             JanaTopBar(

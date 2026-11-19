@@ -10,3 +10,5 @@ actual fun openUrl(url: String) {
         }
     )
 }
+
+internal actual val nativeCalendarUrl: String = "content://com.android.calendar/time/"

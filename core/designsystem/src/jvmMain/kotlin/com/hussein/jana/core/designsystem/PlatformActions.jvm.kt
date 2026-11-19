@@ -10,3 +10,6 @@ actual fun openUrl(url: String) {
         }
     } catch (_: Exception) { /* silent — desktop may not support browsing */ }
 }
+
+/** Desktop opens Google Calendar in the system browser. */
+internal actual val nativeCalendarUrl: String = "https://calendar.google.com"

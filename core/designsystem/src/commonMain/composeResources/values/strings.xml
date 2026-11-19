@@ -241,4 +241,43 @@
     <string name="ai_menu_cd">Chat menu</string>
     <!-- AI Chat – stats format: %1$d = session count, %2$d = active subject count -->
     <string name="ai_stats_format">%1$d Sessions • %2$d Active Subjects</string>
+
+    <!-- Schedule tab -->
+    <string name="schedule_title">Live Sessions &amp; Labs</string>
+    <string name="schedule_weekly">WEEKLY SCHEDULE</string>
+    <string name="schedule_sync">Sync Calendar</string>
+    <string name="schedule_credits_available">Credits Available</string>
+    <string name="schedule_credits_reserved">Reserve</string>
+    <string name="schedule_credits_renews">Quota auto-renews in 14 days</string>
+    <string name="schedule_top_up">Top Up</string>
+    <string name="schedule_filter_all">All</string>
+    <string name="schedule_reserved_seat">Reserved Seat</string>
+    <string name="schedule_recommended">Recommended For You</string>
+    <string name="schedule_open_enrollment">Open Enrollment</string>
+    <string name="schedule_prep_ai">Prep with AI</string>
+    <string name="schedule_join_live">Join Live (Zoom)</string>
+    <string name="schedule_review_notes">Review Notes</string>
+    <string name="schedule_ai_socratic">AI Socratic Primer</string>
+    <string name="schedule_view_syllabus">View Syllabus →</string>
+    <string name="schedule_reserve_credit">Reserve (1 Credit)</string>
+    <string name="schedule_book_seat">Book Seat</string>
+    <string name="schedule_calendar_synced">Calendar synced</string>
+    <string name="schedule_pdf_available">PDF Available</string>
+    <string name="schedule_calendar_title">Calendar Integration</string>
+    <string name="schedule_calendar_desc">Seamlessly sync your upcoming live tutorials. AI prep alerts and teacher office hours with your native device calendar.</string>
+    <string name="schedule_google_calendar">Google Calendar</string>
+    <string name="schedule_apple_calendar">Apple iCal</string>
+    <string name="schedule_sync_coming_soon">Calendar sync coming soon</string>
+    <string name="schedule_topup_coming_soon">Top up coming soon</string>
+    <string name="schedule_google_coming_soon">Google Calendar integration coming soon</string>
+    <string name="schedule_apple_coming_soon">Apple iCal integration coming soon</string>
+    <!-- Schedule tab – action feedback messages -->
+    <string name="schedule_action_joining">Joining session...</string>
+    <string name="schedule_action_prep_ai">Opening AI prep session...</string>
+    <string name="schedule_action_review_notes">Opening review notes...</string>
+    <string name="schedule_action_ai_socratic">Opening AI Socratic Primer...</string>
+    <string name="schedule_action_reserve">Reserving session...</string>
+    <string name="schedule_action_book">Booking seat...</string>
+    <string name="schedule_action_syllabus">Opening syllabus...</string>
+    <string name="schedule_action_coming_soon">Coming soon</string>
 </resources>

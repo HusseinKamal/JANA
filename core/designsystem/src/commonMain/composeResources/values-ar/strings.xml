@@ -241,4 +241,43 @@
     <string name="ai_menu_cd">قائمة المحادثة</string>
     <!-- AI Chat – stats format: %1$d = session count, %2$d = active subject count -->
     <string name="ai_stats_format">%1$d جلسة • %2$d مواد نشطة</string>
+
+    <!-- Schedule tab -->
+    <string name="schedule_title">جلسات مباشرة ومعامل</string>
+    <string name="schedule_weekly">الجدول الأسبوعي</string>
+    <string name="schedule_sync">مزامنة التقويم</string>
+    <string name="schedule_credits_available">اعتمادات متاحة</string>
+    <string name="schedule_credits_reserved">محجوز</string>
+    <string name="schedule_credits_renews">يتجدد الحصص خلال ١٤ يوماً</string>
+    <string name="schedule_top_up">تعبئة</string>
+    <string name="schedule_filter_all">الكل</string>
+    <string name="schedule_reserved_seat">مقعد محجوز</string>
+    <string name="schedule_recommended">مُوصى به لك</string>
+    <string name="schedule_open_enrollment">تسجيل مفتوح</string>
+    <string name="schedule_prep_ai">التحضير مع الذكاء الاصطناعي</string>
+    <string name="schedule_join_live">انضم للبث المباشر</string>
+    <string name="schedule_review_notes">مراجعة الملاحظات</string>
+    <string name="schedule_ai_socratic">مرشد سقراطي AI</string>
+    <string name="schedule_view_syllabus">عرض المنهج ←</string>
+    <string name="schedule_reserve_credit">احجز (اعتماد ١)</string>
+    <string name="schedule_book_seat">احجز مقعداً</string>
+    <string name="schedule_calendar_synced">مُزامَن مع التقويم</string>
+    <string name="schedule_pdf_available">PDF متاح</string>
+    <string name="schedule_calendar_title">تكامل التقويم</string>
+    <string name="schedule_calendar_desc">زامن دروسك المباشرة القادمة وتنبيهات التحضير وساعات المكتب بتقويم جهازك.</string>
+    <string name="schedule_google_calendar">تقويم جوجل</string>
+    <string name="schedule_apple_calendar">Apple iCal</string>
+    <string name="schedule_sync_coming_soon">مزامنة التقويم قريباً</string>
+    <string name="schedule_topup_coming_soon">التعبئة قريباً</string>
+    <string name="schedule_google_coming_soon">تكامل تقويم جوجل قريباً</string>
+    <string name="schedule_apple_coming_soon">تكامل Apple iCal قريباً</string>
+    <!-- Schedule tab – action feedback messages -->
+    <string name="schedule_action_joining">جارٍ الانضمام إلى الجلسة...</string>
+    <string name="schedule_action_prep_ai">فتح جلسة التحضير بالذكاء الاصطناعي...</string>
+    <string name="schedule_action_review_notes">فتح ملاحظات المراجعة...</string>
+    <string name="schedule_action_ai_socratic">فتح المرشد السقراطي...</string>
+    <string name="schedule_action_reserve">جارٍ الحجز...</string>
+    <string name="schedule_action_book">جارٍ حجز مقعد...</string>
+    <string name="schedule_action_syllabus">فتح المنهج...</string>
+    <string name="schedule_action_coming_soon">قريباً</string>
 </resources>

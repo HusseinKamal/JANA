@@ -1,0 +1,14 @@
+{
+  "verdict": "CHANGES_REQUESTED",
+  "findings": [
+    "ScheduleTabScreen is a stub — only a 'coming soon' Text; ScheduleHeaderSection, ScheduleWeekSection, ScheduleCreditsBanner, SessionCard, DaySectionHeader, and CalendarIntegrationCard are all absent.",
+    "No MVI contract — ScheduleTabContract.kt does not exist; no state, intent, or effect types defined.",
+    "No ScheduleTabViewModel — not created and not registered in HomeModule; runtime Koin injection would crash.",
+    "JanaWeekStrip missing from core:designsystem — required week-strip widget not added anywhere in the design system.",
+    "Top-bar title wrong for SCHEDULE tab — HomeTab.SCHEDULE falls into the else branch and shows home_student_label instead of a schedule title.",
+    "Domain string resources missing — only nav_schedule and home_schedule_coming_soon exist; all schedule_* strings for the real UI are absent from both locale files.",
+    "ScheduleStrings LaunchedEffect injection absent — the string-bundle injection pattern used in JanaAiTabScreen was not implemented.",
+    "Zero ScheduleTabViewModel tests — no ScheduleTabViewModelTest file exists; the single SCHEDULE assertion in HomeViewModelTest is a tab-routing test, not a schedule-feature test."
+  ],
+  "reviewDoc": "d:\\AndroidApps\\JANA\\JANA\\.agents\\tasks\\schedule_review.md"
+}
