@@ -27,14 +27,14 @@ class AiChatViewModel : BaseMviViewModel<AiChatState, AiChatIntent, AiChatEffect
         is AiChatIntent.InputChanged -> setState { copy(inputText = intent.text) }
         AiChatIntent.SendMessage -> sendUserMessage()
         AiChatIntent.MicPressed -> sendEffect(
-            AiChatEffect.ShowSnackbar("Voice input coming soon"),
+            AiChatEffect.ShowSnackbar(AiSnackbarMessage.VoiceComingSoon),
         )
         is AiChatIntent.QuickReplySelected -> sendUserReply(intent.replyId)
         is AiChatIntent.QuickActionClicked -> sendEffect(
-            AiChatEffect.ShowSnackbar("${intent.actionId} action coming soon"),
+            AiChatEffect.ShowSnackbar(AiSnackbarMessage.ActionComingSoon),
         )
         AiChatIntent.MenuClicked -> sendEffect(
-            AiChatEffect.ShowSnackbar("Chat history coming soon"),
+            AiChatEffect.ShowSnackbar(AiSnackbarMessage.HistoryComingSoon),
         )
     }
 

@@ -4,7 +4,34 @@
 Implement the full JANA AI Learning Chat screen replacing the placeholder `JanaAiTabScreen.kt`.
 
 ## Status
-✅ COMPLETE — Build SUCCESS, 23/23 tests passing.
+✅ ITERATION 2 COMPLETE — All 5 review findings fixed. Build SUCCESS, 23/23 tests passing.
+
+---
+
+## Review Findings Fixed (Iteration 2)
+
+### Finding 1 — Dead snackbar resource keys
+Added `AiSnackbarMessage` sealed interface (`VoiceComingSoon`, `HistoryComingSoon`, `ActionComingSoon`) in `AiChatContract.kt`.
+Changed `AiChatEffect.ShowSnackbar(message: String)` → `ShowSnackbar(messageType: AiSnackbarMessage)`.
+`AiChatViewModel` now emits typed keys instead of raw English literals.
+`JanaAiTabScreen` pre-fetches the three strings via `stringResource()` in the Composable scope and resolves them in the `LaunchedEffect` effect handler.
+Updated 3 tests (MicPressed, QuickActionClicked, MenuClicked) to assert on `messageType` enum values.
+
+### Finding 2 — Hardcoded "YOUR NEXT STEP" in AiMessageBubble
+Added `ai_next_step_label` / Arabic equivalent to both locale files.
+`AiMessageBubble` now uses `stringResource(Res.string.ai_next_step_label)`.
+
+### Finding 3 — Hardcoded English session banner strings
+Added three format-string resources: `ai_session_looming` (`%1$s` for time), `ai_session_greeting` (`%1$s` name, `%2$s` subject, `%3$s` teacher), `ai_session_focus` (`%1$s` focus text) to both locale files.
+`AiSessionBanner` now calls `stringResource(Res.string.ai_session_looming, state.sessionTime)` etc.
+
+### Finding 4 — AiTypingIndicator missing accessibility content description
+Added `ai_typing_indicator` string resource to both locale files.
+Outer `Row` in `AiTypingIndicator` now has `Modifier.semantics { contentDescription = stringResource(Res.string.ai_typing_indicator) }`.
+
+### Finding 5 — Silent grid suppression when quickActions.size < 4
+Replaced `if (actions.size >= 4) { ... }` with `if (actions.isNotEmpty()) { actions.chunked(2).forEachIndexed { ... } }`.
+Grid now renders any number of actions in rows of 2, padding the last row with a `Spacer(weight(1f))` if needed.
 
 ---
 
@@ -64,15 +91,15 @@ Newsreader (serif) font used in `AiSessionBanner` greeting text via `MaterialThe
 .\gradlew :feature:home:jvmTest
 ```
 
-### Results
+### Results (Iteration 2)
 
 ```
 # :composeApp:compileKotlinJvm
-BUILD SUCCESSFUL in 29s
+BUILD SUCCESSFUL in 25s
 58 actionable tasks: 13 executed, 45 up-to-date
 
 # :feature:home:jvmTest
-BUILD SUCCESSFUL in 11s
+BUILD SUCCESSFUL in 10s
 35 actionable tasks: 2 executed, 33 up-to-date
 
 # Test suite: AiChatViewModelTest

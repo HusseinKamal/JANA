@@ -29,6 +29,9 @@ import com.hussein.jana.core.designsystem.ai_action_review
 import com.hussein.jana.core.designsystem.ai_action_review_sub
 import com.hussein.jana.core.designsystem.ai_action_socratic
 import com.hussein.jana.core.designsystem.ai_action_socratic_sub
+import com.hussein.jana.core.designsystem.ai_session_focus
+import com.hussein.jana.core.designsystem.ai_session_greeting
+import com.hussein.jana.core.designsystem.ai_session_looming
 import com.hussein.jana.feature.home.tabs.janaai.AiChatState
 import com.hussein.jana.feature.home.tabs.janaai.AiQuickAction
 import org.jetbrains.compose.resources.stringResource
@@ -57,7 +60,7 @@ internal fun AiSessionBanner(
                     color = AmberGold.copy(alpha = 0.2f),
                 ) {
                     Text(
-                        text = "SESSION LOOMING • TODAY ${state.sessionTime}",
+                        text = stringResource(Res.string.ai_session_looming, state.sessionTime),
                         style = MaterialTheme.typography.labelSmall,
                         color = AmberGold,
                         fontWeight = FontWeight.Bold,
@@ -70,8 +73,12 @@ internal fun AiSessionBanner(
 
             // ── Session greeting ──────────────────────────────────────────────
             Text(
-                text = "Hi ${state.userName} 👋 You have a ${state.sessionSubject} session " +
-                    "with ${state.sessionTeacher}.",
+                text = stringResource(
+                    Res.string.ai_session_greeting,
+                    state.userName,
+                    state.sessionSubject,
+                    state.sessionTeacher,
+                ),
                 style = MaterialTheme.typography.titleMedium.copy(fontFamily = FontFamily.Serif),
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
@@ -80,41 +87,32 @@ internal fun AiSessionBanner(
             Spacer(modifier = Modifier.height(6.dp))
 
             Text(
-                text = "Focus: ${state.sessionFocus}. Let's prime your conceptual intuition beforehand.",
+                text = stringResource(Res.string.ai_session_focus, state.sessionFocus),
                 style = MaterialTheme.typography.bodySmall,
                 color = Color.White.copy(alpha = 0.8f),
             )
 
             Spacer(modifier = Modifier.height(14.dp))
 
-            // ── 2×2 quick-action grid ─────────────────────────────────────────
+            // ── Quick-action grid (renders all actions in rows of 2) ──────────
             val actions = state.quickActions
-            if (actions.size >= 4) {
+            if (actions.isNotEmpty()) {
                 Column {
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        QuickActionItem(
-                            action = actions[0],
-                            onActionClick = onActionClick,
-                            modifier = Modifier.weight(1f),
-                        )
-                        QuickActionItem(
-                            action = actions[1],
-                            onActionClick = onActionClick,
-                            modifier = Modifier.weight(1f),
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        QuickActionItem(
-                            action = actions[2],
-                            onActionClick = onActionClick,
-                            modifier = Modifier.weight(1f),
-                        )
-                        QuickActionItem(
-                            action = actions[3],
-                            onActionClick = onActionClick,
-                            modifier = Modifier.weight(1f),
-                        )
+                    actions.chunked(2).forEachIndexed { rowIndex, rowActions ->
+                        if (rowIndex > 0) Spacer(modifier = Modifier.height(8.dp))
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            rowActions.forEach { action ->
+                                QuickActionItem(
+                                    action = action,
+                                    onActionClick = onActionClick,
+                                    modifier = Modifier.weight(1f),
+                                )
+                            }
+                            // Pad the last row if it has fewer than 2 items
+                            if (rowActions.size < 2) {
+                                Spacer(modifier = Modifier.weight(1f))
+                            }
+                        }
                     }
                 }
             }

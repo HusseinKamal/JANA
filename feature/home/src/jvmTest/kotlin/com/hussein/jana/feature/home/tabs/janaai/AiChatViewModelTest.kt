@@ -218,7 +218,7 @@ class AiChatViewModelTest {
 
         val effect = effects.firstOrNull()
         assertTrue(effect is AiChatEffect.ShowSnackbar)
-        assertEquals("Voice input coming soon", (effect as AiChatEffect.ShowSnackbar).message)
+        assertEquals(AiSnackbarMessage.VoiceComingSoon, (effect as AiChatEffect.ShowSnackbar).messageType)
         collector.cancel()
     }
 
@@ -266,7 +266,7 @@ class AiChatViewModelTest {
 
         val effect = effects.firstOrNull()
         assertTrue(effect is AiChatEffect.ShowSnackbar)
-        assertTrue((effect as AiChatEffect.ShowSnackbar).message.contains("a1"))
+        assertEquals(AiSnackbarMessage.ActionComingSoon, (effect as AiChatEffect.ShowSnackbar).messageType)
         collector.cancel()
     }
 
@@ -283,7 +283,7 @@ class AiChatViewModelTest {
 
         val effect = effects.firstOrNull()
         assertTrue(effect is AiChatEffect.ShowSnackbar)
-        assertEquals("Chat history coming soon", (effect as AiChatEffect.ShowSnackbar).message)
+        assertEquals(AiSnackbarMessage.HistoryComingSoon, (effect as AiChatEffect.ShowSnackbar).messageType)
         collector.cancel()
     }
 

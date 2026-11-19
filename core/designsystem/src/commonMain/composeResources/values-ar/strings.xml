@@ -229,4 +229,10 @@
     <string name="ai_action_socratic_sub">فحص مفاهيمي</string>
     <string name="ai_action_exam">وضع الامتحان</string>
     <string name="ai_action_exam_sub">موقّت، بلا مساعدة</string>
+    <!-- AI Chat – additional i18n strings -->
+    <string name="ai_next_step_label">خطوتك التالية</string>
+    <string name="ai_session_looming">الجلسة قادمة • اليوم %1$s</string>
+    <string name="ai_session_greeting">مرحباً %1$s 👋 لديك جلسة %2$s مع %3$s.</string>
+    <string name="ai_session_focus">التركيز: %1$s. لنُهيّئ حدسك المفاهيمي مسبقاً.</string>
+    <string name="ai_typing_indicator">جَنَى AI يكتب ردّاً</string>
 </resources>

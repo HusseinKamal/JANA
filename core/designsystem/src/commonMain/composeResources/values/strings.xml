@@ -229,4 +229,10 @@
     <string name="ai_action_socratic_sub">Conceptual Check</string>
     <string name="ai_action_exam">Exam Mode</string>
     <string name="ai_action_exam_sub">Timed, No AI Hints</string>
+    <!-- AI Chat – additional i18n strings -->
+    <string name="ai_next_step_label">YOUR NEXT STEP</string>
+    <string name="ai_session_looming">SESSION LOOMING • TODAY %1$s</string>
+    <string name="ai_session_greeting">Hi %1$s 👋 You have a %2$s session with %3$s.</string>
+    <string name="ai_session_focus">Focus: %1$s. Let\'s prime your conceptual intuition beforehand.</string>
+    <string name="ai_typing_indicator">JANA AI is composing a reply</string>
 </resources>

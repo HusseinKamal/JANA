@@ -33,6 +33,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -45,10 +47,14 @@ import com.hussein.jana.core.designsystem.OnBackground
 import com.hussein.jana.core.designsystem.OnSurfaceVariant
 import com.hussein.jana.core.designsystem.OutlineVariant
 import com.hussein.jana.core.designsystem.PrimaryContainer
+import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.ScholarlyTeal
 import com.hussein.jana.core.designsystem.SurfaceContainerHigh
 import com.hussein.jana.core.designsystem.SurfaceContainerLow
+import com.hussein.jana.core.designsystem.ai_next_step_label
+import com.hussein.jana.core.designsystem.ai_typing_indicator
 import com.hussein.jana.feature.home.tabs.janaai.AiMessage
+import org.jetbrains.compose.resources.stringResource
 
 /**
  * Left-aligned AI message bubble with support for rich layout:
@@ -163,7 +169,7 @@ internal fun AiMessageBubble(
                     ) {
                         Column(modifier = Modifier.padding(8.dp)) {
                             Text(
-                                text = "YOUR NEXT STEP",
+                                text = stringResource(Res.string.ai_next_step_label),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = ScholarlyTeal,
                                 fontWeight = FontWeight.Bold,
@@ -251,8 +257,11 @@ internal fun AiTypingIndicator(modifier: Modifier = Modifier) {
         label = "dot2",
     )
 
+    val typingDesc = stringResource(Res.string.ai_typing_indicator)
     Row(
-        modifier = modifier.padding(horizontal = 16.dp),
+        modifier = modifier
+            .padding(horizontal = 16.dp)
+            .semantics { contentDescription = typingDesc },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         // AI avatar (matches AiMessageBubble)

@@ -32,8 +32,11 @@ import com.hussein.jana.core.designsystem.OnSurfaceVariant
 import com.hussein.jana.core.designsystem.OutlineVariant
 import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.VellumCanvas
+import com.hussein.jana.core.designsystem.ai_action_coming_soon
 import com.hussein.jana.core.designsystem.ai_choose_response
+import com.hussein.jana.core.designsystem.ai_history_coming_soon
 import com.hussein.jana.core.designsystem.ai_input_hint
+import com.hussein.jana.core.designsystem.ai_voice_coming_soon
 import com.hussein.jana.feature.home.tabs.janaai.components.AiChatHeader
 import com.hussein.jana.feature.home.tabs.janaai.components.AiMessageBubble
 import com.hussein.jana.feature.home.tabs.janaai.components.AiSessionBanner
@@ -58,11 +61,24 @@ fun JanaAiTabScreen() {
     val snackbarHostState = remember { SnackbarHostState() }
     val lazyListState = rememberLazyListState()
 
+    // Resolve localised snackbar strings outside the LaunchedEffect so the
+    // composable's string resources are available to the suspend lambda.
+    val msgVoice = stringResource(Res.string.ai_voice_coming_soon)
+    val msgHistory = stringResource(Res.string.ai_history_coming_soon)
+    val msgAction = stringResource(Res.string.ai_action_coming_soon)
+
     // Collect one-shot effects
     LaunchedEffect(viewModel) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                is AiChatEffect.ShowSnackbar -> snackbarHostState.showSnackbar(effect.message)
+                is AiChatEffect.ShowSnackbar -> {
+                    val message = when (effect.messageType) {
+                        AiSnackbarMessage.VoiceComingSoon -> msgVoice
+                        AiSnackbarMessage.HistoryComingSoon -> msgHistory
+                        AiSnackbarMessage.ActionComingSoon -> msgAction
+                    }
+                    snackbarHostState.showSnackbar(message)
+                }
                 AiChatEffect.ScrollToBottom -> {
                     val count = lazyListState.layoutInfo.totalItemsCount
                     if (count > 0) lazyListState.animateScrollToItem(count - 1)

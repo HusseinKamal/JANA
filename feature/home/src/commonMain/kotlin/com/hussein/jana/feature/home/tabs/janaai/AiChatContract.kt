@@ -118,9 +118,36 @@ sealed interface AiChatIntent : MviIntent {
     data object MenuClicked : AiChatIntent
 }
 
+// ── Snackbar message types ────────────────────────────────────────────────────
+
+/**
+ * Typed snackbar messages for the AI Chat screen.
+ *
+ * The ViewModel emits these; the UI layer resolves each to a localised
+ * string via [org.jetbrains.compose.resources.stringResource], so Arabic
+ * users receive translated text rather than raw English literals.
+ */
+sealed interface AiSnackbarMessage {
+    /** Shown when the user taps the microphone button. */
+    data object VoiceComingSoon : AiSnackbarMessage
+
+    /** Shown when the user taps the chat-history menu. */
+    data object HistoryComingSoon : AiSnackbarMessage
+
+    /** Shown when a quick-action card is tapped. */
+    data object ActionComingSoon : AiSnackbarMessage
+}
+
 // ── MVI Effect ────────────────────────────────────────────────────────────────
 
 sealed interface AiChatEffect : MviEffect {
-    data class ShowSnackbar(val message: String) : AiChatEffect
+    /**
+     * Ask the UI to show a snackbar.
+     *
+     * [messageType] carries a typed key; the composable resolves the
+     * matching [org.jetbrains.compose.resources.StringResource] so the
+     * message is localised to the device language.
+     */
+    data class ShowSnackbar(val messageType: AiSnackbarMessage) : AiChatEffect
     data object ScrollToBottom : AiChatEffect
 }
