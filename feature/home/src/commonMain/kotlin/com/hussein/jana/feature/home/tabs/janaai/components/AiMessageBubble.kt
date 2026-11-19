@@ -8,7 +8,9 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,8 +35,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -65,11 +69,13 @@ import org.jetbrains.compose.resources.stringResource
  * - Optional tinted "YOUR NEXT STEP" [AiMessage.nextStepPrompt] box
  * - Timestamp + optional badge pill
  */
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun AiMessageBubble(
     msg: AiMessage,
     modifier: Modifier = Modifier,
 ) {
+    val clipboard = LocalClipboardManager.current
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -94,9 +100,14 @@ internal fun AiMessageBubble(
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        // ── Message bubble ────────────────────────────────────────────────────
+        // ── Message bubble — long-press to copy ───────────────────────────────
         Surface(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f)
+                .combinedClickable(
+                    onClick = {},
+                    onLongClick = { clipboard.setText(AnnotatedString(msg.content)) },
+                ),
             shape = RoundedCornerShape(topStart = 4.dp, topEnd = 16.dp, bottomStart = 16.dp, bottomEnd = 16.dp),
             color = SurfaceContainerLow,
             border = BorderStroke(1.dp, OutlineVariant),

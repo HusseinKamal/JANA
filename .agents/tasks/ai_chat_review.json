@@ -1,0 +1,11 @@
+{
+  "verdict": "CHANGES_REQUESTED",
+  "findings": [
+    "JanaChatInput contentDescriptions not localized — \"Voice input\" and \"Send message\" are hardcoded English in core/designsystem/JanaChatInput.kt, bypassing the Arabic/English string resource system. Accept them as parameters or add generic keys to both locale files.",
+    "AiChatHeader contentDescription not localized — \"Chat menu\" on the MoreVert IconButton is hardcoded English. Add ai_menu_cd to both locale files and use stringResource.",
+    "statsText bypasses i18n — \"16 Sessions • 3 Active Subjects\" is an English string in the default state rendered as a UI label. Should become a format string resource before this field is populated from real data.",
+    "when resolver else branch silently renders raw key names — actionTitleString / actionSubtitleString in AiSessionBanner fall through to else -> key; a new action added without updating the resolvers renders its key name on screen with no warning.",
+    "ScrollToBottom possible off-by-one — lazyListState.layoutInfo.totalItemsCount is read before recomposition may have included the new AI message; a delay(0) or snapshotFlow guard eliminates the race (possible, not confirmed in practice)."
+  ],
+  "reviewDoc": "d:\\AndroidApps\\JANA\\JANA\\.agents\\tasks\\ai_chat_review.md"
+}

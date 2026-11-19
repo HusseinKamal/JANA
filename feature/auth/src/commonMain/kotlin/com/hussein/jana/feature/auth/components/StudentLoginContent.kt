@@ -19,7 +19,6 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -36,7 +35,6 @@ import com.hussein.jana.core.designsystem.AmberDark
 import com.hussein.jana.core.designsystem.JanaLogoCard
 import com.hussein.jana.core.designsystem.OnSurfaceVariant
 import com.hussein.jana.core.designsystem.Res
-import com.hussein.jana.core.designsystem.loading
 import com.hussein.jana.core.designsystem.ScholarlyTeal
 import com.hussein.jana.core.designsystem.auth_btn_student
 import com.hussein.jana.core.designsystem.auth_forgot_password
@@ -46,10 +44,11 @@ import com.hussein.jana.core.designsystem.auth_no_account
 import com.hussein.jana.core.designsystem.auth_or_continue
 import com.hussein.jana.core.designsystem.auth_password_hint
 import com.hussein.jana.core.designsystem.auth_password_label
-import com.hussein.jana.core.designsystem.auth_remember_device
 import com.hussein.jana.core.designsystem.auth_register_link
+import com.hussein.jana.core.designsystem.auth_remember_device
 import com.hussein.jana.core.designsystem.auth_subtitle_student
 import com.hussein.jana.core.designsystem.auth_welcome_student
+import com.hussein.jana.core.designsystem.loading
 import com.hussein.jana.feature.auth.LoginIntent
 import com.hussein.jana.feature.auth.LoginState
 import org.jetbrains.compose.resources.stringResource

@@ -34,15 +34,12 @@ import com.hussein.jana.core.designsystem.OutlineVariant
 import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.VellumCanvas
 import com.hussein.jana.core.designsystem.ai_action_coming_soon
-import com.hussein.jana.core.designsystem.ai_choose_response
 import com.hussein.jana.core.designsystem.ai_history_coming_soon
 import com.hussein.jana.core.designsystem.ai_input_hint
 import com.hussein.jana.core.designsystem.ai_voice_coming_soon
-import com.hussein.jana.feature.home.tabs.janaai.components.AiChatHeader
 import com.hussein.jana.feature.home.tabs.janaai.components.AiMessageBubble
 import com.hussein.jana.feature.home.tabs.janaai.components.AiSessionBanner
 import com.hussein.jana.feature.home.tabs.janaai.components.AiTypingIndicator
-import com.hussein.jana.feature.home.tabs.janaai.components.QuickRepliesRow
 import com.hussein.jana.feature.home.tabs.janaai.components.UserMessageBubble
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -122,13 +119,7 @@ internal fun JanaAiTabContent(
             .fillMaxSize()
             .background(VellumCanvas),
     ) {
-        // 1. Sticky header
-        AiChatHeader(
-            state = state,
-            onMenuClick = { onIntent(AiChatIntent.MenuClicked) },
-        )
-
-        // 2. Scrollable message list
+        // 2. Scrollable message list (now full height — header removed)
         LazyColumn(
             modifier = Modifier.weight(1f),
             state = lazyListState,
@@ -163,27 +154,7 @@ internal fun JanaAiTabContent(
             }
         }
 
-        // 3. Quick-reply suggestions
-        QuickRepliesRow(
-            replies = state.quickReplies,
-            onReplyClick = { onIntent(AiChatIntent.QuickReplySelected(it)) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-        )
-
-        // 4. Divider
-        HorizontalDivider(color = OutlineVariant)
-
-        // 5. Response hint label
-        Text(
-            text = stringResource(Res.string.ai_choose_response),
-            style = MaterialTheme.typography.labelSmall,
-            color = OnSurfaceVariant,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-        )
-
-        // 6. Chat input
+        // Chat input — no bottom padding
         JanaChatInput(
             text = state.inputText,
             onTextChange = { onIntent(AiChatIntent.InputChanged(it)) },
@@ -192,9 +163,5 @@ internal fun JanaAiTabContent(
             hint = stringResource(Res.string.ai_input_hint),
             modifier = Modifier.padding(horizontal = 8.dp),
         )
-
-        // 7. Bottom inset spacer
-        Spacer(modifier = Modifier.height(4.dp))
-        Spacer(modifier = Modifier.navigationBarsPadding())
     }
 }

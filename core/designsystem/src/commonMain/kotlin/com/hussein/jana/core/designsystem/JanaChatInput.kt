@@ -58,7 +58,7 @@ fun JanaChatInput(
         border = BorderStroke(1.dp, OutlineVariant),
     ) {
         Row(
-            modifier = Modifier.padding(vertical = 4.dp, horizontal = 4.dp),
+            modifier = Modifier.padding(vertical = 2.dp, horizontal = 2.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             // ── Mic button (optional) ─────────────────────────────────────────
