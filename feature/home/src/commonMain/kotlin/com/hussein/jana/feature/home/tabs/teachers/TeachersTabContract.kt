@@ -17,8 +17,6 @@ data class TeacherBadgeData(
 
 data class SubjectFilter(
     val key: String,
-    /** Programmatic English label — UI resolves from string resources via key. */
-    val label: String,
 )
 
 data class TeacherData(
@@ -50,12 +48,12 @@ data class TeacherData(
 // ── Default data ──────────────────────────────────────────────────────────────
 
 val defaultFilters: List<SubjectFilter> = listOf(
-    SubjectFilter("all", "All Subjects"),
-    SubjectFilter("mathematics", "Mathematics"),
-    SubjectFilter("physics", "Physics"),
-    SubjectFilter("chemistry", "Chemistry"),
-    SubjectFilter("biology", "Biology"),
-    SubjectFilter("english", "English"),
+    SubjectFilter("all"),
+    SubjectFilter("mathematics"),
+    SubjectFilter("physics"),
+    SubjectFilter("chemistry"),
+    SubjectFilter("biology"),
+    SubjectFilter("english"),
 )
 
 val mockTeachers: List<TeacherData> = listOf(

@@ -84,5 +84,6 @@ private fun filterLabelResource(key: String): StringResource = when (key) {
     "chemistry"   -> Res.string.teachers_filter_chemistry
     "biology"     -> Res.string.teachers_filter_biology
     "english"     -> Res.string.teachers_filter_english
-    else          -> Res.string.teachers_filter_all
+    // Adding a new SubjectFilter without a matching branch here is a bug.
+    else          -> throw IllegalArgumentException("No string resource mapped for filter key: \"$key\"")
 }

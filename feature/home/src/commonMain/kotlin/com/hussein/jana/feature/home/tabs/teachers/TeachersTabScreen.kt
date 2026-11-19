@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -30,6 +31,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -45,6 +48,7 @@ import com.hussein.jana.core.designsystem.teachers_hub_label
 import com.hussein.jana.core.designsystem.teachers_no_results
 import com.hussein.jana.core.designsystem.teachers_profile_coming_soon
 import com.hussein.jana.core.designsystem.teachers_reserve_coming_soon
+import com.hussein.jana.core.designsystem.teachers_title
 import com.hussein.jana.core.designsystem.teachers_verified_label
 import com.hussein.jana.feature.home.tabs.teachers.components.HowJanaWorksCard
 import com.hussein.jana.feature.home.tabs.teachers.components.SubjectFilterRow
@@ -114,8 +118,11 @@ internal fun TeachersTabContent(
     onIntent: (TeachersTabIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    // teachers_title is the accessibility label for this screen and will be
+    // wired as the navigation-destination label when deep links are added.
+    val screenTitle = stringResource(Res.string.teachers_title)
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize().semantics { contentDescription = screenTitle },
     ) {
         item { Spacer(modifier = Modifier.height(16.dp)) }
 
@@ -207,7 +214,7 @@ private fun TeachersHeader(modifier: Modifier = Modifier) {
                 modifier = Modifier.weight(1f),
             )
 
-            Spacer(modifier = Modifier.padding(horizontal = 8.dp))
+            Spacer(modifier = Modifier.width(8.dp))
 
             // "100% Verified" badge
             Surface(
@@ -225,7 +232,7 @@ private fun TeachersHeader(modifier: Modifier = Modifier) {
                         tint = SuccessGreen,
                         modifier = Modifier.size(12.dp),
                     )
-                    Spacer(modifier = Modifier.padding(horizontal = 2.dp))
+                    Spacer(modifier = Modifier.width(2.dp))
                     Text(
                         text = stringResource(Res.string.teachers_verified_label),
                         style = MaterialTheme.typography.labelSmall,

@@ -205,4 +205,6 @@
     <string name="teachers_profile_coming_soon">Teacher profile coming soon</string>
     <string name="teachers_reserve_coming_soon">Reservation coming soon</string>
     <string name="teachers_filters_coming_soon">Advanced filters coming soon</string>
+    <!-- Stats row: %1$s = formatted student count (e.g. "1.2k"), %2$d = years experience -->
+    <string name="teachers_stats_format">%1$s active • %2$d yrs exp</string>
 </resources>

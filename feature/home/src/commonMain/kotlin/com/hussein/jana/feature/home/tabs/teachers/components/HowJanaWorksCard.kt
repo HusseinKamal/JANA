@@ -127,7 +127,8 @@ fun HowJanaWorksCard(
                     modifier = Modifier.weight(1f),
                 )
                 Spacer(modifier = Modifier.width(4.dp))
-                TextButton(onClick = { /* TODO: navigate to info */ }) {
+                // "Learn more" is disabled until the information destination is wired.
+                TextButton(onClick = {}, enabled = false) {
                     Text(
                         text = "${stringResource(Res.string.teachers_learn_more)} →",
                         style = MaterialTheme.typography.labelSmall,

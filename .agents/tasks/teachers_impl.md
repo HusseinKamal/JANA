@@ -1,146 +1,81 @@
-# Teachers Tab Implementation
+# Teachers / Discover tab – implementation evidence
 
-## Status
-✅ BUILD SUCCESSFUL  
-✅ 25/25 tests passing  
+## Iteration
 
----
-
-## Overview
-
-Replaced the placeholder `TeachersTabScreen.kt` with a full MVI implementation of the Teachers / Discover tab for the JANA KMP app. Follows the existing MVI/clean architecture pattern (BaseMviViewModel, MviState/MviIntent/MviEffect) and matches the code conventions established in HomeTab and AuthScreen.
+This document covers both the initial implementation and the second-iteration review-fix pass.
 
 ---
 
-## Files Created / Modified
+## Initial implementation (first pass)
 
-### New Files
+### Files created / replaced
 
-| File | Purpose |
-|------|---------|
-| `feature/home/.../tabs/teachers/TeachersTabContract.kt` | MVI contract: enums, data models, mock data, `formatK` extension, State/Intent/Effect types |
-| `feature/home/.../tabs/teachers/TeachersTabViewModel.kt` | ViewModel with `applyFilters`, `updateStrings`, intent handling |
-| `feature/home/.../tabs/teachers/TeachersTabScreen.kt` | Stateful screen + stateless `TeachersTabContent` LazyColumn |
-| `feature/home/.../tabs/teachers/components/TeacherSearchBar.kt` | BasicTextField search bar (state-hoisted, Box overlay hint) |
-| `feature/home/.../tabs/teachers/components/SubjectFilterRow.kt` | Horizontally-scrollable Row filter chips (string resources via key mapping) |
-| `feature/home/.../tabs/teachers/components/TeacherCard.kt` | Full teacher card: avatar, stats, badges, schedule, price, action buttons |
-| `feature/home/.../tabs/teachers/components/TeacherBadgeChip.kt` | Badge chip with per-BadgeStyle color pairs |
+| File | Description |
+|------|-------------|
+| `feature/home/.../tabs/teachers/TeachersTabContract.kt` | MVI types, models, mock data, `formatK` extension |
+| `feature/home/.../tabs/teachers/TeachersTabViewModel.kt` | `TeachersStrings`, `updateStrings`, `applyFilters`, intent dispatch |
+| `feature/home/.../tabs/teachers/TeachersTabScreen.kt` | Stateful entry + stateless `TeachersTabContent` LazyColumn |
+| `feature/home/.../tabs/teachers/components/TeacherSearchBar.kt` | `BasicTextField` with Box-overlay hint |
+| `feature/home/.../tabs/teachers/components/SubjectFilterRow.kt` | Horizontally scrollable Row of filter chips |
+| `feature/home/.../tabs/teachers/components/TeacherCard.kt` | Full teacher card (avatar, stats, badges, schedule, price, action buttons) |
+| `feature/home/.../tabs/teachers/components/TeacherBadgeChip.kt` | Per-BadgeStyle colour chip |
 | `feature/home/.../tabs/teachers/components/HowJanaWorksCard.kt` | Amber info card with AnnotatedString bold spans |
-| `feature/home/src/jvmTest/.../tabs/teachers/TeachersTabViewModelTest.kt` | 25 unit tests |
-
-### Modified Files
-
-| File | Change |
-|------|--------|
-| `core/designsystem/.../values/strings.xml` | Added 31 `teachers_*` English string resources |
-| `core/designsystem/.../values-ar/strings.xml` | Added 31 `teachers_*` Arabic string resources |
+| `feature/home/src/jvmTest/.../TeachersTabViewModelTest.kt` | 25 ViewModel unit tests |
+| `core/designsystem/.../values/strings.xml` | +31 `teachers_*` EN string resources |
+| `core/designsystem/.../values-ar/strings.xml` | +31 `teachers_*` AR string resources |
 | `feature/home/.../di/HomeModule.kt` | Added `viewModel { TeachersTabViewModel() }` |
 
 ---
 
-## Architecture
+## Review-fix pass (second iteration)
 
-### MVI Contract
-```
-TeachersTabState       – searchQuery, selectedFilter, filters, allTeachers, filteredTeachers
-TeachersTabIntent      – SearchQueryChanged, FilterSelected, ProfileClicked, ReserveClicked, FilterButtonClicked  
-TeachersTabEffect      – ShowSnackbar(message: String)
-```
+### Findings addressed
 
-### ViewModel (`TeachersTabViewModel`)
-- Extends `BaseMviViewModel<TeachersTabState, TeachersTabIntent, TeachersTabEffect>`
-- `applyFilters(query, filter)` – called by both `SearchQueryChanged` and `FilterSelected`. Each updates its own axis while preserving the other from `currentState()`. Filtering is AND-logic: subject key + case-insensitive text search across name, subjectDetail, and subjectKey.
-- `updateStrings(TeachersStrings)` – locale injection following the AuthViewModel pattern. Called from a `LaunchedEffect` in the composable so locale changes propagate without VM recreation.
-- Effect messages carry plain `String` (already resolved by composition before entering VM).
+**1 – Hard-coded English words in `TeacherCard` stats row**
 
-### Screen (`TeachersTabScreen`)
-- `koinViewModel<TeachersTabViewModel>()` for DI.
-- Strings injected via `LaunchedEffect(profileComingSoon, reserveComingSoon, filtersComingSoon)` → `viewModel.updateStrings(...)`.
-- Effects collected in a separate `LaunchedEffect(viewModel)` block; `snackbarHostState.showSnackbar()` called directly (message is already a String).
-- `TeachersTabContent` is `internal` (stateless) and receives `state` + `onIntent`.
+- Added `teachers_stats_format` to both `values/strings.xml` and `values-ar/strings.xml`:
+  - EN: `%1$s active • %2$d yrs exp`
+  - AR: `%1$s طالب نشط • %2$d سنوات خبرة`
+- Updated `TeacherCard.kt` to call `stringResource(Res.string.teachers_stats_format, teacher.activeStudents.formatK(), teacher.yearsExp)` instead of the hard-coded template.
 
-### Search Bar (`TeacherSearchBar`)
-- `BasicTextField` with full state hoisting via `query`/`onQueryChange`.
-- `decorationBox` uses a `Box` to overlay the hint text directly on the input position, preventing layout shifting. This addresses the previous "unable to edit text field" issue.
+**2 – `Spacer(Modifier.padding(horizontal = X.dp))` creates 2×X gap**
 
----
+- `TeachersTabScreen.kt` `TeachersHeader`: replaced `Modifier.padding(horizontal = 8.dp)` with `Modifier.width(8.dp)` on the spacer between headline text and "100% Verified" badge.
+- Same file: replaced `Modifier.padding(horizontal = 2.dp)` with `Modifier.width(2.dp)` on the spacer between the check icon and badge text.
+- Added missing `import androidx.compose.foundation.layout.width`.
 
-## String Resources Added (English / Arabic)
+**3 – `SubjectFilter.label` dead field**
 
-| Key | EN | AR |
-|-----|----|----|
-| `teachers_title` | Teacher Discovery | اكتشاف المعلمين |
-| `teachers_hub_label` | DIRECT MENTORSHIP HUB | مركز الإرشاد المباشر |
-| `teachers_headline` | Reserve Live Teaching | احجز تدريساً مباشراً |
-| `teachers_verified_label` | 100% Verified | موثّق 100% |
-| `teachers_search_hint` | Search teachers, subjects, or topics… | ابحث عن معلمين أو مواد أو مواضيع… |
-| `teachers_filter_all` | All Subjects | جميع المواد |
-| `teachers_filter_math` | Mathematics | الرياضيات |
-| `teachers_filter_physics` | Physics | الفيزياء |
-| `teachers_filter_chemistry` | Chemistry | الكيمياء |
-| `teachers_filter_biology` | Biology | الأحياء |
-| `teachers_filter_english` | English | اللغة الإنجليزية |
-| `teachers_tuition` | Tuition Investment | رسوم التعليم |
-| `teachers_class_format` | Class Format | صيغة الفصل |
-| `teachers_profile_btn` | Profile | الملف الشخصي |
-| `teachers_reserve_btn` | Reserve Slot | احجز موعداً |
-| `teachers_how_title` | How JANA Subscriptions Work | كيف تعمل اشتراكات جَنَى |
-| `teachers_how_desc_part1` | Subscribe directly to a trusted educator or use universal | اشترك مباشرةً مع معلم موثوق أو استخدم |
-| `teachers_how_bold1` | Session Credits | اعتمادات الجلسة |
-| `teachers_how_desc_part2` | across any subject… | العالمية عبر أي مادة… |
-| `teachers_how_bold2` | AI companion | مرافق الذكاء الاصطناعي |
-| `teachers_how_desc_part3` | recaps synchronized with your teacher's curriculum. | الشخصي متزامناً مع منهج معلمك. |
-| `teachers_attendance_tracking` | Real-time attendance tracking | تتبع الحضور الفوري |
-| `teachers_learn_more` | Learn more | اعرف أكثر |
-| `teachers_no_results` | No teachers found.\nTry a different search or filter. | لم يُعثر على معلمين.\nجرّب بحثاً أو فلتراً مختلفاً. |
-| `teachers_profile_coming_soon` | Teacher profile coming soon | الملف الشخصي للمعلم قريباً |
-| `teachers_reserve_coming_soon` | Reservation coming soon | الحجز قريباً |
-| `teachers_filters_coming_soon` | Advanced filters coming soon | الفلاتر المتقدمة قريباً |
+- Removed `label: String` from `SubjectFilter` data class in `TeachersTabContract.kt`.
+- Updated `defaultFilters` to use single-arg `SubjectFilter(key)` constructor calls.
+- `SubjectFilterRow` already resolved chip text entirely from `filterLabelResource(key)` so no changes needed there.
+
+**4 – `filterLabelResource` silent fallback**
+
+- Changed the `else` branch in `SubjectFilterRow.kt` from `Res.string.teachers_filter_all` (silent wrong output) to `throw IllegalArgumentException("No string resource mapped for filter key: \"$key\"")`.
+- Added explanatory comment so future contributors know the throw is intentional.
+
+**5 – `teachers_title` string resource unused**
+
+- Added `import com.hussein.jana.core.designsystem.teachers_title` to `TeachersTabScreen.kt`.
+- Read the value inside `TeachersTabContent` as `val screenTitle = stringResource(Res.string.teachers_title)` and applied it as `Modifier.semantics { contentDescription = screenTitle }` on the `LazyColumn`.
+- Comment documents it as the future navigation-destination label.
+
+**6 – "Learn more" `TextButton` is a non-functional affordance**
+
+- Added `enabled = false` to `TextButton` in `HowJanaWorksCard.kt`; added comment explaining the destination is not yet wired.
+
+**Bonus – unused `assertNotNull` import in test**
+
+- Removed `import kotlin.test.assertNotNull` from `TeachersTabViewModelTest.kt`.
 
 ---
 
-## Tests (`TeachersTabViewModelTest`) — 25 tests, all passing
+## Build & test commands
 
-| # | Test description |
-|---|-----------------|
-| 1 | Initial state has all mock teachers |
-| 2 | Initial `selectedFilter` is "all" |
-| 3 | Initial `searchQuery` is empty |
-| 4 | Initial `filters` matches `defaultFilters` |
-| 5 | `SearchQueryChanged` filters by teacher name |
-| 6 | `SearchQueryChanged` filters by subject detail |
-| 7 | `FilterSelected("mathematics")` returns only math teachers |
-| 8 | `FilterSelected("physics")` returns only physics teachers |
-| 9 | Combined filter + search narrows results correctly |
-| 10 | `SearchQueryChanged` with no match returns empty list |
-| 11 | `FilterSelected` with no matching teachers returns empty list |
-| 12 | Search is case-insensitive for teacher names |
-| 13 | Search is case-insensitive for subject key |
-| 14 | Blank query after search restores all teachers |
-| 15 | `ProfileClicked` emits `ShowSnackbar` with default profile string |
-| 16 | `ReserveClicked` emits `ShowSnackbar` with default reserve string |
-| 17 | `FilterButtonClicked` emits `ShowSnackbar` with default filters string |
-| 18 | `updateStrings` changes `ProfileClicked` snackbar message |
-| 19 | `FilterSelected` preserves existing `searchQuery` in state |
-| 20 | `SearchQueryChanged` preserves existing `selectedFilter` in state |
-| 21 | `FilterSelected("all")` after subject filter restores full list |
-| 22 | `formatK` formats 1250 as "1.2k" |
-| 23 | `formatK` formats 820 as "820" |
-| 24 | `formatK` formats 1000 as "1.0k" |
-| 25 | `formatK` formats 999 as "999" |
-
----
-
-## Build Commands
-
-```powershell
-# From d:/AndroidApps/JANA/JANA
-
-# Compile JVM target
-.\gradlew :composeApp:compileKotlinJvm
-# Result: BUILD SUCCESSFUL
-
-# Run all home-feature JVM tests
-.\gradlew :feature:home:jvmTest
-# Result: BUILD SUCCESSFUL — 25 teachers + 19 home tab + 8 home VM = 52 total
 ```
+.\gradlew :composeApp:compileKotlinJvm   # BUILD SUCCESSFUL
+.\gradlew :feature:home:jvmTest          # BUILD SUCCESSFUL (25 tests pass)
+```
+
+Both commands run from `d:/AndroidApps/JANA/JANA`.

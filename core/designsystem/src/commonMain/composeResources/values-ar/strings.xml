@@ -205,4 +205,6 @@
     <string name="teachers_profile_coming_soon">الملف الشخصي للمعلم قريباً</string>
     <string name="teachers_reserve_coming_soon">الحجز قريباً</string>
     <string name="teachers_filters_coming_soon">الفلاتر المتقدمة قريباً</string>
+    <!-- Stats row: %1$s = formatted student count, %2$d = years experience -->
+    <string name="teachers_stats_format">%1$s طالب نشط • %2$d سنوات خبرة</string>
 </resources>

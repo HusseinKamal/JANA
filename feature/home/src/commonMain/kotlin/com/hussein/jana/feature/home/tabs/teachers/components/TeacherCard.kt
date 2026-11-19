@@ -43,6 +43,7 @@ import com.hussein.jana.core.designsystem.SurfaceContainerHigh
 import com.hussein.jana.core.designsystem.teachers_class_format
 import com.hussein.jana.core.designsystem.teachers_profile_btn
 import com.hussein.jana.core.designsystem.teachers_reserve_btn
+import com.hussein.jana.core.designsystem.teachers_stats_format
 import com.hussein.jana.core.designsystem.teachers_tuition
 import com.hussein.jana.feature.home.tabs.teachers.TeacherData
 import com.hussein.jana.feature.home.tabs.teachers.formatK
@@ -124,7 +125,11 @@ fun TeacherCard(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
-                    text = "${teacher.activeStudents.formatK()} active • ${teacher.yearsExp} yrs exp",
+                    text = stringResource(
+                        Res.string.teachers_stats_format,
+                        teacher.activeStudents.formatK(),
+                        teacher.yearsExp,
+                    ),
                     style = MaterialTheme.typography.labelSmall,
                     color = OnSurfaceVariant,
                 )
