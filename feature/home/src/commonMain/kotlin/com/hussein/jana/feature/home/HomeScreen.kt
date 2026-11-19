@@ -61,6 +61,7 @@ fun HomeScreen(
         topBar = {
             val topBarTitle = when (state.selectedTab) {
                 HomeTab.TEACHERS -> stringResource(Res.string.teachers_title)
+                HomeTab.JANA_AI  -> stringResource(Res.string.nav_jana_ai)
                 else             -> stringResource(Res.string.home_student_label)
             }
             JanaTopBar(
