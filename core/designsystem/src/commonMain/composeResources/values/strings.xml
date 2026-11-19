@@ -176,4 +176,33 @@
     <string name="home_ai_message_default">Want to prepare for today\'s algebra session? Dr. Hassan usually begins with discriminant formulas and polynomial factoring.</string>
     <string name="home_ai_phrase_discriminant">discriminant formulas</string>
     <string name="home_ai_phrase_polynomial">polynomial factoring</string>
+
+    <!-- Teachers / Discover tab -->
+    <string name="teachers_title">Teacher Discovery</string>
+    <string name="teachers_hub_label">DIRECT MENTORSHIP HUB</string>
+    <string name="teachers_headline">Reserve Live Teaching</string>
+    <string name="teachers_verified_label">100% Verified</string>
+    <string name="teachers_search_hint">Search teachers, subjects, or topics…</string>
+    <string name="teachers_filter_all">All Subjects</string>
+    <string name="teachers_filter_math">Mathematics</string>
+    <string name="teachers_filter_physics">Physics</string>
+    <string name="teachers_filter_chemistry">Chemistry</string>
+    <string name="teachers_filter_biology">Biology</string>
+    <string name="teachers_filter_english">English</string>
+    <string name="teachers_tuition">Tuition Investment</string>
+    <string name="teachers_class_format">Class Format</string>
+    <string name="teachers_profile_btn">Profile</string>
+    <string name="teachers_reserve_btn">Reserve Slot</string>
+    <string name="teachers_how_title">How JANA Subscriptions Work</string>
+    <string name="teachers_how_desc_part1">"Subscribe directly to a trusted educator or use universal "</string>
+    <string name="teachers_how_bold1">Session Credits</string>
+    <string name="teachers_how_desc_part2">" across any subject. Every reservation includes live HD Zoom mentoring, interactive breakout whiteboards, and personal "</string>
+    <string name="teachers_how_bold2">AI companion</string>
+    <string name="teachers_how_desc_part3">" recaps synchronized with your teacher\'s curriculum."</string>
+    <string name="teachers_attendance_tracking">Real-time attendance tracking</string>
+    <string name="teachers_learn_more">Learn more</string>
+    <string name="teachers_no_results">No teachers found.\nTry a different search or filter.</string>
+    <string name="teachers_profile_coming_soon">Teacher profile coming soon</string>
+    <string name="teachers_reserve_coming_soon">Reservation coming soon</string>
+    <string name="teachers_filters_coming_soon">Advanced filters coming soon</string>
 </resources>

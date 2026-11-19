@@ -176,4 +176,33 @@
     <string name="home_ai_message_default">هل تريد الاستعداد لجلسة الجبر اليوم؟ عادةً ما يبدأ د. حسن بمعادلات المميّز والتحليل الكثيري.</string>
     <string name="home_ai_phrase_discriminant">معادلات المميّز</string>
     <string name="home_ai_phrase_polynomial">التحليل الكثيري</string>
+
+    <!-- Teachers / Discover tab -->
+    <string name="teachers_title">اكتشاف المعلمين</string>
+    <string name="teachers_hub_label">مركز الإرشاد المباشر</string>
+    <string name="teachers_headline">احجز تدريساً مباشراً</string>
+    <string name="teachers_verified_label">موثّق 100%</string>
+    <string name="teachers_search_hint">ابحث عن معلمين أو مواد أو مواضيع…</string>
+    <string name="teachers_filter_all">جميع المواد</string>
+    <string name="teachers_filter_math">الرياضيات</string>
+    <string name="teachers_filter_physics">الفيزياء</string>
+    <string name="teachers_filter_chemistry">الكيمياء</string>
+    <string name="teachers_filter_biology">الأحياء</string>
+    <string name="teachers_filter_english">اللغة الإنجليزية</string>
+    <string name="teachers_tuition">رسوم التعليم</string>
+    <string name="teachers_class_format">صيغة الفصل</string>
+    <string name="teachers_profile_btn">الملف الشخصي</string>
+    <string name="teachers_reserve_btn">احجز موعداً</string>
+    <string name="teachers_how_title">كيف تعمل اشتراكات جَنَى</string>
+    <string name="teachers_how_desc_part1">"اشترك مباشرةً مع معلم موثوق أو استخدم "</string>
+    <string name="teachers_how_bold1">اعتمادات الجلسة</string>
+    <string name="teachers_how_desc_part2">"العالمية عبر أي مادة. تتضمن كل حجز إرشاداً مباشراً عبر Zoom بجودة عالية وسبورات تفاعلية و"</string>
+    <string name="teachers_how_bold2">مرافق الذكاء الاصطناعي</string>
+    <string name="teachers_how_desc_part3">"الشخصي متزامناً مع منهج معلمك."</string>
+    <string name="teachers_attendance_tracking">تتبع الحضور الفوري</string>
+    <string name="teachers_learn_more">اعرف أكثر</string>
+    <string name="teachers_no_results">لم يُعثر على معلمين.\nجرّب بحثاً أو فلتراً مختلفاً.</string>
+    <string name="teachers_profile_coming_soon">الملف الشخصي للمعلم قريباً</string>
+    <string name="teachers_reserve_coming_soon">الحجز قريباً</string>
+    <string name="teachers_filters_coming_soon">الفلاتر المتقدمة قريباً</string>
 </resources>
