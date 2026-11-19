@@ -190,6 +190,7 @@
     <string name="teachers_filter_biology">الأحياء</string>
     <string name="teachers_filter_english">اللغة الإنجليزية</string>
     <string name="teachers_tuition">رسوم التعليم</string>
+    <string name="teachers_egp">ج.م</string>
     <string name="teachers_class_format">صيغة الفصل</string>
     <string name="teachers_profile_btn">الملف الشخصي</string>
     <string name="teachers_reserve_btn">احجز موعداً</string>

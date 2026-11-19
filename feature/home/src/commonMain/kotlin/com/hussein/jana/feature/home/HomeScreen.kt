@@ -27,6 +27,7 @@ import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.ScholarlyTeal
 import com.hussein.jana.core.designsystem.VellumCanvas
 import com.hussein.jana.core.designsystem.home_student_label
+import com.hussein.jana.core.designsystem.teachers_title
 import com.hussein.jana.core.designsystem.nav_home
 import com.hussein.jana.core.designsystem.nav_jana_ai
 import com.hussein.jana.core.designsystem.nav_progress
@@ -58,8 +59,12 @@ fun HomeScreen(
 ) {
     Scaffold(
         topBar = {
+            val topBarTitle = when (state.selectedTab) {
+                HomeTab.TEACHERS -> stringResource(Res.string.teachers_title)
+                else             -> stringResource(Res.string.home_student_label)
+            }
             JanaTopBar(
-                screenTitle = stringResource(Res.string.home_student_label),
+                screenTitle = topBarTitle,
                 credits = state.credits,
                 showAvatar = true,
             )

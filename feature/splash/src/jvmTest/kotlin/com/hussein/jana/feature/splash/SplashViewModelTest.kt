@@ -40,8 +40,8 @@ class SplashViewModelTest {
     }
 
     @Test
-    fun `guest user receives no auto-redirect after timer elapses`() = runTest(testDispatcher) {
-        // New behavior: unauthenticated users stay on the splash screen and choose their own path.
+    fun `auto-redirects to Home after 2 seconds regardless of login state`() = runTest(testDispatcher) {
+        // Splash always navigates to Home after the timer — no login check needed.
         val tokenRepository = TokenRepository(secureStorage)
         val viewModel = SplashViewModel(tokenRepository)
 
@@ -50,7 +50,7 @@ class SplashViewModelTest {
 
         advanceTimeBy(2_500)
 
-        assertEquals(true, effects.isEmpty())
+        assertEquals(SplashEffect.NavigateToHome, effects.firstOrNull())
         collector.cancel()
     }
 

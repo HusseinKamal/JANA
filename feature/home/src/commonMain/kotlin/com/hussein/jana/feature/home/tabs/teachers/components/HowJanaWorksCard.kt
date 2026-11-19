@@ -128,11 +128,12 @@ fun HowJanaWorksCard(
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 // "Learn more" is disabled until the information destination is wired.
+                // Using OnSurfaceVariant color so disabled state is visually apparent.
                 TextButton(onClick = {}, enabled = false) {
                     Text(
                         text = "${stringResource(Res.string.teachers_learn_more)} →",
                         style = MaterialTheme.typography.labelSmall,
-                        color = ScholarlyTeal,
+                        color = OnSurfaceVariant.copy(alpha = 0.5f),
                         fontWeight = FontWeight.SemiBold,
                     )
                 }

@@ -118,54 +118,52 @@ internal fun TeachersTabContent(
     onIntent: (TeachersTabIntent) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    // teachers_title is the accessibility label for this screen and will be
-    // wired as the navigation-destination label when deep links are added.
     val screenTitle = stringResource(Res.string.teachers_title)
-    LazyColumn(
-        modifier = modifier.fillMaxSize().semantics { contentDescription = screenTitle },
+
+    // Outer Column splits the screen into two zones:
+    //   1. Sticky top  — header + search bar + filter chips, never scrolls away
+    //   2. Scrollable  — teacher cards + info card, scrolls independently
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .semantics { contentDescription = screenTitle },
     ) {
-        item { Spacer(modifier = Modifier.height(16.dp)) }
-
-        item {
-            TeachersHeader(
-                modifier = Modifier.padding(horizontal = 16.dp),
-            )
-        }
-
-        item { Spacer(modifier = Modifier.height(12.dp)) }
-
-        item {
+        // ── Sticky top block ──────────────────────────────────────────────────
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(top = 10.dp, bottom = 6.dp),
+        ) {
+            TeachersHeader()
+            Spacer(modifier = Modifier.height(8.dp))
             TeacherSearchBar(
                 query = state.searchQuery,
                 onQueryChange = { onIntent(TeachersTabIntent.SearchQueryChanged(it)) },
                 onFilterClick = { onIntent(TeachersTabIntent.FilterButtonClicked) },
-                modifier = Modifier.padding(horizontal = 16.dp),
             )
-        }
-
-        item { Spacer(modifier = Modifier.height(12.dp)) }
-
-        item {
+            Spacer(modifier = Modifier.height(8.dp))
             SubjectFilterRow(
                 filters = state.filters,
                 selectedKey = state.selectedFilter,
                 onFilterSelected = { onIntent(TeachersTabIntent.FilterSelected(it)) },
-                modifier = Modifier.padding(horizontal = 16.dp),
             )
         }
 
-        item { Spacer(modifier = Modifier.height(16.dp)) }
+        // ── Scrollable teacher list ───────────────────────────────────────────
+        LazyColumn(modifier = Modifier.weight(1f)) {
+            item { Spacer(modifier = Modifier.height(8.dp)) }
 
-        if (state.filteredTeachers.isEmpty()) {
-            item {
-                EmptyState(modifier = Modifier.padding(horizontal = 16.dp))
-            }
-        } else {
-            items(state.filteredTeachers) { teacher ->
-                TeacherCard(
-                    teacher = teacher,
-                    onProfileClick = { onIntent(TeachersTabIntent.ProfileClicked(teacher.id)) },
-                    onReserveClick = { onIntent(TeachersTabIntent.ReserveClicked(teacher.id)) },
+            if (state.filteredTeachers.isEmpty()) {
+                item {
+                    EmptyState(modifier = Modifier.padding(horizontal = 16.dp))
+                }
+            } else {
+                items(state.filteredTeachers) { teacher ->
+                    TeacherCard(
+                        teacher = teacher,
+                        onProfileClick = { onIntent(TeachersTabIntent.ProfileClicked(teacher.id)) },
+                        onReserveClick = { onIntent(TeachersTabIntent.ReserveClicked(teacher.id)) },
                     modifier = Modifier.padding(horizontal = 16.dp),
                 )
                 Spacer(modifier = Modifier.height(12.dp))
@@ -182,7 +180,8 @@ internal fun TeachersTabContent(
 
         // Clear bottom nav bar.
         item { Spacer(modifier = Modifier.height(80.dp)) }
-    }
+        }   // end LazyColumn
+    }       // end outer Column
 }
 
 // ── Sub-composables ───────────────────────────────────────────────────────────
@@ -190,7 +189,7 @@ internal fun TeachersTabContent(
 @Composable
 private fun TeachersHeader(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        // Label
+        // Eyebrow label — tiny amber uppercase
         Text(
             text = stringResource(Res.string.teachers_hub_label).uppercase(),
             style = MaterialTheme.typography.labelSmall,
@@ -199,16 +198,16 @@ private fun TeachersHeader(modifier: Modifier = Modifier) {
             letterSpacing = 1.sp,
         )
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(2.dp))
 
-        // Headline row
+        // Headline row — reduced from headlineLarge to titleLarge
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth(),
         ) {
             Text(
                 text = stringResource(Res.string.teachers_headline),
-                style = MaterialTheme.typography.headlineLarge,
+                style = MaterialTheme.typography.titleLarge,
                 color = ScholarlyTeal,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f),
@@ -216,21 +215,21 @@ private fun TeachersHeader(modifier: Modifier = Modifier) {
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            // "100% Verified" badge
+            // "100% Verified" badge — compact
             Surface(
                 shape = CircleShape,
                 color = SuccessGreen.copy(alpha = 0.12f),
                 border = BorderStroke(1.dp, SuccessGreen.copy(alpha = 0.3f)),
             ) {
                 Row(
-                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
                         imageVector = Icons.Rounded.Check,
                         contentDescription = null,
                         tint = SuccessGreen,
-                        modifier = Modifier.size(12.dp),
+                        modifier = Modifier.size(10.dp),
                     )
                     Spacer(modifier = Modifier.width(2.dp))
                     Text(

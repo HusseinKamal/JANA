@@ -25,10 +25,7 @@ class SplashViewModel(
     init {
         viewModelScope.launch {
             delay(2_000.milliseconds)
-            if (tokenRepository.isLoggedIn()) {
-                navigateOnce(SplashEffect.NavigateToHome)
-            }
-            // Guests remain on the splash screen and choose their own path.
+            navigateOnce(SplashEffect.NavigateToHome)
         }
     }
 

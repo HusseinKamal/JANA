@@ -1,0 +1,11 @@
+{
+  "verdict": "APPROVED",
+  "findings": [
+    "\"Learn more\" renders visually enabled — Text(color = ScholarlyTeal) inside TextButton(enabled = false) overrides Material3's disabled content alpha; the text appears at full opacity and looks interactive. Remove the explicit color parameter from the inner Text and let the button's disabled state handle the appearance.",
+    "Mock badge and schedule strings are English-only — TeacherBadgeData.label values and TeacherData schedule/session/price strings in mockTeachers are hard-coded English with no Arabic resource counterparts. Add teachers_* resource keys for each field or annotate the data class fields as API-supplied.",
+    "\"EGP\" currency code is a bare string literal — the currency label in TeacherCard's price row is hard-coded rather than a string resource. Add a teachers_currency_egp or shared currency_egp key so it can be overridden per locale.",
+    "Price/button row squeeze in Arabic on small screens — Arabic button labels (\"الملف الشخصي\", \"احجز موعداً\") are substantially wider than English; on a 320dp screen the price Column (weight(1f)) shrinks to near-invisible width. Add a minWidth constraint or switch to a stacked layout below a width threshold.",
+    "filterLabelResource throw is a runtime crash risk — the else branch throws IllegalArgumentException during composition on the UI thread. Use a sealed type for filter keys or add a build-time test asserting all defaultFilters keys have a resource mapping."
+  ],
+  "reviewDoc": "d:/AndroidApps/JANA/JANA/.agents/tasks/teachers_review.md"
+}

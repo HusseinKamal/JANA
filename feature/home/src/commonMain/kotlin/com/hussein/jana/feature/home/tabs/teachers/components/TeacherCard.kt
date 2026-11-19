@@ -41,6 +41,7 @@ import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.ScholarlyTeal
 import com.hussein.jana.core.designsystem.SurfaceContainerHigh
 import com.hussein.jana.core.designsystem.teachers_class_format
+import com.hussein.jana.core.designsystem.teachers_egp
 import com.hussein.jana.core.designsystem.teachers_profile_btn
 import com.hussein.jana.core.designsystem.teachers_reserve_btn
 import com.hussein.jana.core.designsystem.teachers_stats_format
@@ -209,7 +210,7 @@ fun TeacherCard(
                     )
                     Row(verticalAlignment = Alignment.Bottom) {
                         Text(
-                            text = "EGP",
+                            text = stringResource(Res.string.teachers_egp),
                             style = MaterialTheme.typography.labelMedium,
                             color = OnSurfaceVariant,
                         )
@@ -236,29 +237,33 @@ fun TeacherCard(
 
                 Spacer(modifier = Modifier.width(8.dp))
 
-                // Profile button
+                // Profile button — wrapContentWidth prevents Arabic labels from squeezing the price column
                 OutlinedButton(
                     onClick = onProfileClick,
                     border = BorderStroke(1.dp, OutlineVariant),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 10.dp, vertical = 8.dp),
                 ) {
                     Text(
                         text = stringResource(Res.string.teachers_profile_btn),
-                        style = MaterialTheme.typography.labelLarge,
+                        style = MaterialTheme.typography.labelMedium,
                         color = ScholarlyTeal,
+                        maxLines = 1,
                     )
                 }
 
                 Spacer(modifier = Modifier.width(6.dp))
 
-                // Reserve button
+                // Reserve button — compact padding prevents Arabic text from overflowing
                 Button(
                     onClick = onReserveClick,
                     colors = ButtonDefaults.buttonColors(containerColor = ScholarlyTeal),
+                    contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 10.dp, vertical = 8.dp),
                 ) {
                     Text(
                         text = stringResource(Res.string.teachers_reserve_btn),
-                        style = MaterialTheme.typography.labelLarge,
+                        style = MaterialTheme.typography.labelMedium,
                         color = Color.White,
+                        maxLines = 1,
                     )
                     Spacer(modifier = Modifier.width(4.dp))
                     Icon(

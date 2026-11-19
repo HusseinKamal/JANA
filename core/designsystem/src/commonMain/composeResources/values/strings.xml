@@ -190,6 +190,7 @@
     <string name="teachers_filter_biology">Biology</string>
     <string name="teachers_filter_english">English</string>
     <string name="teachers_tuition">Tuition Investment</string>
+    <string name="teachers_egp">EGP</string>
     <string name="teachers_class_format">Class Format</string>
     <string name="teachers_profile_btn">Profile</string>
     <string name="teachers_reserve_btn">Reserve Slot</string>

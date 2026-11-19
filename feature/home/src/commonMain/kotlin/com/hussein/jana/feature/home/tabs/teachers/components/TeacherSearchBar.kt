@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -56,31 +57,30 @@ fun TeacherSearchBar(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(10.dp))
 
             Icon(
                 imageVector = Icons.Rounded.Search,
                 contentDescription = null,
                 tint = OnSurfaceVariant,
-                modifier = Modifier.then(Modifier /* size falls back to default 24dp */),
+                modifier = Modifier.size(16.dp),
             )
 
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(6.dp))
 
             BasicTextField(
                 value = query,
                 onValueChange = onQueryChange,
                 modifier = Modifier.weight(1f),
                 singleLine = true,
-                textStyle = MaterialTheme.typography.bodyMedium.copy(color = OnBackground),
+                textStyle = MaterialTheme.typography.bodySmall.copy(color = OnBackground),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 decorationBox = { innerTextField ->
-                    // Box overlays hint on the same position as the cursor/text
                     Box(contentAlignment = Alignment.CenterStart) {
                         if (query.isEmpty()) {
                             Text(
                                 text = stringResource(Res.string.teachers_search_hint),
-                                style = MaterialTheme.typography.bodyMedium,
+                                style = MaterialTheme.typography.bodySmall,
                                 color = OnSurfaceVariant.copy(alpha = 0.6f),
                             )
                         }
@@ -89,11 +89,15 @@ fun TeacherSearchBar(
                 },
             )
 
-            IconButton(onClick = onFilterClick) {
+            IconButton(
+                onClick = onFilterClick,
+                modifier = Modifier.size(36.dp),
+            ) {
                 Icon(
                     imageVector = Icons.Rounded.FilterList,
                     contentDescription = null,
                     tint = ScholarlyTeal,
+                    modifier = Modifier.size(16.dp),
                 )
             }
         }

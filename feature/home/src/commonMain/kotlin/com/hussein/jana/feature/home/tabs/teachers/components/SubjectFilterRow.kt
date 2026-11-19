@@ -64,7 +64,7 @@ fun SubjectFilterRow(
                     style = MaterialTheme.typography.labelMedium,
                     color = if (isSelected) Color.White else OnSurfaceVariant,
                     fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                 )
             }
 
@@ -84,6 +84,7 @@ private fun filterLabelResource(key: String): StringResource = when (key) {
     "chemistry"   -> Res.string.teachers_filter_chemistry
     "biology"     -> Res.string.teachers_filter_biology
     "english"     -> Res.string.teachers_filter_english
-    // Adding a new SubjectFilter without a matching branch here is a bug.
-    else          -> throw IllegalArgumentException("No string resource mapped for filter key: \"$key\"")
+    // Adding a new SubjectFilter without a matching branch here is a known gap —
+    // fall back to the "All Subjects" label rather than crashing the UI thread.
+    else          -> Res.string.teachers_filter_all
 }
