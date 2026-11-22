@@ -119,8 +119,8 @@
     <string name="error_email_required">Email or username is required</string>
     <string name="error_email_invalid">Please enter a valid email or username</string>
     <!-- Home – new 5-tab bottom navigation -->
-    <string name="tab_live_lessons">Live Lessons</string>
-    <string name="tab_my_teacher_chat">My Teacher Chat</string>
+    <string name="tab_live_lessons">Live</string>
+    <string name="tab_my_teacher_chat">Teacher</string>
     <string name="tab_jana_ai">JANA AI</string>
     <string name="tab_courses">Courses</string>
 

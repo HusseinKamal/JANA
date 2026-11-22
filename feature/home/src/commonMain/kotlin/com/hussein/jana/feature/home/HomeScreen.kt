@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.Chat
+import androidx.compose.material.icons.rounded.School
 import androidx.compose.material.icons.rounded.AutoAwesome
 import androidx.compose.material.icons.rounded.MenuBook
 import androidx.compose.material.icons.rounded.Person
@@ -120,7 +120,7 @@ private fun HomeBottomNav(
         NavigationBarItem(
             selected = selectedTab == HomeTab.MY_TEACHER_CHAT,
             onClick = { onTabSelected(HomeTab.MY_TEACHER_CHAT) },
-            icon = { Icon(Icons.AutoMirrored.Rounded.Chat, contentDescription = null) },
+            icon = { Icon(Icons.Rounded.School, contentDescription = null) },
             label = { Text(stringResource(Res.string.tab_my_teacher_chat)) },
             colors = itemColors,
         )

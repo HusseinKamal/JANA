@@ -119,8 +119,8 @@
     <string name="error_email_required">البريد الإلكتروني أو اسم المستخدم مطلوب</string>
     <string name="error_email_invalid">يرجى إدخال بريد إلكتروني أو اسم مستخدم صحيح</string>
     <!-- Home – new 5-tab bottom navigation -->
-    <string name="tab_live_lessons">دروس مباشرة</string>
-    <string name="tab_my_teacher_chat">محادثة المعلم</string>
+    <string name="tab_live_lessons">مباشر</string>
+    <string name="tab_my_teacher_chat">معلمي</string>
     <string name="tab_jana_ai">جنى AI</string>
     <string name="tab_courses">الكورسات</string>
 
