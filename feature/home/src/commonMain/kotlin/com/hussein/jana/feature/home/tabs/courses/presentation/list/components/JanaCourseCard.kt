@@ -142,12 +142,15 @@ private fun LockedFooter(
         course.price?.let { JanaPriceTag(priceText = it.formatted()) }
     }
 
-    Spacer(modifier = Modifier.height(12.dp))
+    // Unpriced locked courses cannot be bought, so they show no Subscribe button.
+    if (course.isPurchasable) {
+        Spacer(modifier = Modifier.height(12.dp))
 
-    CardActionButton(
-        label = stringResource(Res.string.course_subscribe_btn),
-        onClick = onSubscribeClick,
-    )
+        CardActionButton(
+            label = stringResource(Res.string.course_subscribe_btn),
+            onClick = onSubscribeClick,
+        )
+    }
 }
 
 @Composable

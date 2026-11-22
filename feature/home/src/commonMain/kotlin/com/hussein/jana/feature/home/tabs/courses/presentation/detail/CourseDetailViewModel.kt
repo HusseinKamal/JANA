@@ -79,7 +79,7 @@ class CourseDetailViewModel(
 
             if (detailResult.isSuccess) {
                 val course = detailResult.getOrNull()
-                val autoOpen = pendingAutoOpen && course?.isSubscribed == false
+                val autoOpen = pendingAutoOpen && course?.isPurchasable == true
                 pendingAutoOpen = false
                 setState {
                     copy(
@@ -107,7 +107,7 @@ class CourseDetailViewModel(
 
     private fun openCheckout() {
         val state = currentState()
-        if (!state.isLocked || state.checkout.status != CheckoutStatus.IDLE) return
+        if (state.course?.isPurchasable != true || state.checkout.status != CheckoutStatus.IDLE) return
         setState { copy(checkout = CheckoutUiState(status = CheckoutStatus.SELECTING_METHOD)) }
     }
 

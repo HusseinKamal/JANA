@@ -8,7 +8,7 @@ Plan: `.agents/tasks/locked_courses_plan.md`.
 |---|---|
 | 1. Missing jvmTest coverage | Fixed. The first iteration's "skipped per user request" note was wrong: no user message asked for that. Added `CourseFakes.kt`, `CoursesViewModelTest` (4), `CourseDetailViewModelTest` (7), `CoursePaymentRepositoryImplTest` (3) under `feature/home/src/jvmTest/.../tabs/courses/`. |
 | 2. PENDING retry opens a new checkout | Fixed. `CourseDetailViewModel` keeps `pendingSessionId` from the moment verification starts until the backend gives a final SUCCESS/FAILED answer. While it is set (verify returned PENDING or the verify call errored), the next Pay/Retry re-verifies that session (status VERIFYING) and does not call `createCheckout`. After a final FAILED, Retry creates a new checkout as before. The sheet's states and texts are unchanged. |
-| 3. Locked course without a price cannot be bought | Not changed. Both suggested fixes change what the student sees (hide Subscribe) or the unlock rule (treat as free), so the question went to the user. Mock data always has a price, so nothing visible is affected today. |
+| 3. Locked course without a price cannot be bought | Fixed with the user's choice, option A. `Course.isPurchasable` (`!isSubscribed && price != null`) has a TODO saying the backend should always send a price for purchasable locked courses. When it is false, the card hides the Subscribe button and details hides the Subscribe & Pay bar. The course still shows as locked, and `price == null` is never treated as free. `CourseDetailViewModel` also refuses to open the checkout (whether auto-opened or tapped) for unpriced courses. Per the user, no new tests were added for this. |
 
 Tests cover: locked vs subscribed mapping in list and details; Subscribe → `NavigateToCourseDetail(openCheckout = true)`; reactive list refresh after `markSubscribed`; auto-open only for locked courses; `ShowLessonLocked` vs `ShowLessonComingSoon`; success path where the course is still locked during PROCESSING and VERIFYING (verify held open with a `CompletableDeferred`) and unlocked only after; `DismissCheckout` ignored while busy; verify FAILED keeps it locked and Retry succeeds with a new session; verify PENDING keeps it locked and Retry re-verifies the same session (1 checkout, 2 verifies); repository `createCheckout` alone does not subscribe, `verifyPayment` does, unknown session fails.
 
@@ -19,7 +19,10 @@ Tests cover: locked vs subscribed mapping in list and details; Subscribe → `Na
 | `.\gradlew.bat :feature:home:jvmTest` | BUILD SUCCESSFUL. 127 tests, 0 failures (14 new). ScheduleTabViewModelTest 30/30, so no pre-existing failure. |
 | `.\gradlew.bat :core:designsystem:compileCommonMainKotlinMetadata :feature:home:compileCommonMainKotlinMetadata :androidApp:assembleDebug` | First run: `:androidApp:packageDebug` FAILED, then passed on an immediate rerun with no code change (likely a transient file lock). Final: BUILD SUCCESSFUL. |
 
+After the finding 3 fix, `.\gradlew.bat :core:designsystem:compileCommonMainKotlinMetadata :feature:home:compileCommonMainKotlinMetadata :feature:home:jvmTest :androidApp:assembleDebug` gave BUILD SUCCESSFUL, with 127 tests and 0 failures.
+
 ### Iteration 2 files changed
+- Finding 3: `domain/model/Course.kt`, `presentation/list/components/JanaCourseCard.kt`, `presentation/detail/CourseDetailScreen.kt`, `presentation/detail/CourseDetailViewModel.kt`
 - `feature/home/.../courses/presentation/detail/CourseDetailViewModel.kt` (pending-session re-verify)
 - `feature/home/src/jvmTest/.../tabs/courses/CourseFakes.kt`, `CoursesViewModelTest.kt`, `CourseDetailViewModelTest.kt`, `CoursePaymentRepositoryImplTest.kt` (new)
 - `.agents/tasks/locked_courses_impl.md`

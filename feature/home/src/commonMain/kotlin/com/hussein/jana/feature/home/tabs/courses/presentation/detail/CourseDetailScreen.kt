@@ -130,7 +130,8 @@ fun CourseDetailContent(
             )
         },
         bottomBar = {
-            if (state.isLocked) {
+            // Unpriced locked courses stay locked with no Subscribe & Pay bar.
+            if (state.course?.isPurchasable == true) {
                 CourseSubscribeBar(
                     priceText = priceText,
                     onSubscribeClick = { onIntent(CourseDetailIntent.SubscribeClicked) },
