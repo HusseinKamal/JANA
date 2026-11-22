@@ -48,6 +48,8 @@ import com.hussein.jana.core.designsystem.OnSurfaceVariant
 import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.ScholarlyTeal
 import com.hussein.jana.core.designsystem.VellumCanvas
+import com.hussein.jana.core.designsystem.error_email_invalid
+import com.hussein.jana.core.designsystem.error_email_required
 import com.hussein.jana.core.designsystem.error_name_required
 import com.hussein.jana.core.designsystem.error_name_too_short
 import com.hussein.jana.core.designsystem.error_password_no_symbol
@@ -56,6 +58,7 @@ import com.hussein.jana.core.designsystem.error_password_too_short
 import com.hussein.jana.core.designsystem.error_passwords_mismatch
 import com.hussein.jana.core.designsystem.error_phone_invalid
 import com.hussein.jana.core.designsystem.error_phone_required
+import com.hussein.jana.core.designsystem.error_platform_code_required
 import com.hussein.jana.core.designsystem.error_terms_required
 import com.hussein.jana.core.designsystem.loading
 import com.hussein.jana.core.designsystem.register_btn
@@ -95,22 +98,29 @@ fun RegisterFlow(
     val errPwNoSymbol       = stringResource(Res.string.error_password_no_symbol)
     val errPwMismatch       = stringResource(Res.string.error_passwords_mismatch)
     val errTermsRequired    = stringResource(Res.string.error_terms_required)
+    val errPlatformRequired = stringResource(Res.string.error_platform_code_required)
+    val errEmailRequired    = stringResource(Res.string.error_email_required)
+    val errEmailInvalid     = stringResource(Res.string.error_email_invalid)
 
     LaunchedEffect(
         errNameRequired, errNameTooShort, errPhoneRequired, errPhoneInvalid,
         errPwTooShort, errPwNoUppercase, errPwNoSymbol, errPwMismatch, errTermsRequired,
+        errPlatformRequired, errEmailRequired, errEmailInvalid,
     ) {
         viewModel.updateStrings(
             RegisterStrings(
-                errorNameRequired      = errNameRequired,
-                errorNameTooShort      = errNameTooShort,
-                errorPhoneRequired     = errPhoneRequired,
-                errorPhoneInvalid      = errPhoneInvalid,
+                errorNameRequired        = errNameRequired,
+                errorNameTooShort        = errNameTooShort,
+                errorPhoneRequired       = errPhoneRequired,
+                errorPhoneInvalid        = errPhoneInvalid,
                 errorPasswordTooShort    = errPwTooShort,
                 errorPasswordNoUppercase = errPwNoUppercase,
                 errorPasswordNoSymbol    = errPwNoSymbol,
                 errorPasswordsMismatch   = errPwMismatch,
-                errorTermsRequired     = errTermsRequired,
+                errorTermsRequired       = errTermsRequired,
+                errorPlatformCodeRequired = errPlatformRequired,
+                errorEmailRequired       = errEmailRequired,
+                errorEmailInvalid        = errEmailInvalid,
             ),
         )
     }

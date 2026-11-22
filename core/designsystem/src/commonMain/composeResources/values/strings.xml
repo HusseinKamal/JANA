@@ -106,6 +106,24 @@
     <string name="error_passwords_mismatch">Passwords do not match</string>
     <string name="error_terms_required">Please accept the terms and conditions</string>
 
+    <!-- Auth – teacher platform code (login + register) -->
+    <string name="auth_platform_code_label">Teacher Platform Code</string>
+    <string name="auth_platform_code_hint">e.g. ahmed_edu</string>
+    <string name="auth_error_missing_platform_code">Please enter the teacher platform code</string>
+    <!-- Register – email/username -->
+    <string name="register_email_label">Email or Username</string>
+    <string name="register_email_hint">student@example.com</string>
+    <string name="register_platform_code_label">Teacher Platform Code</string>
+    <string name="register_platform_code_hint">e.g. ahmed_edu</string>
+    <string name="error_platform_code_required">Teacher platform code is required</string>
+    <string name="error_email_required">Email or username is required</string>
+    <string name="error_email_invalid">Please enter a valid email or username</string>
+    <!-- Home – new 5-tab bottom navigation -->
+    <string name="tab_live_lessons">Live Lessons</string>
+    <string name="tab_my_teacher_chat">My Teacher Chat</string>
+    <string name="tab_jana_ai">JANA AI</string>
+    <string name="tab_courses">Courses</string>
+
     <!-- Home – student home screen & bottom nav -->
     <string name="home_student_label">Student Home</string>
     <string name="home_credits_label">Credits</string>

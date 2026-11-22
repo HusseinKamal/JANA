@@ -21,6 +21,7 @@ class AuthViewModel(
     }
 
     override fun onIntent(intent: LoginIntent) = when (intent) {
+        is LoginIntent.PlatformCodeChanged  -> setState { copy(platformCode = intent.value) }
         is LoginIntent.IdentifierChanged    -> setState { copy(identifier = intent.value) }
         is LoginIntent.PasswordChanged      -> setState { copy(password = intent.value) }
         LoginIntent.TogglePasswordVisibility -> setState { copy(isPasswordVisible = !isPasswordVisible) }
@@ -35,6 +36,10 @@ class AuthViewModel(
 
     private fun handleSignIn() {
         val state = currentState()
+        if (state.platformCode.isBlank()) {
+            setState { copy(error = strings.errorMissingPlatformCode) }
+            return
+        }
         if (state.identifier.isBlank() || state.password.isBlank()) {
             setState { copy(error = strings.errorMissingFields) }
             return

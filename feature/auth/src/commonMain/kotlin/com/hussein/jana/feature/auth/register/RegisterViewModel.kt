@@ -21,15 +21,17 @@ class RegisterViewModel(
     }
 
     override fun onIntent(intent: RegisterIntent) = when (intent) {
-        is RegisterIntent.FullNameChanged          -> setState { copy(fullName = intent.value, fullNameError = null) }
-        is RegisterIntent.PhoneChanged             -> setState { copy(phone = intent.value, phoneError = null) }
-        is RegisterIntent.PasswordChanged          -> updatePassword(intent.value)
-        is RegisterIntent.ConfirmPasswordChanged   -> updateConfirmPassword(intent.value)
-        RegisterIntent.TogglePasswordVisibility    -> setState { copy(isPasswordVisible = !isPasswordVisible) }
+        is RegisterIntent.PlatformCodeChanged          -> setState { copy(platformCode = intent.value, platformCodeError = null) }
+        is RegisterIntent.EmailChanged                 -> setState { copy(email = intent.value, emailError = null) }
+        is RegisterIntent.FullNameChanged              -> setState { copy(fullName = intent.value, fullNameError = null) }
+        is RegisterIntent.PhoneChanged                 -> setState { copy(phone = intent.value, phoneError = null) }
+        is RegisterIntent.PasswordChanged              -> updatePassword(intent.value)
+        is RegisterIntent.ConfirmPasswordChanged       -> updateConfirmPassword(intent.value)
+        RegisterIntent.TogglePasswordVisibility        -> setState { copy(isPasswordVisible = !isPasswordVisible) }
         RegisterIntent.ToggleConfirmPasswordVisibility -> setState { copy(isConfirmPasswordVisible = !isConfirmPasswordVisible) }
-        RegisterIntent.ToggleTerms                 -> setState { copy(acceptedTerms = !acceptedTerms, termsError = null) }
-        RegisterIntent.RegisterClicked             -> handleRegister()
-        RegisterIntent.SignInClicked               -> sendEffect(RegisterEffect.NavigateToSignIn)
+        RegisterIntent.ToggleTerms                     -> setState { copy(acceptedTerms = !acceptedTerms, termsError = null) }
+        RegisterIntent.RegisterClicked                 -> handleRegister()
+        RegisterIntent.SignInClicked                   -> sendEffect(RegisterEffect.NavigateToSignIn)
     }
 
     private fun updatePassword(pw: String) {
@@ -76,6 +78,14 @@ class RegisterViewModel(
     private fun handleRegister() {
         val s = currentState()
 
+        val platformCodeError = if (s.platformCode.isBlank()) strings.errorPlatformCodeRequired else null
+
+        val emailError = when {
+            s.email.isBlank()                             -> strings.errorEmailRequired
+            !s.email.contains("@") && s.email.length < 3 -> strings.errorEmailInvalid
+            else                                           -> null
+        }
+
         val nameError = when {
             s.fullName.isBlank()         -> strings.errorNameRequired
             s.fullName.trim().length < 2 -> strings.errorNameTooShort
@@ -99,11 +109,13 @@ class RegisterViewModel(
 
         val termsError = if (!s.acceptedTerms) strings.errorTermsRequired else null
 
-        if (nameError != null || phoneError != null || passwordError != null ||
-            confirmError != null || termsError != null
+        if (platformCodeError != null || emailError != null || nameError != null ||
+            phoneError != null || passwordError != null || confirmError != null || termsError != null
         ) {
             setState {
                 copy(
+                    platformCodeError    = platformCodeError,
+                    emailError           = emailError,
                     fullNameError        = nameError,
                     phoneError           = phoneError,
                     passwordError        = passwordError,

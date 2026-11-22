@@ -43,9 +43,10 @@ class AuthViewModelTest {
     private fun buildViewModel() = AuthViewModel(
         tokenRepository = tokenRepository,
         strings = AuthStrings(
-            errorMissingFields = "Please fill in all required fields",
-            googleComingSoon   = "Google Sign-In coming soon",
-            facebookComingSoon = "Facebook Sign-In coming soon",
+            errorMissingFields       = "Please fill in all required fields",
+            errorMissingPlatformCode = "Please enter the teacher platform code",
+            googleComingSoon         = "Google Sign-In coming soon",
+            facebookComingSoon       = "Facebook Sign-In coming soon",
         ),
     )
 
@@ -63,6 +64,13 @@ class AuthViewModelTest {
         val vm = buildViewModel()
         vm.onIntent(LoginIntent.PasswordChanged("secret123"))
         assertEquals("secret123", vm.state.value.password)
+    }
+
+    @Test
+    fun `PlatformCodeChanged updates platformCode in state`() = runTest(testDispatcher) {
+        val vm = buildViewModel()
+        vm.onIntent(LoginIntent.PlatformCodeChanged("test_platform"))
+        assertEquals("test_platform", vm.state.value.platformCode)
     }
 
     // ── Toggles ────────────────────────────────────────────────────────────────
@@ -88,8 +96,20 @@ class AuthViewModelTest {
     // ── Sign-in validation ─────────────────────────────────────────────────────
 
     @Test
+    fun `SignInClicked with blank platformCode sets platform error`() = runTest(testDispatcher) {
+        val vm = buildViewModel()
+        vm.onIntent(LoginIntent.IdentifierChanged("user@test.com"))
+        vm.onIntent(LoginIntent.PasswordChanged("pass123"))
+        // platformCode is blank
+        vm.onIntent(LoginIntent.SignInClicked)
+        assertEquals("Please enter the teacher platform code", vm.state.value.error)
+        assertEquals(false, vm.state.value.isLoading)
+    }
+
+    @Test
     fun `SignInClicked with blank identifier sets localized error`() = runTest(testDispatcher) {
         val vm = buildViewModel()
+        vm.onIntent(LoginIntent.PlatformCodeChanged("test_platform"))
         vm.onIntent(LoginIntent.PasswordChanged("pass123"))
         vm.onIntent(LoginIntent.SignInClicked)
         assertEquals("Please fill in all required fields", vm.state.value.error)
@@ -99,6 +119,7 @@ class AuthViewModelTest {
     @Test
     fun `SignInClicked with blank password sets localized error`() = runTest(testDispatcher) {
         val vm = buildViewModel()
+        vm.onIntent(LoginIntent.PlatformCodeChanged("test_platform"))
         vm.onIntent(LoginIntent.IdentifierChanged("user@test.com"))
         vm.onIntent(LoginIntent.SignInClicked)
         assertEquals("Please fill in all required fields", vm.state.value.error)
@@ -113,7 +134,7 @@ class AuthViewModelTest {
                 strings = AuthStrings(errorMissingFields = "يرجى ملء جميع الحقول المطلوبة"),
             )
             vm.onIntent(LoginIntent.SignInClicked)
-            assertEquals("يرجى ملء جميع الحقول المطلوبة", vm.state.value.error)
+            assertEquals("Please enter the teacher platform code", vm.state.value.error)
         }
 
     @Test
@@ -122,6 +143,7 @@ class AuthViewModelTest {
         val effects = mutableListOf<LoginEffect>()
         val collector = launch { vm.effect.collect { effects.add(it) } }
 
+        vm.onIntent(LoginIntent.PlatformCodeChanged("test_platform"))
         vm.onIntent(LoginIntent.IdentifierChanged("student@test.com"))
         vm.onIntent(LoginIntent.PasswordChanged("pass123"))
         vm.onIntent(LoginIntent.SignInClicked)
@@ -136,8 +158,9 @@ class AuthViewModelTest {
     @Test
     fun `SignInClicked clears previous error`() = runTest(testDispatcher) {
         val vm = buildViewModel()
-        vm.onIntent(LoginIntent.SignInClicked)                   // sets error
-        assertEquals("Please fill in all required fields", vm.state.value.error)
+        vm.onIntent(LoginIntent.SignInClicked)                   // sets platform code error
+        assertEquals("Please enter the teacher platform code", vm.state.value.error)
+        vm.onIntent(LoginIntent.PlatformCodeChanged("test_platform"))
         vm.onIntent(LoginIntent.IdentifierChanged("u@t.com"))
         vm.onIntent(LoginIntent.PasswordChanged("p"))
         vm.onIntent(LoginIntent.SignInClicked)
@@ -209,8 +232,11 @@ class AuthViewModelTest {
     @Test
     fun `updateStrings changes subsequent error messages`() = runTest(testDispatcher) {
         val vm = buildViewModel()
-        vm.updateStrings(AuthStrings(errorMissingFields = "يرجى ملء جميع الحقول المطلوبة"))
+        vm.updateStrings(AuthStrings(
+            errorMissingPlatformCode = "يرجى إدخال كود منصة المعلم",
+            errorMissingFields = "يرجى ملء جميع الحقول المطلوبة",
+        ))
         vm.onIntent(LoginIntent.SignInClicked)
-        assertEquals("يرجى ملء جميع الحقول المطلوبة", vm.state.value.error)
+        assertEquals("يرجى إدخال كود منصة المعلم", vm.state.value.error)
     }
 }

@@ -7,11 +7,13 @@ import com.hussein.jana.core.common.mvi.MviState
 /** Localized strings injected into [AuthViewModel] from the composition layer. */
 data class AuthStrings(
     val errorMissingFields: String = "Please fill in all required fields",
+    val errorMissingPlatformCode: String = "Please enter the teacher platform code",
     val googleComingSoon: String   = "Google Sign-In coming soon",
     val facebookComingSoon: String = "Facebook Sign-In coming soon",
 )
 
 data class LoginState(
+    val platformCode: String       = "",
     val identifier: String        = "",
     val password: String          = "",
     val isPasswordVisible: Boolean = false,
@@ -21,6 +23,7 @@ data class LoginState(
 ) : MviState
 
 sealed interface LoginIntent : MviIntent {
+    data class PlatformCodeChanged(val value: String) : LoginIntent
     data class IdentifierChanged(val value: String) : LoginIntent
     data class PasswordChanged(val value: String) : LoginIntent
     data object TogglePasswordVisibility : LoginIntent

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AlternateEmail
+import androidx.compose.material.icons.rounded.School
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
@@ -44,6 +45,8 @@ import com.hussein.jana.core.designsystem.auth_no_account
 import com.hussein.jana.core.designsystem.auth_or_continue
 import com.hussein.jana.core.designsystem.auth_password_hint
 import com.hussein.jana.core.designsystem.auth_password_label
+import com.hussein.jana.core.designsystem.auth_platform_code_hint
+import com.hussein.jana.core.designsystem.auth_platform_code_label
 import com.hussein.jana.core.designsystem.auth_register_link
 import com.hussein.jana.core.designsystem.auth_remember_device
 import com.hussein.jana.core.designsystem.auth_subtitle_student
@@ -92,6 +95,23 @@ fun StudentLoginContent(
             color = OnSurfaceVariant,
         )
         Spacer(modifier = Modifier.height(20.dp))
+
+        // Platform code field — identifies which teacher's platform the student is accessing
+        AuthTextField(
+            label = "${stringResource(Res.string.auth_platform_code_label)} *",
+            value = state.platformCode,
+            onValueChange = { onIntent(LoginIntent.PlatformCodeChanged(it)) },
+            placeholder = stringResource(Res.string.auth_platform_code_hint),
+            leadingContent = {
+                Icon(
+                    imageVector = Icons.Rounded.School,
+                    contentDescription = null,
+                    tint = OnSurfaceVariant,
+                )
+            },
+            modifier = Modifier.fillMaxWidth(),
+        )
+        Spacer(modifier = Modifier.height(16.dp))
 
         // Identifier field — plain text, user types phone or email directly
         AuthTextField(

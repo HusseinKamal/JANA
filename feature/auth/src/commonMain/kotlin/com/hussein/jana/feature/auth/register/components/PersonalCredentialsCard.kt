@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AlternateEmail
 import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.RecentActors
+import androidx.compose.material.icons.rounded.School
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,20 +26,24 @@ import com.hussein.jana.core.designsystem.JanaCard
 import com.hussein.jana.core.designsystem.OnSurfaceVariant
 import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.ScholarlyTeal
+import com.hussein.jana.core.designsystem.register_email_hint
+import com.hussein.jana.core.designsystem.register_email_label
 import com.hussein.jana.core.designsystem.register_full_name_bilingual
 import com.hussein.jana.core.designsystem.register_full_name_hint
 import com.hussein.jana.core.designsystem.register_full_name_label
 import com.hussein.jana.core.designsystem.register_personal_title
 import com.hussein.jana.core.designsystem.register_phone_hint
 import com.hussein.jana.core.designsystem.register_phone_label
+import com.hussein.jana.core.designsystem.register_platform_code_hint
+import com.hussein.jana.core.designsystem.register_platform_code_label
 import com.hussein.jana.feature.auth.components.AuthTextField
 import com.hussein.jana.feature.auth.register.RegisterIntent
 import com.hussein.jana.feature.auth.register.RegisterState
 import org.jetbrains.compose.resources.stringResource
 
 /**
- * "Personal Credentials" card — Full Legal Name + WhatsApp/Mobile Contact.
- * Name validation errors render inline; phone uses [PhoneField].
+ * "Personal Credentials" card — Platform Code, Email/Username, Full Legal Name, WhatsApp/Mobile.
+ * Validation errors render inline per field.
  */
 @Composable
 fun PersonalCredentialsCard(
@@ -62,6 +68,56 @@ fun PersonalCredentialsCard(
                     style = MaterialTheme.typography.titleMedium,
                     color = ScholarlyTeal,
                     fontWeight = FontWeight.SemiBold,
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // ── Teacher Platform Code field ───────────────────────────────────
+            AuthTextField(
+                label = stringResource(Res.string.register_platform_code_label),
+                value = state.platformCode,
+                onValueChange = { onIntent(RegisterIntent.PlatformCodeChanged(it)) },
+                placeholder = stringResource(Res.string.register_platform_code_hint),
+                modifier = Modifier.fillMaxWidth(),
+                leadingContent = {
+                    Icon(
+                        imageVector = Icons.Rounded.School,
+                        contentDescription = null,
+                        tint = OnSurfaceVariant,
+                    )
+                },
+            )
+            if (state.platformCodeError != null) {
+                Text(
+                    text = state.platformCodeError,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(top = 4.dp),
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // ── Email / Username field ────────────────────────────────────────
+            AuthTextField(
+                label = stringResource(Res.string.register_email_label),
+                value = state.email,
+                onValueChange = { onIntent(RegisterIntent.EmailChanged(it)) },
+                placeholder = stringResource(Res.string.register_email_hint),
+                modifier = Modifier.fillMaxWidth(),
+                leadingContent = {
+                    Icon(
+                        imageVector = Icons.Rounded.AlternateEmail,
+                        contentDescription = null,
+                        tint = OnSurfaceVariant,
+                    )
+                },
+            )
+            if (state.emailError != null) {
+                Text(
+                    text = state.emailError,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(top = 4.dp),
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))

@@ -15,11 +15,18 @@ data class RegisterStrings(
     val errorPasswordNoSymbol: String = "",
     val errorPasswordsMismatch: String = "",
     val errorTermsRequired: String = "",
+    val errorPlatformCodeRequired: String = "",
+    val errorEmailRequired: String = "",
+    val errorEmailInvalid: String = "",
 )
 
 enum class PasswordStrength { NONE, WEAK, MEDIUM, STRONG }
 
 data class RegisterState(
+    val platformCode: String = "",
+    val platformCodeError: String? = null,
+    val email: String = "",
+    val emailError: String? = null,
     val fullName: String = "",
     val fullNameError: String? = null,
     val phone: String = "",
@@ -41,6 +48,8 @@ data class RegisterState(
 ) : MviState
 
 sealed interface RegisterIntent : MviIntent {
+    data class PlatformCodeChanged(val value: String) : RegisterIntent
+    data class EmailChanged(val value: String) : RegisterIntent
     data class FullNameChanged(val value: String) : RegisterIntent
     data class PhoneChanged(val value: String) : RegisterIntent
     data class PasswordChanged(val value: String) : RegisterIntent

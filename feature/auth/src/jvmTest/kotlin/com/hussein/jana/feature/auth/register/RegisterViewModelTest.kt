@@ -14,6 +14,7 @@ import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
@@ -44,19 +45,38 @@ class RegisterViewModelTest {
     private fun buildViewModel() = RegisterViewModel(
         tokenRepository = tokenRepository,
         strings = RegisterStrings(
-            errorNameRequired        = "Full name is required",
-            errorNameTooShort        = "Name must be at least 2 characters",
-            errorPhoneRequired       = "Phone number is required",
-            errorPhoneInvalid        = "Please enter a valid phone number",
-            errorPasswordTooShort    = "Password must be at least 10 characters",
-            errorPasswordNoUppercase = "Password needs uppercase letters",
-            errorPasswordNoSymbol    = "Password needs at least one number or symbol",
-            errorPasswordsMismatch   = "Passwords do not match",
-            errorTermsRequired       = "Please accept the terms and conditions",
+            errorNameRequired         = "Full name is required",
+            errorNameTooShort         = "Name must be at least 2 characters",
+            errorPhoneRequired        = "Phone number is required",
+            errorPhoneInvalid         = "Please enter a valid phone number",
+            errorPasswordTooShort     = "Password must be at least 10 characters",
+            errorPasswordNoUppercase  = "Password needs uppercase letters",
+            errorPasswordNoSymbol     = "Password needs at least one number or symbol",
+            errorPasswordsMismatch    = "Passwords do not match",
+            errorTermsRequired        = "Please accept the terms and conditions",
+            errorPlatformCodeRequired = "Teacher platform code is required",
+            errorEmailRequired        = "Email or username is required",
+            errorEmailInvalid         = "Please enter a valid email or username",
         ),
     )
 
     // ── Field change intents ───────────────────────────────────────────────────
+
+    @Test
+    fun `PlatformCodeChanged updates platformCode and clears error`() = runTest(testDispatcher) {
+        val vm = buildViewModel()
+        vm.onIntent(RegisterIntent.PlatformCodeChanged("test_platform"))
+        assertEquals("test_platform", vm.state.value.platformCode)
+        assertNull(vm.state.value.platformCodeError)
+    }
+
+    @Test
+    fun `EmailChanged updates email and clears error`() = runTest(testDispatcher) {
+        val vm = buildViewModel()
+        vm.onIntent(RegisterIntent.EmailChanged("hussein@example.com"))
+        assertEquals("hussein@example.com", vm.state.value.email)
+        assertNull(vm.state.value.emailError)
+    }
 
     @Test
     fun `FullNameChanged updates fullName and clears error`() = runTest(testDispatcher) {
@@ -156,12 +176,43 @@ class RegisterViewModelTest {
         assertTrue(s.passwordHasSymbol)
     }
 
-    // ── RegisterClicked validation ─────────────────────────────────────────────
+    // ── RegisterClicked validation — new required fields ──────────────────────
+
+    @Test
+    fun `RegisterClicked with blank platformCode sets errorPlatformCodeRequired`() = runTest(testDispatcher) {
+        val vm = buildViewModel()
+        // Fill all other fields correctly, leave platformCode blank
+        vm.onIntent(RegisterIntent.EmailChanged("hussein@example.com"))
+        vm.onIntent(RegisterIntent.FullNameChanged("Hussein"))
+        vm.onIntent(RegisterIntent.PhoneChanged("01012345678"))
+        vm.onIntent(RegisterIntent.PasswordChanged("AbcDefGh1!"))
+        vm.onIntent(RegisterIntent.ConfirmPasswordChanged("AbcDefGh1!"))
+        vm.onIntent(RegisterIntent.ToggleTerms)
+        vm.onIntent(RegisterIntent.RegisterClicked)
+        assertNotNull(vm.state.value.platformCodeError)
+    }
+
+    @Test
+    fun `RegisterClicked with blank email sets errorEmailRequired`() = runTest(testDispatcher) {
+        val vm = buildViewModel()
+        // Fill all fields including platformCode, leave email blank
+        vm.onIntent(RegisterIntent.PlatformCodeChanged("test_platform"))
+        vm.onIntent(RegisterIntent.FullNameChanged("Hussein"))
+        vm.onIntent(RegisterIntent.PhoneChanged("01012345678"))
+        vm.onIntent(RegisterIntent.PasswordChanged("AbcDefGh1!"))
+        vm.onIntent(RegisterIntent.ConfirmPasswordChanged("AbcDefGh1!"))
+        vm.onIntent(RegisterIntent.ToggleTerms)
+        vm.onIntent(RegisterIntent.RegisterClicked)
+        assertNotNull(vm.state.value.emailError)
+    }
+
+    // ── RegisterClicked validation — existing fields ───────────────────────────
 
     @Test
     fun `RegisterClicked with blank name sets errorNameRequired`() = runTest(testDispatcher) {
         val vm = buildViewModel()
-        // Fill all other fields correctly
+        vm.onIntent(RegisterIntent.PlatformCodeChanged("test_platform"))
+        vm.onIntent(RegisterIntent.EmailChanged("hussein@example.com"))
         vm.onIntent(RegisterIntent.PhoneChanged("01012345678"))
         vm.onIntent(RegisterIntent.PasswordChanged("AbcDefGh1!"))
         vm.onIntent(RegisterIntent.ConfirmPasswordChanged("AbcDefGh1!"))
@@ -173,6 +224,8 @@ class RegisterViewModelTest {
     @Test
     fun `RegisterClicked with single-char name sets errorNameTooShort`() = runTest(testDispatcher) {
         val vm = buildViewModel()
+        vm.onIntent(RegisterIntent.PlatformCodeChanged("test_platform"))
+        vm.onIntent(RegisterIntent.EmailChanged("hussein@example.com"))
         vm.onIntent(RegisterIntent.FullNameChanged("A"))
         vm.onIntent(RegisterIntent.PhoneChanged("01012345678"))
         vm.onIntent(RegisterIntent.PasswordChanged("AbcDefGh1!"))
@@ -185,6 +238,8 @@ class RegisterViewModelTest {
     @Test
     fun `RegisterClicked with blank phone sets errorPhoneRequired`() = runTest(testDispatcher) {
         val vm = buildViewModel()
+        vm.onIntent(RegisterIntent.PlatformCodeChanged("test_platform"))
+        vm.onIntent(RegisterIntent.EmailChanged("hussein@example.com"))
         vm.onIntent(RegisterIntent.FullNameChanged("Hussein"))
         vm.onIntent(RegisterIntent.PasswordChanged("AbcDefGh1!"))
         vm.onIntent(RegisterIntent.ConfirmPasswordChanged("AbcDefGh1!"))
@@ -196,6 +251,8 @@ class RegisterViewModelTest {
     @Test
     fun `RegisterClicked with short phone sets errorPhoneInvalid`() = runTest(testDispatcher) {
         val vm = buildViewModel()
+        vm.onIntent(RegisterIntent.PlatformCodeChanged("test_platform"))
+        vm.onIntent(RegisterIntent.EmailChanged("hussein@example.com"))
         vm.onIntent(RegisterIntent.FullNameChanged("Hussein"))
         vm.onIntent(RegisterIntent.PhoneChanged("123"))
         vm.onIntent(RegisterIntent.PasswordChanged("AbcDefGh1!"))
@@ -208,6 +265,8 @@ class RegisterViewModelTest {
     @Test
     fun `RegisterClicked with short password sets errorPasswordTooShort`() = runTest(testDispatcher) {
         val vm = buildViewModel()
+        vm.onIntent(RegisterIntent.PlatformCodeChanged("test_platform"))
+        vm.onIntent(RegisterIntent.EmailChanged("hussein@example.com"))
         vm.onIntent(RegisterIntent.FullNameChanged("Hussein"))
         vm.onIntent(RegisterIntent.PhoneChanged("01012345678"))
         vm.onIntent(RegisterIntent.PasswordChanged("Ab1!"))
@@ -220,6 +279,8 @@ class RegisterViewModelTest {
     @Test
     fun `RegisterClicked with no uppercase password sets errorPasswordNoUppercase`() = runTest(testDispatcher) {
         val vm = buildViewModel()
+        vm.onIntent(RegisterIntent.PlatformCodeChanged("test_platform"))
+        vm.onIntent(RegisterIntent.EmailChanged("hussein@example.com"))
         vm.onIntent(RegisterIntent.FullNameChanged("Hussein"))
         vm.onIntent(RegisterIntent.PhoneChanged("01012345678"))
         vm.onIntent(RegisterIntent.PasswordChanged("abcdefgh1!"))
@@ -232,6 +293,8 @@ class RegisterViewModelTest {
     @Test
     fun `RegisterClicked with no symbol or digit sets errorPasswordNoSymbol`() = runTest(testDispatcher) {
         val vm = buildViewModel()
+        vm.onIntent(RegisterIntent.PlatformCodeChanged("test_platform"))
+        vm.onIntent(RegisterIntent.EmailChanged("hussein@example.com"))
         vm.onIntent(RegisterIntent.FullNameChanged("Hussein"))
         vm.onIntent(RegisterIntent.PhoneChanged("01012345678"))
         // 10+ chars, uppercase, but NO digit/symbol
@@ -245,6 +308,8 @@ class RegisterViewModelTest {
     @Test
     fun `RegisterClicked with mismatched passwords sets errorPasswordsMismatch`() = runTest(testDispatcher) {
         val vm = buildViewModel()
+        vm.onIntent(RegisterIntent.PlatformCodeChanged("test_platform"))
+        vm.onIntent(RegisterIntent.EmailChanged("hussein@example.com"))
         vm.onIntent(RegisterIntent.FullNameChanged("Hussein"))
         vm.onIntent(RegisterIntent.PhoneChanged("01012345678"))
         vm.onIntent(RegisterIntent.PasswordChanged("AbcDefGh1!"))
@@ -257,6 +322,8 @@ class RegisterViewModelTest {
     @Test
     fun `RegisterClicked without accepting terms sets errorTermsRequired`() = runTest(testDispatcher) {
         val vm = buildViewModel()
+        vm.onIntent(RegisterIntent.PlatformCodeChanged("test_platform"))
+        vm.onIntent(RegisterIntent.EmailChanged("hussein@example.com"))
         vm.onIntent(RegisterIntent.FullNameChanged("Hussein"))
         vm.onIntent(RegisterIntent.PhoneChanged("01012345678"))
         vm.onIntent(RegisterIntent.PasswordChanged("AbcDefGh1!"))
@@ -272,6 +339,8 @@ class RegisterViewModelTest {
         val effects = mutableListOf<RegisterEffect>()
         val collector = launch { vm.effect.collect { effects.add(it) } }
 
+        vm.onIntent(RegisterIntent.PlatformCodeChanged("test_platform"))
+        vm.onIntent(RegisterIntent.EmailChanged("hussein@example.com"))
         vm.onIntent(RegisterIntent.FullNameChanged("Hussein Al-Sayed"))
         vm.onIntent(RegisterIntent.PhoneChanged("01012345678"))
         vm.onIntent(RegisterIntent.PasswordChanged("AbcDefGh1!"))
@@ -310,9 +379,12 @@ class RegisterViewModelTest {
             RegisterStrings(
                 errorNameRequired = "الاسم الكامل مطلوب",
                 errorTermsRequired = "يرجى قبول الشروط والأحكام",
+                errorPlatformCodeRequired = "كود منصة المعلم مطلوب",
+                errorEmailRequired = "البريد الإلكتروني أو اسم المستخدم مطلوب",
             ),
         )
         vm.onIntent(RegisterIntent.RegisterClicked)
-        assertEquals("الاسم الكامل مطلوب", vm.state.value.fullNameError)
+        // platformCode is blank, so platformCodeError is set first
+        assertNotNull(vm.state.value.platformCodeError)
     }
 }

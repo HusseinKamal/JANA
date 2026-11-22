@@ -34,9 +34,9 @@ class HomeViewModelTest {
     // ── Initial state ──────────────────────────────────────────────────────────
 
     @Test
-    fun `initial state has HOME tab selected`() = runTest(testDispatcher) {
+    fun `initial state has LIVE_LESSONS tab selected`() = runTest(testDispatcher) {
         val vm = buildViewModel()
-        assertEquals(HomeTab.HOME, vm.state.value.selectedTab)
+        assertEquals(HomeTab.LIVE_LESSONS, vm.state.value.selectedTab)
     }
 
     @Test
@@ -54,10 +54,10 @@ class HomeViewModelTest {
     // ── Tab selection ──────────────────────────────────────────────────────────
 
     @Test
-    fun `TabSelected TEACHERS updates selectedTab`() = runTest(testDispatcher) {
+    fun `TabSelected MY_TEACHER_CHAT updates selectedTab`() = runTest(testDispatcher) {
         val vm = buildViewModel()
-        vm.onIntent(HomeIntent.TabSelected(HomeTab.TEACHERS))
-        assertEquals(HomeTab.TEACHERS, vm.state.value.selectedTab)
+        vm.onIntent(HomeIntent.TabSelected(HomeTab.MY_TEACHER_CHAT))
+        assertEquals(HomeTab.MY_TEACHER_CHAT, vm.state.value.selectedTab)
     }
 
     @Test
@@ -68,24 +68,24 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `TabSelected SCHEDULE updates selectedTab`() = runTest(testDispatcher) {
+    fun `TabSelected COURSES updates selectedTab`() = runTest(testDispatcher) {
         val vm = buildViewModel()
-        vm.onIntent(HomeIntent.TabSelected(HomeTab.SCHEDULE))
-        assertEquals(HomeTab.SCHEDULE, vm.state.value.selectedTab)
+        vm.onIntent(HomeIntent.TabSelected(HomeTab.COURSES))
+        assertEquals(HomeTab.COURSES, vm.state.value.selectedTab)
     }
 
     @Test
-    fun `TabSelected PROGRESS updates selectedTab`() = runTest(testDispatcher) {
+    fun `TabSelected PROFILE updates selectedTab`() = runTest(testDispatcher) {
         val vm = buildViewModel()
-        vm.onIntent(HomeIntent.TabSelected(HomeTab.PROGRESS))
-        assertEquals(HomeTab.PROGRESS, vm.state.value.selectedTab)
+        vm.onIntent(HomeIntent.TabSelected(HomeTab.PROFILE))
+        assertEquals(HomeTab.PROFILE, vm.state.value.selectedTab)
     }
 
     @Test
-    fun `TabSelected HOME returns to HOME tab`() = runTest(testDispatcher) {
+    fun `TabSelected LIVE_LESSONS returns to LIVE_LESSONS tab`() = runTest(testDispatcher) {
         val vm = buildViewModel()
-        vm.onIntent(HomeIntent.TabSelected(HomeTab.TEACHERS))
-        vm.onIntent(HomeIntent.TabSelected(HomeTab.HOME))
-        assertEquals(HomeTab.HOME, vm.state.value.selectedTab)
+        vm.onIntent(HomeIntent.TabSelected(HomeTab.MY_TEACHER_CHAT))
+        vm.onIntent(HomeIntent.TabSelected(HomeTab.LIVE_LESSONS))
+        assertEquals(HomeTab.LIVE_LESSONS, vm.state.value.selectedTab)
     }
 }

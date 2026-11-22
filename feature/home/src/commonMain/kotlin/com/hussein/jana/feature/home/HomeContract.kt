@@ -4,10 +4,10 @@ import com.hussein.jana.core.common.mvi.MviEffect
 import com.hussein.jana.core.common.mvi.MviIntent
 import com.hussein.jana.core.common.mvi.MviState
 
-enum class HomeTab { HOME, TEACHERS, JANA_AI, SCHEDULE, PROGRESS }
+enum class HomeTab { LIVE_LESSONS, MY_TEACHER_CHAT, JANA_AI, COURSES, PROFILE }
 
 data class HomeState(
-    val selectedTab: HomeTab = HomeTab.HOME,
+    val selectedTab: HomeTab = HomeTab.LIVE_LESSONS,
     val userName: String = "Hussein",
     val credits: Int = 12,
 ) : MviState

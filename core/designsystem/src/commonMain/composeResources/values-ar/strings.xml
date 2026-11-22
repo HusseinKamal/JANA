@@ -106,6 +106,24 @@
     <string name="error_passwords_mismatch">كلمتا المرور غير متطابقتين</string>
     <string name="error_terms_required">يرجى قبول الشروط والأحكام</string>
 
+    <!-- Auth – teacher platform code (login + register) -->
+    <string name="auth_platform_code_label">كود منصة المعلم</string>
+    <string name="auth_platform_code_hint">مثال: ahmed_edu</string>
+    <string name="auth_error_missing_platform_code">يرجى إدخال كود منصة المعلم</string>
+    <!-- Register – email/username -->
+    <string name="register_email_label">البريد الإلكتروني أو اسم المستخدم</string>
+    <string name="register_email_hint">student@example.com</string>
+    <string name="register_platform_code_label">كود منصة المعلم</string>
+    <string name="register_platform_code_hint">مثال: ahmed_edu</string>
+    <string name="error_platform_code_required">كود منصة المعلم مطلوب</string>
+    <string name="error_email_required">البريد الإلكتروني أو اسم المستخدم مطلوب</string>
+    <string name="error_email_invalid">يرجى إدخال بريد إلكتروني أو اسم مستخدم صحيح</string>
+    <!-- Home – new 5-tab bottom navigation -->
+    <string name="tab_live_lessons">دروس مباشرة</string>
+    <string name="tab_my_teacher_chat">محادثة المعلم</string>
+    <string name="tab_jana_ai">جنى AI</string>
+    <string name="tab_courses">الكورسات</string>
+
     <!-- Home – student home screen & bottom nav -->
     <string name="home_student_label">الصفحة الرئيسية للطالب</string>
     <string name="home_credits_label">اعتماد</string>

@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.VellumCanvas
 import com.hussein.jana.core.designsystem.auth_error_missing_fields
+import com.hussein.jana.core.designsystem.auth_error_missing_platform_code
 import com.hussein.jana.core.designsystem.auth_facebook_coming_soon
 import com.hussein.jana.core.designsystem.auth_google_coming_soon
 import com.hussein.jana.feature.auth.components.StudentLoginContent
@@ -34,15 +35,17 @@ fun AuthFlow(
 ) {
     val viewModel: AuthViewModel = koinViewModel()
 
-    val errorMissingFields = stringResource(Res.string.auth_error_missing_fields)
-    val googleComingSoon   = stringResource(Res.string.auth_google_coming_soon)
-    val facebookComingSoon = stringResource(Res.string.auth_facebook_coming_soon)
-    LaunchedEffect(errorMissingFields, googleComingSoon, facebookComingSoon) {
+    val errorMissingFields    = stringResource(Res.string.auth_error_missing_fields)
+    val errorMissingPlatform  = stringResource(Res.string.auth_error_missing_platform_code)
+    val googleComingSoon      = stringResource(Res.string.auth_google_coming_soon)
+    val facebookComingSoon    = stringResource(Res.string.auth_facebook_coming_soon)
+    LaunchedEffect(errorMissingFields, errorMissingPlatform, googleComingSoon, facebookComingSoon) {
         viewModel.updateStrings(
             AuthStrings(
-                errorMissingFields = errorMissingFields,
-                googleComingSoon   = googleComingSoon,
-                facebookComingSoon = facebookComingSoon,
+                errorMissingFields       = errorMissingFields,
+                errorMissingPlatformCode = errorMissingPlatform,
+                googleComingSoon         = googleComingSoon,
+                facebookComingSoon       = facebookComingSoon,
             ),
         )
     }
