@@ -5,25 +5,34 @@ import com.hussein.jana.core.common.mvi.MviIntent
 import com.hussein.jana.core.common.mvi.MviState
 import com.hussein.jana.feature.home.tabs.live.domain.model.LiveLesson
 
+/** Inner tab selection for the Live Lessons screen. */
+enum class LiveTab { UPCOMING, NEXT, PREVIOUS }
+
 data class LiveLessonsUiState(
+    val selectedTab: LiveTab = LiveTab.UPCOMING,
     val isLoading: Boolean = true,
-    val upcomingLessons: List<LiveLesson> = emptyList(),
+    /** Hero lesson: first LIVE_NOW, else first UPCOMING by date. */
+    val upcomingLesson: LiveLesson? = null,
+    /** Remaining future lessons after the hero. */
     val nextLessons: List<LiveLesson> = emptyList(),
+    /** Past lessons (status = ENDED). */
+    val previousLessons: List<LiveLesson> = emptyList(),
     val isCalendarSynced: Boolean = false,
     val error: String? = null,
 ) : MviState
 
 sealed interface LiveLessonsIntent : MviIntent {
+    data class TabSelected(val tab: LiveTab) : LiveLessonsIntent
     data object LoadLessons : LiveLessonsIntent
     data object Refresh : LiveLessonsIntent
-    data class JoinZoom(val url: String) : LiveLessonsIntent
+    data class JoinZoom(val lessonId: String, val url: String) : LiveLessonsIntent
     data class OpenLessonDetail(val lessonId: String) : LiveLessonsIntent
     data object SyncCalendarClicked : LiveLessonsIntent
 }
 
 sealed interface LiveLessonsEffect : MviEffect {
     data class OpenZoomUrl(val url: String) : LiveLessonsEffect
-    data class OpenLessonDetail(val lessonId: String) : LiveLessonsEffect
+    data class NavigateToDetail(val lessonId: String) : LiveLessonsEffect
     data class ShowSnackbar(val message: String) : LiveLessonsEffect
     data class SyncCalendarSuccess(val count: Int) : LiveLessonsEffect
 }

@@ -101,14 +101,6 @@ fun UpcomingLessonCard(
                 color = MaterialTheme.colorScheme.onSurface,
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Text(
-                text = lesson.teacherName,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-
             Spacer(modifier = Modifier.height(12.dp))
 
             JanaDateTimeLabel(

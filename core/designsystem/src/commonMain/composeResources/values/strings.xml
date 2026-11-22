@@ -328,4 +328,30 @@
     <string name="live_error_retry">Something went wrong — tap to retry</string>
     <string name="lesson_exam_view">View Exam</string>
     <string name="live_sync_success">%1$d lesson(s) synced successfully.</string>
+
+    <!-- Live Lessons – inner tab labels -->
+    <string name="live_tab_upcoming">Upcoming</string>
+    <string name="live_tab_next">Next</string>
+    <string name="live_tab_previous">Previous</string>
+    <!-- Live Lessons – section titles -->
+    <string name="live_next_sessions_title">Coming Up</string>
+    <string name="live_previous_title">Past Lessons</string>
+    <!-- Live Lessons – empty-state messages -->
+    <string name="live_no_next">No more lessons this week</string>
+    <string name="live_no_previous">No previous lessons yet</string>
+    <!-- Exam coming soon snackbar -->
+    <string name="lesson_exam_coming_soon">Exams coming soon</string>
+
+    <!-- Courses screen -->
+    <string name="courses_title">My Courses</string>
+    <string name="courses_no_courses">No courses available yet</string>
+    <string name="course_detail_title">Course Details</string>
+    <string name="course_progress_label">%1$d of %2$d lessons</string>
+    <string name="course_start_btn">Start Course</string>
+    <string name="course_continue_btn">Continue</string>
+    <string name="course_unit_label">Unit %1$d</string>
+    <string name="course_lesson_duration">%1$d min</string>
+    <string name="course_lesson_coming_soon">Lesson player coming soon</string>
+    <string name="course_exam_chip">Exam</string>
+    <string name="course_completed_chip">Done</string>
 </resources>

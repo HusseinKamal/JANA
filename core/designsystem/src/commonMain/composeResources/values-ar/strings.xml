@@ -328,4 +328,30 @@
     <string name="live_error_retry">حدث خطأ — اضغط للمحاولة مجدداً</string>
     <string name="lesson_exam_view">عرض الاختبار</string>
     <string name="live_sync_success">تمت مزامنة %1$d حصة.</string>
+
+    <!-- Live Lessons – inner tab labels -->
+    <string name="live_tab_upcoming">قادم</string>
+    <string name="live_tab_next">التالي</string>
+    <string name="live_tab_previous">السابق</string>
+    <!-- Live Lessons – section titles -->
+    <string name="live_next_sessions_title">القادم قريباً</string>
+    <string name="live_previous_title">دروس سابقة</string>
+    <!-- Live Lessons – empty-state messages -->
+    <string name="live_no_next">لا توجد دروس أخرى هذا الأسبوع</string>
+    <string name="live_no_previous">لا توجد دروس سابقة بعد</string>
+    <!-- Exam coming soon snackbar -->
+    <string name="lesson_exam_coming_soon">الامتحانات قريباً</string>
+
+    <!-- Courses screen -->
+    <string name="courses_title">كورساتي</string>
+    <string name="courses_no_courses">لا توجد كورسات بعد</string>
+    <string name="course_detail_title">تفاصيل الكورس</string>
+    <string name="course_progress_label">%1$d من %2$d دروس</string>
+    <string name="course_start_btn">ابدأ الكورس</string>
+    <string name="course_continue_btn">متابعة</string>
+    <string name="course_unit_label">الوحدة %1$d</string>
+    <string name="course_lesson_duration">%1$d دقيقة</string>
+    <string name="course_lesson_coming_soon">مشغّل الدروس قريباً</string>
+    <string name="course_exam_chip">امتحان</string>
+    <string name="course_completed_chip">مكتمل</string>
 </resources>

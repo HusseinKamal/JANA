@@ -7,6 +7,7 @@ import com.hussein.jana.feature.home.tabs.live.domain.usecase.GetLessonDetailsUs
 import com.hussein.jana.feature.home.tabs.live.domain.usecase.GetLessonExamsUseCase
 import com.hussein.jana.feature.home.tabs.live.domain.usecase.GetLessonFilesUseCase
 import com.hussein.jana.feature.home.tabs.live.domain.usecase.GetNextLiveLessonsUseCase
+import com.hussein.jana.feature.home.tabs.live.domain.usecase.GetPreviousLiveLessonsUseCase
 import com.hussein.jana.feature.home.tabs.live.domain.usecase.GetUpcomingLiveLessonsUseCase
 import com.hussein.jana.feature.home.tabs.live.domain.usecase.SyncCalendarUseCase
 import com.hussein.jana.feature.home.tabs.live.presentation.detail.LessonDetailViewModel
@@ -23,11 +24,12 @@ val liveLessonsModule = module {
 
     factoryOf(::GetUpcomingLiveLessonsUseCase)
     factoryOf(::GetNextLiveLessonsUseCase)
+    factoryOf(::GetPreviousLiveLessonsUseCase)
     factoryOf(::GetLessonDetailsUseCase)
     factoryOf(::GetLessonFilesUseCase)
     factoryOf(::GetLessonExamsUseCase)
     factoryOf(::SyncCalendarUseCase)
 
-    viewModel { LiveLessonsViewModel(get(), get(), get()) }
+    viewModel { LiveLessonsViewModel(get(), get(), get(), get()) }
     viewModel { (lessonId: String) -> LessonDetailViewModel(lessonId, get(), get(), get()) }
 }

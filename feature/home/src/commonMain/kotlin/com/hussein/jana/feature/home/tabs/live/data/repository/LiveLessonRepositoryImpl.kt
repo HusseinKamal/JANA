@@ -11,10 +11,18 @@ import com.hussein.jana.feature.home.tabs.live.domain.repository.LiveLessonRepos
 import kotlinx.coroutines.delay
 
 class LiveLessonRepositoryImpl(
-    private val api: LiveLessonApi = LiveLessonApi(),
+    @Suppress("UNUSED_PARAMETER") private val api: LiveLessonApi = LiveLessonApi(),
 ) : LiveLessonRepository {
 
-    // Mock data
+    // ---------------------------------------------------------------------------
+    // Mock data — TODO: replace each method with real API call
+    // ---------------------------------------------------------------------------
+
+    // Static reference offset — represents "now" for all mock data.
+    // Using a fixed base so the mock works consistently in commonMain
+    // without depending on platform time APIs.
+    private val baseMs = 1_700_000_000_000L  // roughly Nov 2023
+
     private val mockUpcoming = listOf(
         LiveLesson(
             id = "lesson_1",
@@ -23,13 +31,30 @@ class LiveLessonRepositoryImpl(
             title = "Advanced Calculus & Integration Techniques",
             teacherName = "Dr. Ahmed Hassan",
             dateText = "Today, 4:00 PM",
-            timeText = "4:00 PM - 5:30 PM",
-            startEpochMs = 1700000000000L,
+            timeText = "4:00 PM – 5:30 PM",
+            startEpochMs = baseMs + 60 * 60 * 1000L, // base + 1h
             status = LessonStatus.UPCOMING,
-            minsUntilStart = 15,
+            minsUntilStart = 60,
             zoomUrl = "https://zoom.us/j/123456789",
             description = "Comprehensive deep-dive into calculus integration methods with live problem solving.",
-        )
+        ),
+    )
+
+    private val mockLiveNow = listOf(
+        LiveLesson(
+            id = "lesson_live",
+            subject = "PHYSICS",
+            level = "HIGH SCHOOL JUNIOR",
+            title = "Electromagnetism – Live Problem Session",
+            teacherName = "Prof. Mona El-Sayed",
+            dateText = "Now",
+            timeText = "Live",
+            startEpochMs = baseMs,
+            status = LessonStatus.LIVE_NOW,
+            minsUntilStart = 0,
+            zoomUrl = "https://zoom.us/j/live_session",
+            description = "Live problem solving on electromagnetic induction.",
+        ),
     )
 
     private val mockNext = listOf(
@@ -40,8 +65,8 @@ class LiveLessonRepositoryImpl(
             title = "Quantum Mechanics & Wave Functions",
             teacherName = "Prof. Mona El-Sayed",
             dateText = "Tomorrow, 2:00 PM",
-            timeText = "2:00 PM - 3:30 PM",
-            startEpochMs = 1700086400000L,
+            timeText = "2:00 PM – 3:30 PM",
+            startEpochMs = baseMs + 2 * 24 * 60 * 60 * 1000L, // base + 2d
             status = LessonStatus.UPCOMING,
             minsUntilStart = 1440,
             zoomUrl = "https://zoom.us/j/987654321",
@@ -54,8 +79,8 @@ class LiveLessonRepositoryImpl(
             title = "Organic Chemistry Reactions & Mechanisms",
             teacherName = "Dr. Tarek Omar",
             dateText = "Thu, Nov 16, 5:00 PM",
-            timeText = "5:00 PM - 6:30 PM",
-            startEpochMs = 1700172800000L,
+            timeText = "5:00 PM – 6:30 PM",
+            startEpochMs = baseMs + 5 * 24 * 60 * 60 * 1000L, // base + 5d
             status = LessonStatus.UPCOMING,
             minsUntilStart = 2880,
             zoomUrl = "https://zoom.us/j/456789123",
@@ -63,20 +88,65 @@ class LiveLessonRepositoryImpl(
         ),
     )
 
+    private val mockPrevious = listOf(
+        LiveLesson(
+            id = "lesson_prev_1",
+            subject = "MATHEMATICS",
+            level = "HIGH SCHOOL SENIOR",
+            title = "Differential Equations – Session 3",
+            teacherName = "Dr. Ahmed Hassan",
+            dateText = "Mon, Nov 11, 4:00 PM",
+            timeText = "4:00 PM – 5:30 PM",
+            startEpochMs = baseMs - 3 * 24 * 60 * 60 * 1000L,
+            status = LessonStatus.ENDED,
+            minsUntilStart = 0,
+            zoomUrl = "",
+            description = "Review of differential equations with worked examples.",
+        ),
+        LiveLesson(
+            id = "lesson_prev_2",
+            subject = "PHYSICS",
+            level = "HIGH SCHOOL JUNIOR",
+            title = "Optics & Light Refraction",
+            teacherName = "Prof. Mona El-Sayed",
+            dateText = "Sat, Nov 9, 2:00 PM",
+            timeText = "2:00 PM – 3:30 PM",
+            startEpochMs = baseMs - 5 * 24 * 60 * 60 * 1000L,
+            status = LessonStatus.ENDED,
+            minsUntilStart = 0,
+            zoomUrl = "",
+            description = "Study of light behaviour through lenses and prisms.",
+        ),
+        LiveLesson(
+            id = "lesson_prev_3",
+            subject = "CHEMISTRY",
+            level = "HIGH SCHOOL SENIOR",
+            title = "Thermodynamics – Entropy & Enthalpy",
+            teacherName = "Dr. Tarek Omar",
+            dateText = "Thu, Nov 7, 5:00 PM",
+            timeText = "5:00 PM – 6:30 PM",
+            startEpochMs = baseMs - 7 * 24 * 60 * 60 * 1000L,
+            status = LessonStatus.ENDED,
+            minsUntilStart = 0,
+            zoomUrl = "",
+            description = "In-depth session on thermodynamic laws and energy calculations.",
+        ),
+    )
+
     private val mockFiles = listOf(
         LessonFile(
             id = "file_1",
-            title = "Calculus Lecture Notes (PDF)",
+            title = "Calculus Lecture Notes",
             sizeText = "2.4 MB",
             fileType = LessonFileType.PDF,
             downloadUrl = "https://example.com/files/calculus_notes.pdf",
         ),
         LessonFile(
             id = "file_2",
-            title = "Integration Practice Problems (DOCX)",
-            sizeText = "1.1 MB",
-            fileType = LessonFileType.DOCX,
-            downloadUrl = "https://example.com/files/practice_problems.docx",
+            title = "Integration Practice Slides",
+            sizeText = "1.8 MB",
+            fileType = LessonFileType.PPTX,
+            downloadUrl = "https://example.com/files/integration_slides.pptx",
         ),
     )
 
@@ -90,35 +160,41 @@ class LiveLessonRepositoryImpl(
         ),
     )
 
-    // TODO: replace with real API call
+    // TODO: replace with real API call — GET /api/v1/live-lessons/upcoming
     override suspend fun getUpcomingLiveLessons(): Result<List<LiveLesson>> {
-        delay(300)
-        return Result.success(mockUpcoming)
+        delay(400)
+        return Result.success(mockLiveNow + mockUpcoming)
     }
 
-    // TODO: replace with real API call
+    // TODO: replace with real API call — GET /api/v1/live-lessons/next
     override suspend fun getNextLiveLessons(): Result<List<LiveLesson>> {
-        delay(300)
+        delay(400)
         return Result.success(mockNext)
     }
 
-    // TODO: replace with real API call
+    // TODO: replace with real API call — GET /api/v1/live-lessons/previous
+    override suspend fun getPreviousLiveLessons(): Result<List<LiveLesson>> {
+        delay(400)
+        return Result.success(mockPrevious)
+    }
+
+    // TODO: replace with real API call — GET /api/v1/live-lessons/{id}
     override suspend fun getLessonDetails(lessonId: String): Result<LiveLesson> {
-        delay(300)
-        val lesson = (mockUpcoming + mockNext).find { it.id == lessonId }
-            ?: mockUpcoming.first()
+        delay(400)
+        val all = mockLiveNow + mockUpcoming + mockNext + mockPrevious
+        val lesson = all.find { it.id == lessonId } ?: mockUpcoming.first()
         return Result.success(lesson)
     }
 
-    // TODO: replace with real API call
+    // TODO: replace with real API call — GET /api/v1/live-lessons/{id}/files
     override suspend fun getLessonFiles(lessonId: String): Result<List<LessonFile>> {
-        delay(300)
+        delay(400)
         return Result.success(mockFiles)
     }
 
-    // TODO: replace with real API call
+    // TODO: replace with real API call — GET /api/v1/live-lessons/{id}/exams
     override suspend fun getLessonExams(lessonId: String): Result<List<LessonExam>> {
-        delay(300)
+        delay(400)
         return Result.success(mockExams)
     }
 

@@ -55,7 +55,7 @@ fun NextLessonItem(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "${lesson.teacherName} • ${lesson.subject}",
+                    text = lesson.subject,
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )

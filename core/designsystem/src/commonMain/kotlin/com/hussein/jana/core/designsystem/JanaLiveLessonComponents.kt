@@ -17,6 +17,10 @@ import androidx.compose.material.icons.rounded.Timer
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -171,6 +175,56 @@ fun JanaCountdownBadge(
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.SemiBold,
                 color = AmberDark,
+            )
+        }
+    }
+}
+
+/**
+ * A styled inner [TabRow] with a primary-coloured indicator.
+ * Use for content tabs *within* a screen (not the bottom navigation).
+ *
+ * @param tabs     Ordered list of display labels.
+ * @param selectedIndex  Index of the currently selected tab.
+ * @param onTabSelected  Called with the new index when the user taps a tab.
+ */
+@Composable
+fun JanaInnerTabRow(
+    tabs: List<String>,
+    selectedIndex: Int,
+    onTabSelected: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    TabRow(
+        selectedTabIndex = selectedIndex,
+        modifier = modifier.fillMaxWidth(),
+        containerColor = MaterialTheme.colorScheme.background,
+        contentColor = MaterialTheme.colorScheme.primary,
+        indicator = { tabPositions ->
+            if (selectedIndex < tabPositions.size) {
+                SecondaryIndicator(
+                    modifier = Modifier.tabIndicatorOffset(tabPositions[selectedIndex]),
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            }
+        },
+    ) {
+        tabs.forEachIndexed { index, label ->
+            Tab(
+                selected = index == selectedIndex,
+                onClick = { onTabSelected(index) },
+                text = {
+                    Text(
+                        text = label,
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = if (index == selectedIndex) FontWeight.SemiBold else FontWeight.Normal,
+                        color = if (index == selectedIndex) {
+                            MaterialTheme.colorScheme.primary
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        },
+                    )
+                },
             )
         }
     }

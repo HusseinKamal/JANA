@@ -5,6 +5,7 @@ import androidx.navigation3.runtime.NavKey
 import com.hussein.jana.core.navigation.AppNavigator
 import com.hussein.jana.core.navigation.FeatureEntryProvider
 import com.hussein.jana.core.navigation.HomeRoute
+import com.hussein.jana.feature.home.tabs.courses.presentation.detail.CourseDetailScreen
 import com.hussein.jana.feature.home.tabs.live.presentation.detail.LessonDetailScreen
 import org.koin.compose.koinInject
 
@@ -15,6 +16,13 @@ class HomeEntryProvider : FeatureEntryProvider {
             val navigator: AppNavigator = koinInject()
             LessonDetailScreen(
                 lessonId = key.lessonId,
+                onBack = { navigator.back() },
+            )
+        }
+        is HomeRoute.CourseDetail -> NavEntry(key) {
+            val navigator: AppNavigator = koinInject()
+            CourseDetailScreen(
+                courseId = key.courseId,
                 onBack = { navigator.back() },
             )
         }

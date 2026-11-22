@@ -17,4 +17,5 @@ data object ForgotPasswordRoute : NavKey
 sealed interface HomeRoute : NavKey {
     @Serializable data class Root(val initialTab: String = "HOME") : HomeRoute
     @Serializable data class LessonDetail(val lessonId: String) : HomeRoute
+    @Serializable data class CourseDetail(val courseId: String) : HomeRoute
 }

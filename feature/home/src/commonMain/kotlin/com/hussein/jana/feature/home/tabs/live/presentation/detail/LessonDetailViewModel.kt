@@ -28,7 +28,7 @@ class LessonDetailViewModel(
         is LessonDetailIntent.PreviewFileClicked -> handlePreviewFile(intent.file)
         is LessonDetailIntent.DownloadFileClicked -> sendEffect(LessonDetailEffect.DownloadFile(intent.file.downloadUrl))
         is LessonDetailIntent.StartExamClicked -> sendEffect(
-            LessonDetailEffect.ShowExamSnackbar("Opening ${intent.exam.title}...")
+            LessonDetailEffect.ShowExamSnackbar(intent.exam.id)
         )
     }
 
@@ -65,6 +65,7 @@ class LessonDetailViewModel(
             LessonFileType.PDF -> "application/pdf"
             LessonFileType.DOCX -> "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             LessonFileType.PPTX -> "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+            LessonFileType.OTHER -> "application/octet-stream"
         }
         sendEffect(LessonDetailEffect.OpenFilePreview(file.downloadUrl, mimeType))
     }

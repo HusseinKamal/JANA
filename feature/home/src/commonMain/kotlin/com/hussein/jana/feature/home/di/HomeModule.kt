@@ -3,6 +3,7 @@ package com.hussein.jana.feature.home.di
 import com.hussein.jana.core.navigation.FeatureEntryProvider
 import com.hussein.jana.feature.home.HomeEntryProvider
 import com.hussein.jana.feature.home.HomeViewModel
+import com.hussein.jana.feature.home.tabs.courses.di.coursesModule
 import com.hussein.jana.feature.home.tabs.home.HomeTabViewModel
 import com.hussein.jana.feature.home.tabs.janaai.AiChatViewModel
 import com.hussein.jana.feature.home.tabs.live.di.liveLessonsModule
@@ -13,7 +14,7 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val homeModule = module {
-    includes(liveLessonsModule)
+    includes(liveLessonsModule, coursesModule)
     viewModel { HomeViewModel() }
     viewModel { HomeTabViewModel() }
     viewModel { TeachersTabViewModel() }

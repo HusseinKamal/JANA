@@ -32,6 +32,7 @@ import com.hussein.jana.core.designsystem.JanaSectionHeader
 import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.ScholarlyTeal
 import com.hussein.jana.core.designsystem.lesson_detail_title
+import com.hussein.jana.core.designsystem.lesson_exam_coming_soon
 import com.hussein.jana.core.designsystem.lesson_exams_title
 import com.hussein.jana.core.designsystem.lesson_files_title
 import com.hussein.jana.core.designsystem.lesson_no_exams
@@ -53,6 +54,7 @@ fun LessonDetailScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
+    val examComingSoon = stringResource(Res.string.lesson_exam_coming_soon)
 
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { effect ->
@@ -64,7 +66,7 @@ fun LessonDetailScreen(
                     openUrl(effect.url)
                 }
                 is LessonDetailEffect.ShowExamSnackbar -> {
-                    snackbarHostState.showSnackbar(effect.message)
+                    snackbarHostState.showSnackbar(examComingSoon)
                 }
                 is LessonDetailEffect.ShowError -> {
                     snackbarHostState.showSnackbar(effect.message)

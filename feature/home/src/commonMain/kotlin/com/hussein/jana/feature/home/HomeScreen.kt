@@ -25,7 +25,6 @@ import com.hussein.jana.core.designsystem.JanaTopBar
 import com.hussein.jana.core.designsystem.OnSurfaceVariant
 import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.VellumCanvas
-import com.hussein.jana.core.designsystem.app_name
 import com.hussein.jana.core.designsystem.tab_courses
 import com.hussein.jana.core.designsystem.tab_jana_ai
 import com.hussein.jana.core.designsystem.tab_live_lessons
@@ -57,13 +56,8 @@ fun HomeScreen(
 ) {
     Scaffold(
         topBar = {
-            val topBarTitle = when (state.selectedTab) {
-                HomeTab.JANA_AI  -> stringResource(Res.string.tab_jana_ai)
-                HomeTab.COURSES  -> stringResource(Res.string.tab_courses)
-                else             -> stringResource(Res.string.app_name)
-            }
             JanaTopBar(
-                screenTitle = topBarTitle,
+                screenTitle = state.teacherPlatformName,
                 credits = state.credits,
                 showAvatar = true,
             )
