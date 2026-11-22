@@ -25,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -39,9 +40,11 @@ import androidx.compose.ui.unit.dp
 import com.hussein.jana.core.designsystem.JanaStatusChip
 import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.ScholarlyTeal
+import com.hussein.jana.core.designsystem.btn_retry
 import com.hussein.jana.core.designsystem.course_detail_title
 import com.hussein.jana.core.designsystem.course_lesson_coming_soon
 import com.hussein.jana.core.designsystem.course_progress_label
+import com.hussein.jana.core.designsystem.error_generic
 import com.hussein.jana.feature.home.tabs.courses.presentation.detail.components.CourseUnitSection
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -116,6 +119,31 @@ fun CourseDetailContent(
                     contentAlignment = Alignment.Center,
                 ) {
                     CircularProgressIndicator(color = ScholarlyTeal)
+                }
+            }
+            // Finding 3: error branch prevents blank body when course is null but error is set
+            state.error != null -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Text(
+                            text = stringResource(Res.string.error_generic),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.error,
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        TextButton(
+                            onClick = { onIntent(CourseDetailIntent.Load) },
+                        ) {
+                            Text(text = stringResource(Res.string.btn_retry))
+                        }
+                    }
                 }
             }
             state.course != null -> {

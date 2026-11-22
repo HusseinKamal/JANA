@@ -24,7 +24,6 @@ data class LiveLessonsUiState(
 sealed interface LiveLessonsIntent : MviIntent {
     data class TabSelected(val tab: LiveTab) : LiveLessonsIntent
     data object LoadLessons : LiveLessonsIntent
-    data object Refresh : LiveLessonsIntent
     data class JoinZoom(val lessonId: String, val url: String) : LiveLessonsIntent
     data class OpenLessonDetail(val lessonId: String) : LiveLessonsIntent
     data object SyncCalendarClicked : LiveLessonsIntent
@@ -33,6 +32,11 @@ sealed interface LiveLessonsIntent : MviIntent {
 sealed interface LiveLessonsEffect : MviEffect {
     data class OpenZoomUrl(val url: String) : LiveLessonsEffect
     data class NavigateToDetail(val lessonId: String) : LiveLessonsEffect
+    /** Generic snackbar message; prefer the typed variants below when possible. */
     data class ShowSnackbar(val message: String) : LiveLessonsEffect
     data class SyncCalendarSuccess(val count: Int) : LiveLessonsEffect
+    /** Emitted when JoinZoom is called but no URL is set on the lesson. */
+    data object ShowNoZoomLink : LiveLessonsEffect
+    /** Emitted when the calendar sync operation fails. */
+    data object ShowCalendarSyncFailed : LiveLessonsEffect
 }

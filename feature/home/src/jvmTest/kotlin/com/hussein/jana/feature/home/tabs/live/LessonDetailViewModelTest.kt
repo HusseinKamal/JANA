@@ -62,6 +62,7 @@ class LessonDetailViewModelTest {
     private val fakeRepo = object : LiveLessonRepository {
         override suspend fun getUpcomingLiveLessons() = Result.success(emptyList<LiveLesson>())
         override suspend fun getNextLiveLessons() = Result.success(emptyList<LiveLesson>())
+        override suspend fun getPreviousLiveLessons() = Result.success(emptyList<LiveLesson>())
         override suspend fun getLessonDetails(lessonId: String) = Result.success(fakeLesson)
         override suspend fun getLessonFiles(lessonId: String) = Result.success(listOf(fakeFile))
         override suspend fun getLessonExams(lessonId: String) = Result.success(listOf(fakeExam))

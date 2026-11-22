@@ -26,12 +26,12 @@ class LiveLessonsViewModel(
     override fun onIntent(intent: LiveLessonsIntent) = when (intent) {
         is LiveLessonsIntent.TabSelected -> setState { copy(selectedTab = intent.tab) }
         LiveLessonsIntent.LoadLessons -> loadLessons()
-        LiveLessonsIntent.Refresh -> loadLessons()
         is LiveLessonsIntent.JoinZoom -> {
             if (intent.url.isNotBlank()) {
                 sendEffect(LiveLessonsEffect.OpenZoomUrl(intent.url))
             } else {
-                sendEffect(LiveLessonsEffect.ShowSnackbar("No Zoom link available"))
+                // No hardcoded string — the screen resolves live_no_zoom_link from string resources
+                sendEffect(LiveLessonsEffect.ShowNoZoomLink)
             }
         }
         is LiveLessonsIntent.OpenLessonDetail ->
@@ -55,13 +55,24 @@ class LiveLessonsViewModel(
                 // Hero: first LIVE_NOW lesson, else first UPCOMING by date
                 val hero = upcomingAll.firstOrNull { it.status == LessonStatus.LIVE_NOW }
                     ?: upcomingAll.minByOrNull { it.startEpochMs }
+
+                // Propagate any partial failures so the screen can display an error.
+                // Finding 4 fix: don't silently clear error when next/previous loads fail.
+                val partialError = when {
+                    !nextResult.isSuccess ->
+                        nextResult.exceptionOrNull()?.message ?: "Failed to load upcoming lessons"
+                    !previousResult.isSuccess ->
+                        previousResult.exceptionOrNull()?.message ?: "Failed to load previous lessons"
+                    else -> null
+                }
+
                 setState {
                     copy(
                         isLoading = false,
                         upcomingLesson = hero,
                         nextLessons = nextResult.getOrDefault(emptyList()),
                         previousLessons = previousResult.getOrDefault(emptyList()),
-                        error = null,
+                        error = partialError,
                     )
                 }
             } else {
@@ -83,7 +94,8 @@ class LiveLessonsViewModel(
                 setState { copy(isCalendarSynced = true) }
                 sendEffect(LiveLessonsEffect.SyncCalendarSuccess(futureLessons.size))
             } else {
-                sendEffect(LiveLessonsEffect.ShowSnackbar("Calendar sync failed"))
+                // No hardcoded string — the screen resolves live_calendar_sync_failed
+                sendEffect(LiveLessonsEffect.ShowCalendarSyncFailed)
             }
         }
     }

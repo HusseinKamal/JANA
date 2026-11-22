@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -28,10 +29,15 @@ import com.hussein.jana.core.designsystem.JanaInnerTabRow
 import com.hussein.jana.core.designsystem.JanaSectionHeader
 import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.ScholarlyTeal
+import com.hussein.jana.core.designsystem.btn_retry
+import com.hussein.jana.core.designsystem.live_calendar_sync_failed
+import com.hussein.jana.core.designsystem.live_error_load_failed
+import com.hussein.jana.core.designsystem.live_error_retry
 import com.hussein.jana.core.designsystem.live_no_next
 import com.hussein.jana.core.designsystem.live_no_previous
 import com.hussein.jana.core.designsystem.live_no_upcoming
 import com.hussein.jana.core.designsystem.live_next_sessions_title
+import com.hussein.jana.core.designsystem.live_no_zoom_link
 import com.hussein.jana.core.designsystem.live_previous_title
 import com.hussein.jana.core.designsystem.live_sync_success
 import com.hussein.jana.core.designsystem.live_tab_next
@@ -59,7 +65,11 @@ fun LiveLessonsScreen(
 ) {
     val state by viewModel.state.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
+
+    // Resolve all localised strings up-front so the LaunchedEffect is clean.
     val syncSuccessTemplate = stringResource(Res.string.live_sync_success)
+    val noZoomLinkMsg = stringResource(Res.string.live_no_zoom_link)
+    val calendarSyncFailedMsg = stringResource(Res.string.live_calendar_sync_failed)
 
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { effect ->
@@ -74,6 +84,11 @@ fun LiveLessonsScreen(
                     val msg = syncSuccessTemplate.replace("%1\$d", effect.count.toString())
                     snackbarHostState.showSnackbar(msg)
                 }
+                // Finding 1: typed effects resolved to string resources here, not in ViewModel
+                LiveLessonsEffect.ShowNoZoomLink ->
+                    snackbarHostState.showSnackbar(noZoomLinkMsg)
+                LiveLessonsEffect.ShowCalendarSyncFailed ->
+                    snackbarHostState.showSnackbar(calendarSyncFailedMsg)
             }
         }
     }
@@ -99,6 +114,9 @@ fun LiveLessonsContent(
         stringResource(Res.string.live_tab_previous),
     )
     val selectedIndex = state.selectedTab.ordinal
+    val retryLabel = stringResource(Res.string.btn_retry)
+    val errorLoadFailed = stringResource(Res.string.live_error_load_failed)
+    val errorRetry = stringResource(Res.string.live_error_retry)
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -116,28 +134,55 @@ fun LiveLessonsContent(
                 },
             )
 
-            if (state.isLoading) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    CircularProgressIndicator(color = ScholarlyTeal)
+            when {
+                state.isLoading -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        CircularProgressIndicator(color = ScholarlyTeal)
+                    }
                 }
-            } else {
-                when (state.selectedTab) {
-                    LiveTab.UPCOMING -> UpcomingTab(
-                        upcomingLesson = state.upcomingLesson,
-                        isCalendarSynced = state.isCalendarSynced,
-                        onIntent = onIntent,
-                    )
-                    LiveTab.NEXT -> NextTab(
-                        lessons = state.nextLessons,
-                        onIntent = onIntent,
-                    )
-                    LiveTab.PREVIOUS -> PreviousTab(
-                        lessons = state.previousLessons,
-                        onIntent = onIntent,
-                    )
+                // Finding 3/4: full failure — all data empty + error set
+                state.error != null &&
+                    state.upcomingLesson == null &&
+                    state.nextLessons.isEmpty() &&
+                    state.previousLessons.isEmpty() -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = errorRetry,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.error,
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            TextButton(onClick = { onIntent(LiveLessonsIntent.LoadLessons) }) {
+                                Text(text = retryLabel)
+                            }
+                        }
+                    }
+                }
+                else -> {
+                    when (state.selectedTab) {
+                        LiveTab.UPCOMING -> UpcomingTab(
+                            upcomingLesson = state.upcomingLesson,
+                            isCalendarSynced = state.isCalendarSynced,
+                            onIntent = onIntent,
+                        )
+                        LiveTab.NEXT -> NextTab(
+                            lessons = state.nextLessons,
+                            hasPartialError = state.error != null,
+                            onIntent = onIntent,
+                        )
+                        LiveTab.PREVIOUS -> PreviousTab(
+                            lessons = state.previousLessons,
+                            hasPartialError = state.error != null,
+                            onIntent = onIntent,
+                        )
+                    }
                 }
             }
         }
@@ -202,6 +247,7 @@ private fun UpcomingTab(
 @Composable
 private fun NextTab(
     lessons: List<LiveLesson>,
+    hasPartialError: Boolean,
     onIntent: (LiveLessonsIntent) -> Unit,
 ) {
     LazyColumn(
@@ -216,10 +262,20 @@ private fun NextTab(
         if (lessons.isEmpty()) {
             item {
                 Spacer(modifier = Modifier.height(8.dp))
+                // Finding 4: distinguish empty-because-failed from genuinely empty
+                val emptyText = if (hasPartialError) {
+                    stringResource(Res.string.live_error_load_failed)
+                } else {
+                    stringResource(Res.string.live_no_next)
+                }
                 Text(
-                    text = stringResource(Res.string.live_no_next),
+                    text = emptyText,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = if (hasPartialError) {
+                        MaterialTheme.colorScheme.error
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    },
                 )
             }
         } else {
@@ -238,6 +294,7 @@ private fun NextTab(
 @Composable
 private fun PreviousTab(
     lessons: List<LiveLesson>,
+    hasPartialError: Boolean,
     onIntent: (LiveLessonsIntent) -> Unit,
 ) {
     LazyColumn(
@@ -252,10 +309,20 @@ private fun PreviousTab(
         if (lessons.isEmpty()) {
             item {
                 Spacer(modifier = Modifier.height(8.dp))
+                // Finding 4: distinguish empty-because-failed from genuinely empty
+                val emptyText = if (hasPartialError) {
+                    stringResource(Res.string.live_error_load_failed)
+                } else {
+                    stringResource(Res.string.live_no_previous)
+                }
                 Text(
-                    text = stringResource(Res.string.live_no_previous),
+                    text = emptyText,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = if (hasPartialError) {
+                        MaterialTheme.colorScheme.error
+                    } else {
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                    },
                 )
             }
         } else {

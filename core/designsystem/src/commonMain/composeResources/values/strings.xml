@@ -354,4 +354,10 @@
     <string name="course_lesson_coming_soon">Lesson player coming soon</string>
     <string name="course_exam_chip">Exam</string>
     <string name="course_completed_chip">Done</string>
+
+    <!-- Live Lessons – snackbar messages (resolved in screen, not ViewModel) -->
+    <string name="live_no_zoom_link">No Zoom link available</string>
+    <string name="live_calendar_sync_failed">Calendar sync failed</string>
+    <!-- Live Lessons – error / retry -->
+    <string name="live_error_load_failed">Failed to load some lessons</string>
 </resources>
