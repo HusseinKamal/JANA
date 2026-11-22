@@ -31,6 +31,13 @@ class CourseDetailViewModel(
     /** Open the sheet once after the first successful load when arriving from a list Subscribe tap. */
     private var pendingAutoOpen = openCheckout
 
+    /**
+     * Checkout session whose last verification came back PENDING. Retrying re-verifies this
+     * session instead of opening a new checkout, so a payment already in flight (wallet, Fawry)
+     * cannot be charged twice.
+     */
+    private var pendingSessionId: String? = null
+
     init {
         onIntent(CourseDetailIntent.Load)
     }
@@ -112,6 +119,13 @@ class CourseDetailViewModel(
 
     private fun startPayment() {
         val method = currentState().checkout.selectedMethod
+        val reVerifySessionId = pendingSessionId
+        if (reVerifySessionId != null) {
+            setCheckoutStatus(CheckoutStatus.VERIFYING)
+            viewModelScope.launch { verify(reVerifySessionId) }
+            return
+        }
+
         setCheckoutStatus(CheckoutStatus.PROCESSING)
         viewModelScope.launch {
             val session = createCourseCheckout(courseId, method).getOrElse {
@@ -123,32 +137,40 @@ class CourseDetailViewModel(
             //  and verify on return.
 
             setCheckoutStatus(CheckoutStatus.VERIFYING)
-            val verification = verifyCoursePayment(session.id).getOrElse {
-                fail(PaymentFailure.FAILED)
-                return@launch
-            }
+            verify(session.id)
+        }
+    }
 
-            when {
-                verification.status == PaymentStatus.PENDING -> fail(PaymentFailure.PENDING)
-                verification.status == PaymentStatus.SUCCESS && verification.isSubscribed -> {
-                    // Reflect the backend's view of the course; never flip isSubscribed locally.
-                    val refreshed = getCourseDetail(courseId).getOrNull()
-                    if (refreshed?.isSubscribed == true) {
-                        val units = getCourseUnits(courseId).getOrNull()
-                        setState {
-                            copy(
-                                course = refreshed,
-                                units = units ?: this.units,
-                                checkout = CheckoutUiState(status = CheckoutStatus.SUCCESS),
-                            )
-                        }
-                        sendEffect(CourseDetailEffect.SubscriptionActivated)
-                    } else {
-                        fail(PaymentFailure.FAILED)
+    private suspend fun verify(sessionId: String) {
+        // Keep the session until the backend gives a final answer; a network error or PENDING
+        // means the money may already be on its way, so the next attempt re-verifies it.
+        pendingSessionId = sessionId
+        val verification = verifyCoursePayment(sessionId).getOrElse {
+            fail(PaymentFailure.FAILED)
+            return
+        }
+        if (verification.status != PaymentStatus.PENDING) pendingSessionId = null
+
+        when {
+            verification.status == PaymentStatus.PENDING -> fail(PaymentFailure.PENDING)
+            verification.status == PaymentStatus.SUCCESS && verification.isSubscribed -> {
+                // Reflect the backend's view of the course; never flip isSubscribed locally.
+                val refreshed = getCourseDetail(courseId).getOrNull()
+                if (refreshed?.isSubscribed == true) {
+                    val units = getCourseUnits(courseId).getOrNull()
+                    setState {
+                        copy(
+                            course = refreshed,
+                            units = units ?: this.units,
+                            checkout = CheckoutUiState(status = CheckoutStatus.SUCCESS),
+                        )
                     }
+                    sendEffect(CourseDetailEffect.SubscriptionActivated)
+                } else {
+                    fail(PaymentFailure.FAILED)
                 }
-                else -> fail(PaymentFailure.FAILED)
             }
+            else -> fail(PaymentFailure.FAILED)
         }
     }
 
