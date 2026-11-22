@@ -1,0 +1,10 @@
+{
+  "verdict": "APPROVED",
+  "findings": [
+    "Dead ShowMessage.message field — CourseDetailViewModel emits ShowMessage(\"lesson_coming_soon\") but CourseDetailScreen resolves course_lesson_coming_soon from stringResource() and discards effect.message. Rename to a typed data object ShowLessonComingSoon or drop the field.",
+    "ShowExamSnackbar.message stores exam.id — LessonDetailContract declares data class ShowExamSnackbar(val message: String) but the ViewModel populates it with intent.exam.id; the screen ignores the field. Rename the parameter to examId or remove it.",
+    "No tests for CoursesViewModel or CourseDetailViewModel — both are entirely new in this PR; the load-success, error, and navigation-effect paths are uncovered. Add JVM tests matching the LiveLessonsViewModelTest pattern.",
+    "Empty-but-failed ambiguity in full-failure gate — if the upcoming API returns an empty list (no lessons scheduled) while next/previous fail, the full-failure retry screen shows instead of the upcoming empty-state plus per-tab errors. Possible edge case; only matters with a real backend."
+  ],
+  "reviewDoc": "d:\\AndroidApps\\JANA\\JANA\\.agents\\tasks\\live_courses_review.md"
+}

@@ -27,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.hussein.jana.core.designsystem.JanaSectionHeader
 import com.hussein.jana.core.designsystem.Res
@@ -96,8 +97,11 @@ fun LessonDetailContent(
             TopAppBar(
                 title = {
                     Text(
-                        text = stringResource(Res.string.lesson_detail_title),
+                        // Lesson name once loaded; generic title only while loading.
+                        text = state.lesson?.title ?: stringResource(Res.string.lesson_detail_title),
                         style = MaterialTheme.typography.titleMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                     )
                 },
                 navigationIcon = {
