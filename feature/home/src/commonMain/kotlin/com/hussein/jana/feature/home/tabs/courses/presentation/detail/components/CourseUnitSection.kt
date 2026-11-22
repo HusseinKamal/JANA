@@ -38,6 +38,7 @@ fun CourseUnitSection(
     unit: CourseUnit,
     onLessonClick: (CourseLesson) -> Unit,
     modifier: Modifier = Modifier,
+    isLocked: Boolean = false,
 ) {
     var expanded by rememberSaveable { mutableStateOf(true) }
 
@@ -88,6 +89,7 @@ fun CourseUnitSection(
                         CourseLessonItem(
                             lesson = lesson,
                             onClick = { onLessonClick(lesson) },
+                            isLocked = isLocked,
                         )
                     }
                 }

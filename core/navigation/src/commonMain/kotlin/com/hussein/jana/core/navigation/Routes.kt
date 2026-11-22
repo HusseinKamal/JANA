@@ -17,5 +17,6 @@ data object ForgotPasswordRoute : NavKey
 sealed interface HomeRoute : NavKey {
     @Serializable data class Root(val initialTab: String = "HOME") : HomeRoute
     @Serializable data class LessonDetail(val lessonId: String) : HomeRoute
-    @Serializable data class CourseDetail(val courseId: String) : HomeRoute
+    /** [openCheckout] opens the subscribe & pay sheet once the course loads (if still locked). */
+    @Serializable data class CourseDetail(val courseId: String, val openCheckout: Boolean = false) : HomeRoute
 }

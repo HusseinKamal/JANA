@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CheckCircle
+import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.PlayCircleOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -24,14 +25,20 @@ import com.hussein.jana.core.designsystem.ScholarlyTeal
 import com.hussein.jana.core.designsystem.SuccessGreen
 import com.hussein.jana.core.designsystem.course_exam_chip
 import com.hussein.jana.core.designsystem.course_lesson_duration
+import com.hussein.jana.core.designsystem.course_locked_lesson_cd
 import com.hussein.jana.feature.home.tabs.courses.domain.model.CourseLesson
 import org.jetbrains.compose.resources.stringResource
 
+/**
+ * Lesson row. When [isLocked] the row is a syllabus preview: lock icon, muted title.
+ * It stays clickable so the caller can explain why it cannot be opened.
+ */
 @Composable
 fun CourseLessonItem(
     lesson: CourseLesson,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isLocked: Boolean = false,
 ) {
     val durationLabel = stringResource(Res.string.course_lesson_duration)
         .replace("%1\$d", lesson.durationMinutes.toString())
@@ -44,21 +51,33 @@ fun CourseLessonItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        Icon(
-            imageVector = if (lesson.isCompleted) {
-                Icons.Rounded.CheckCircle
-            } else {
-                Icons.Rounded.PlayCircleOutline
-            },
-            contentDescription = null,
-            tint = if (lesson.isCompleted) SuccessGreen else ScholarlyTeal,
-            modifier = Modifier.size(20.dp),
-        )
+        when {
+            isLocked -> Icon(
+                imageVector = Icons.Rounded.Lock,
+                contentDescription = stringResource(Res.string.course_locked_lesson_cd),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.size(20.dp),
+            )
+            else -> Icon(
+                imageVector = if (lesson.isCompleted) {
+                    Icons.Rounded.CheckCircle
+                } else {
+                    Icons.Rounded.PlayCircleOutline
+                },
+                contentDescription = null,
+                tint = if (lesson.isCompleted) SuccessGreen else ScholarlyTeal,
+                modifier = Modifier.size(20.dp),
+            )
+        }
 
         Text(
             text = lesson.title,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = if (isLocked) {
+                MaterialTheme.colorScheme.onSurfaceVariant
+            } else {
+                MaterialTheme.colorScheme.onSurface
+            },
             modifier = Modifier.weight(1f),
         )
 

@@ -55,7 +55,7 @@ fun CoursesScreen(
         viewModel.effect.collect { effect ->
             when (effect) {
                 is CoursesEffect.NavigateToCourseDetail ->
-                    navigator.navigate(HomeRoute.CourseDetail(effect.courseId))
+                    navigator.navigate(HomeRoute.CourseDetail(effect.courseId, effect.openCheckout))
             }
         }
     }
@@ -154,6 +154,7 @@ fun CoursesContent(
                             JanaCourseCard(
                                 course = course,
                                 onClick = { onIntent(CoursesIntent.OpenCourse(course.id)) },
+                                onSubscribeClick = { onIntent(CoursesIntent.SubscribeClicked(course.id)) },
                             )
                         }
                     }

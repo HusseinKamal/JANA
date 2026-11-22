@@ -38,14 +38,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.hussein.jana.core.designsystem.JanaBottomSheet
+import com.hussein.jana.core.designsystem.JanaLockedBadge
 import com.hussein.jana.core.designsystem.JanaStatusChip
 import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.ScholarlyTeal
 import com.hussein.jana.core.designsystem.btn_retry
 import com.hussein.jana.core.designsystem.course_detail_title
 import com.hussein.jana.core.designsystem.course_lesson_coming_soon
+import com.hussein.jana.core.designsystem.course_locked
 import com.hussein.jana.core.designsystem.course_progress_label
+import com.hussein.jana.core.designsystem.course_subscribe_to_unlock
 import com.hussein.jana.core.designsystem.error_generic
+import com.hussein.jana.core.designsystem.payment_subscription_activated
+import com.hussein.jana.feature.home.tabs.courses.presentation.common.formatted
+import com.hussein.jana.feature.home.tabs.courses.presentation.detail.components.CourseCheckoutSheetContent
+import com.hussein.jana.feature.home.tabs.courses.presentation.detail.components.CourseSubscribeBar
 import com.hussein.jana.feature.home.tabs.courses.presentation.detail.components.CourseUnitSection
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
@@ -55,17 +63,24 @@ import org.koin.core.parameter.parametersOf
 fun CourseDetailScreen(
     courseId: String,
     onBack: () -> Unit,
-    viewModel: CourseDetailViewModel = koinViewModel { parametersOf(courseId) },
+    openCheckout: Boolean = false,
+    viewModel: CourseDetailViewModel = koinViewModel { parametersOf(courseId, openCheckout) },
 ) {
     val state by viewModel.state.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
     val lessonComingSoon = stringResource(Res.string.course_lesson_coming_soon)
+    val subscribeToUnlock = stringResource(Res.string.course_subscribe_to_unlock)
+    val subscriptionActivated = stringResource(Res.string.payment_subscription_activated)
 
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                is CourseDetailEffect.ShowMessage ->
+                CourseDetailEffect.ShowLessonComingSoon ->
                     snackbarHostState.showSnackbar(lessonComingSoon)
+                CourseDetailEffect.ShowLessonLocked ->
+                    snackbarHostState.showSnackbar(subscribeToUnlock)
+                CourseDetailEffect.SubscriptionActivated ->
+                    snackbarHostState.showSnackbar(subscriptionActivated)
                 CourseDetailEffect.NavigateBack -> onBack()
             }
         }
@@ -87,6 +102,8 @@ fun CourseDetailContent(
     onBack: () -> Unit,
     onIntent: (CourseDetailIntent) -> Unit,
 ) {
+    val priceText = state.course?.price?.formatted()
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -111,6 +128,14 @@ fun CourseDetailContent(
                     containerColor = MaterialTheme.colorScheme.background,
                 ),
             )
+        },
+        bottomBar = {
+            if (state.isLocked) {
+                CourseSubscribeBar(
+                    priceText = priceText,
+                    onSubscribeClick = { onIntent(CourseDetailIntent.SubscribeClicked) },
+                )
+            }
         },
         snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { innerPadding ->
@@ -200,34 +225,57 @@ fun CourseDetailContent(
 
                             Spacer(modifier = Modifier.height(12.dp))
 
-                            LinearProgressIndicator(
-                                progress = { progress },
-                                modifier = Modifier.fillMaxWidth(),
-                                color = ScholarlyTeal,
-                                trackColor = MaterialTheme.colorScheme.surfaceVariant,
-                            )
+                            if (state.isLocked) {
+                                JanaLockedBadge(text = stringResource(Res.string.course_locked))
+                            } else {
+                                LinearProgressIndicator(
+                                    progress = { progress },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    color = ScholarlyTeal,
+                                    trackColor = MaterialTheme.colorScheme.surfaceVariant,
+                                )
 
-                            Spacer(modifier = Modifier.height(4.dp))
+                                Spacer(modifier = Modifier.height(4.dp))
 
-                            Text(
-                                text = progressLabel,
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            )
+                                Text(
+                                    text = progressLabel,
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            }
                         }
                     }
 
-                    // 2) Units (expandable)
+                    // 2) Units (expandable); locked courses show them as a syllabus preview
                     items(state.units, key = { it.id }) { unit ->
                         CourseUnitSection(
                             unit = unit,
                             onLessonClick = { lesson ->
                                 onIntent(CourseDetailIntent.OpenLesson(lesson))
                             },
+                            isLocked = state.isLocked,
                         )
                     }
                 }
             }
+        }
+    }
+
+    val course = state.course
+    if (course != null && state.checkout.isVisible) {
+        JanaBottomSheet(
+            onDismissRequest = { onIntent(CourseDetailIntent.DismissCheckout) },
+            dismissEnabled = !state.checkout.isBusy,
+        ) {
+            CourseCheckoutSheetContent(
+                courseTitle = course.title,
+                priceText = priceText,
+                checkout = state.checkout,
+                onMethodSelected = { onIntent(CourseDetailIntent.PaymentMethodSelected(it)) },
+                onPay = { onIntent(CourseDetailIntent.PayClicked) },
+                onRetry = { onIntent(CourseDetailIntent.RetryPayment) },
+                onCancel = { onIntent(CourseDetailIntent.DismissCheckout) },
+            )
         }
     }
 }

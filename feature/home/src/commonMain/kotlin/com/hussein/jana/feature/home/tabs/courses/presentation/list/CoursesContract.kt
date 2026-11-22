@@ -14,8 +14,12 @@ data class CoursesUiState(
 sealed interface CoursesIntent : MviIntent {
     data object Load : CoursesIntent
     data class OpenCourse(val courseId: String) : CoursesIntent
+    data class SubscribeClicked(val courseId: String) : CoursesIntent
 }
 
 sealed interface CoursesEffect : MviEffect {
-    data class NavigateToCourseDetail(val courseId: String) : CoursesEffect
+    data class NavigateToCourseDetail(
+        val courseId: String,
+        val openCheckout: Boolean = false,
+    ) : CoursesEffect
 }

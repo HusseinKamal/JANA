@@ -366,4 +366,25 @@
     <string name="live_calendar_sync_failed">فشلت مزامنة التقويم</string>
     <!-- Live Lessons – error / retry -->
     <string name="live_error_load_failed">تعذّر تحميل بعض الدروس</string>
+    <!-- Courses – subscription & payment -->
+    <string name="course_locked">مقفل</string>
+    <string name="course_subscribe_btn">اشترك</string>
+    <string name="course_subscribe_and_pay">اشترك وادفع</string>
+    <string name="course_pay_amount">ادفع %1$s</string>
+    <string name="course_price_format">%1$s %2$s</string>
+    <string name="currency_egp">ج.م</string>
+    <string name="course_unlock_full_access">افتح جميع الدروس والملفات والاختبارات</string>
+    <string name="course_subscribe_to_unlock">اشترك لفتح هذا الدرس</string>
+    <string name="course_locked_lesson_cd">درس مقفل</string>
+    <string name="payment_sheet_title">أكمل اشتراكك</string>
+    <string name="payment_total_label">الإجمالي</string>
+    <string name="payment_method_title">طريقة الدفع</string>
+    <string name="payment_method_card">بطاقة ائتمان / خصم</string>
+    <string name="payment_method_wallet">محفظة إلكترونية</string>
+    <string name="payment_method_fawry">فوري</string>
+    <string name="payment_processing">جارٍ معالجة الدفع…</string>
+    <string name="payment_verifying">جارٍ التحقق من الدفع…</string>
+    <string name="payment_subscription_activated">تم تفعيل الاشتراك</string>
+    <string name="payment_failed">فشل الدفع. حاول مرة أخرى.</string>
+    <string name="payment_pending">الدفع قيد التأكيد</string>
 </resources>

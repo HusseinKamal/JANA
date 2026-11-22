@@ -17,6 +17,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
@@ -35,13 +36,14 @@ fun JanaButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    isLoading: Boolean = false,
 ) {
     Button(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
             .height(52.dp),
-        enabled = enabled,
+        enabled = enabled && !isLoading,
         shape = RoundedCornerShape(12.dp),
         contentPadding = PaddingValues(horizontal = 24.dp),
         colors = ButtonDefaults.buttonColors(
@@ -49,7 +51,15 @@ fun JanaButton(
             contentColor = MaterialTheme.colorScheme.onPrimary,
         ),
     ) {
-        Text(text = text, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge)
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(20.dp),
+                strokeWidth = 2.dp,
+                color = MaterialTheme.colorScheme.onPrimary,
+            )
+        } else {
+            Text(text = text, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.labelLarge)
+        }
     }
 }
 

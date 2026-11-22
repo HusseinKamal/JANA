@@ -23,6 +23,7 @@ class HomeEntryProvider : FeatureEntryProvider {
             val navigator: AppNavigator = koinInject()
             CourseDetailScreen(
                 courseId = key.courseId,
+                openCheckout = key.openCheckout,
                 onBack = { navigator.back() },
             )
         }

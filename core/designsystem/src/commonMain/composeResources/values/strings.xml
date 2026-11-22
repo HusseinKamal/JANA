@@ -366,4 +366,25 @@
     <string name="live_calendar_sync_failed">Calendar sync failed</string>
     <!-- Live Lessons – error / retry -->
     <string name="live_error_load_failed">Failed to load some lessons</string>
+    <!-- Courses – subscription & payment -->
+    <string name="course_locked">Locked</string>
+    <string name="course_subscribe_btn">Subscribe</string>
+    <string name="course_subscribe_and_pay">Subscribe &amp; Pay</string>
+    <string name="course_pay_amount">Pay %1$s</string>
+    <string name="course_price_format">%1$s %2$s</string>
+    <string name="currency_egp">EGP</string>
+    <string name="course_unlock_full_access">Unlock all lessons, files and exams</string>
+    <string name="course_subscribe_to_unlock">Subscribe to unlock this lesson</string>
+    <string name="course_locked_lesson_cd">Locked lesson</string>
+    <string name="payment_sheet_title">Complete your subscription</string>
+    <string name="payment_total_label">Total</string>
+    <string name="payment_method_title">Payment method</string>
+    <string name="payment_method_card">Credit / Debit Card</string>
+    <string name="payment_method_wallet">Mobile Wallet</string>
+    <string name="payment_method_fawry">Fawry</string>
+    <string name="payment_processing">Processing payment…</string>
+    <string name="payment_verifying">Verifying payment…</string>
+    <string name="payment_subscription_activated">Subscription activated</string>
+    <string name="payment_failed">Payment failed. Please try again.</string>
+    <string name="payment_pending">Payment is pending confirmation</string>
 </resources>
