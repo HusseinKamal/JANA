@@ -118,6 +118,12 @@
     <string name="error_platform_code_required">Teacher platform code is required</string>
     <string name="error_email_required">Email or username is required</string>
     <string name="error_email_invalid">Please enter a valid email or username</string>
+    <!-- Home – top bar title for the Live tab -->
+    <string name="app_title_jana">Jana</string>
+    <string name="teacher_title_male">Mr. %1$s</string>
+    <string name="teacher_title_female">Mrs. %1$s</string>
+    <!-- %1$s = honorific + name, %2$s = subject -->
+    <string name="teacher_title_with_subject">%1$s · %2$s</string>
     <!-- Home – new 5-tab bottom navigation -->
     <string name="tab_live_lessons">Live</string>
     <string name="tab_my_teacher_chat">Teacher</string>

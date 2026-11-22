@@ -25,6 +25,10 @@ import com.hussein.jana.core.designsystem.JanaTopBar
 import com.hussein.jana.core.designsystem.OnSurfaceVariant
 import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.VellumCanvas
+import com.hussein.jana.core.designsystem.app_title_jana
+import com.hussein.jana.core.designsystem.teacher_title_female
+import com.hussein.jana.core.designsystem.teacher_title_male
+import com.hussein.jana.core.designsystem.teacher_title_with_subject
 import com.hussein.jana.core.designsystem.tab_courses
 import com.hussein.jana.core.designsystem.tab_jana_ai
 import com.hussein.jana.core.designsystem.tab_live_lessons
@@ -57,7 +61,7 @@ fun HomeScreen(
     Scaffold(
         topBar = {
             JanaTopBar(
-                screenTitle = state.teacherPlatformName,
+                screenTitle = homeTopBarTitle(state.teacherName, state.teacherGender, state.teacherSubject),
                 credits = state.credits,
                 showAvatar = true,
             )
@@ -83,6 +87,32 @@ fun HomeScreen(
                 HomeTab.PROFILE         -> ProfileTabScreen()
             }
         }
+    }
+}
+
+// ── Top bar title ─────────────────────────────────────────────────────────────
+
+/**
+ * Same title on every Home tab: "Mr./Mrs. <teacher> · <subject>".
+ * Falls back to "Jana" when the teacher name is unknown, and drops the
+ * subject part when the subject is blank.
+ */
+@Composable
+private fun homeTopBarTitle(
+    teacherName: String,
+    teacherGender: TeacherGender,
+    teacherSubject: String,
+): String {
+    if (teacherName.isBlank()) return stringResource(Res.string.app_title_jana)
+    val nameWithHonorific = when (teacherGender) {
+        TeacherGender.MALE    -> stringResource(Res.string.teacher_title_male, teacherName)
+        TeacherGender.FEMALE  -> stringResource(Res.string.teacher_title_female, teacherName)
+        TeacherGender.UNKNOWN -> teacherName
+    }
+    return if (teacherSubject.isBlank()) {
+        nameWithHonorific
+    } else {
+        stringResource(Res.string.teacher_title_with_subject, nameWithHonorific, teacherSubject)
     }
 }
 

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -80,6 +81,10 @@ fun CoursesContent(
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
+        // Nested inside HomeScreen's Scaffold, which already handles system insets
+        // (status bar on top, navigation bar below). Applying them again here
+        // added extra empty space at the top and bottom.
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
     ) { innerPadding ->
         when {
             state.isLoading -> {
@@ -136,7 +141,7 @@ fun CoursesContent(
                 ) {
                     JanaSectionHeader(
                         title = sectionTitle,
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp),
                     )
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),

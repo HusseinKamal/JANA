@@ -118,6 +118,12 @@
     <string name="error_platform_code_required">كود منصة المعلم مطلوب</string>
     <string name="error_email_required">البريد الإلكتروني أو اسم المستخدم مطلوب</string>
     <string name="error_email_invalid">يرجى إدخال بريد إلكتروني أو اسم مستخدم صحيح</string>
+    <!-- Home – top bar title for the Live tab -->
+    <string name="app_title_jana">جَنَى</string>
+    <string name="teacher_title_male">الأستاذ %1$s</string>
+    <string name="teacher_title_female">الأستاذة %1$s</string>
+    <!-- %1$s = honorific + name, %2$s = subject -->
+    <string name="teacher_title_with_subject">%1$s · %2$s</string>
     <!-- Home – new 5-tab bottom navigation -->
     <string name="tab_live_lessons">مباشر</string>
     <string name="tab_my_teacher_chat">معلمي</string>
