@@ -1,0 +1,33 @@
+{
+  "id": "FEAT-001",
+  "type": "feat",
+  "description": "Foundation layer: add all 28 Live Lessons string keys to EN and AR resources in core/designsystem, add 5 shared UI components (JanaStatusChip, JanaDateTimeLabel, JanaFileTypeIcon, JanaSectionHeader, JanaCountdownBadge) to core/designsystem, and extend PlatformActions with syncCalendar and previewFile expect/actual functions across all 3 platforms. This FEAT is independent of FEAT-002 and FEAT-003 and must land first because both depend on the string resource keys and new components.",
+  "status": "pending",
+  "steps": [
+    "Step 1 — Strings EN: Open core/designsystem/src/commonMain/composeResources/values/strings.xml and append all 28 new string entries at the end, inside the existing <resources> tag. Keys: live_lessons_title, live_upcoming_title, live_next_title, live_join_zoom, live_starts_in (value: 'Starts in %1$d min'), live_status_upcoming, live_status_live_now, live_status_ended, live_calendar_sync_title, live_calendar_sync_desc, live_calendar_sync_btn, live_calendar_synced, live_no_upcoming, live_no_lessons, lesson_detail_title, lesson_files_title, lesson_exams_title, lesson_file_preview, lesson_file_download, lesson_exam_timed, lesson_exam_open, lesson_exam_start, lesson_no_files, lesson_no_exams, live_refresh, live_error_retry, lesson_exam_view, live_sync_success. All in English.",
+
+    "Step 2 — Strings AR: Open core/designsystem/src/commonMain/composeResources/values-ar/strings.xml and add the same 28 keys with Arabic translations: live_lessons_title=الحصص المباشرة, live_upcoming_title=الحصة القادمة, live_next_title=الحصص التالية, live_join_zoom=انضم عبر Zoom, live_starts_in=تبدأ خلال %1$d دقيقة, live_status_upcoming=قادمة, live_status_live_now=مباشر الآن, live_status_ended=انتهت, live_calendar_sync_title=مزامنة التقويم, live_calendar_sync_desc=أضف حصصك إلى تقويم جهازك تلقائياً, live_calendar_sync_btn=مزامنة, live_calendar_synced=تمت المزامنة, live_no_upcoming=لا توجد حصص قادمة, live_no_lessons=لا توجد حصص أخرى, lesson_detail_title=تفاصيل الحصة, lesson_files_title=الملفات, lesson_exams_title=الاختبارات, lesson_file_preview=معاينة, lesson_file_download=تنزيل, lesson_exam_timed=موقّت, lesson_exam_open=مفتوح, lesson_exam_start=ابدأ الاختبار, lesson_no_files=لا توجد ملفات, lesson_no_exams=لا توجد اختبارات, live_refresh=تحديث, live_error_retry=حدث خطأ — اضغط للمحاولة مجدداً, lesson_exam_view=عرض الاختبار, live_sync_success=تمت مزامنة %1$d حصة.",
+
+    "Step 3 — Platform actions (commonMain): Open core/designsystem/src/commonMain/kotlin/com/hussein/jana/core/designsystem/PlatformActions.kt and add two new expect declarations below the existing ones: `expect fun syncCalendar(titles: List<String>, startEpochMs: List<Long>): Boolean` (takes parallel lists to avoid import cycles with feature domain models) and `expect fun previewFile(url: String, mimeType: String)`. Also add a convenience wrapper: `fun openZoomUrl(url: String) = openUrl(url)`.",
+
+    "Step 4 — Platform actions (androidMain): Open core/designsystem/src/androidMain/kotlin/com/hussein/jana/core/designsystem/PlatformActions.android.kt and add the two actuals. syncCalendar: for each lesson (title + startEpochMs), fire an Intent(Intent.ACTION_INSERT, CalendarContract.Events.CONTENT_URI) with TITLE, DTSTART, EVENT_TIMEZONE extras and FLAG_ACTIVITY_NEW_TASK. Return true if any lesson was inserted. previewFile: fire Intent(Intent.ACTION_VIEW) with Uri.parse(url) and setDataAndType(uri, mimeType) + FLAG_ACTIVITY_NEW_TASK; wrap in try/catch, return silently on failure.",
+
+    "Step 5 — Platform actions (iosMain): Open core/designsystem/src/iosMain/kotlin/com/hussein/jana/core/designsystem/PlatformActions.ios.kt and add the two actuals. syncCalendar: call the existing openUrl(nativeCalendarUrl) (calshow://) and return true — full EventKit cinterop is not available in this setup. previewFile: call openUrl(url).",
+
+    "Step 6 — Platform actions (jvmMain): Open core/designsystem/src/jvmMain/kotlin/com/hussein/jana/core/designsystem/PlatformActions.jvm.kt and add the two actuals. syncCalendar: build a minimal .ics string (BEGIN:VCALENDAR, one VEVENT per lesson), write to a temp file, call Desktop.getDesktop().open(tempFile), return true. previewFile: call the existing openUrl(url) (opens in system browser via Desktop.getDesktop().browse).",
+
+    "Step 7 — Shared UI components: Create a new file core/designsystem/src/commonMain/kotlin/com/hussein/jana/core/designsystem/JanaLiveLessonComponents.kt with these 5 composables in the same package: (a) JanaStatusChip(status: String, containerColor: Color, textColor: Color, modifier: Modifier = Modifier) — a Surface(shape=CircleShape) pill with a Text label; (b) JanaDateTimeLabel(formattedDateTime: String, modifier: Modifier = Modifier) — Row with CalendarMonth icon (tint=OnSurfaceVariant 12dp) + Text(bodySmall); (c) JanaFileTypeIcon(fileType: String, modifier: Modifier = Modifier) — Icon mapped by extension: PDF→PictureAsPdf(LiveRed), DOCX→Description(AstralIndigo), PPTX→Slideshow(AmberGold), OTHER→InsertDriveFile(OnSurfaceVariant); (d) JanaSectionHeader(title: String, actionLabel: String? = null, onAction: (() -> Unit)? = null, modifier: Modifier = Modifier) — Row with Text(titleSmall+SemiBold) on start and optional TextButton on end; (e) JanaCountdownBadge(minutesUntil: Int, modifier: Modifier = Modifier) — amber Surface pill with Timer icon + Text 'Starts in X min' (use the live_starts_in string but accept a pre-formatted string parameter to keep it composable-free at the call site — accept formattedText: String)."
+  ],
+  "acceptance_criteria": [
+    "All 28 string keys exist in both values/strings.xml and values-ar/strings.xml with no duplicates.",
+    "PlatformActions.kt declares syncCalendar and previewFile as expect functions.",
+    "All three platform actuals (android, ios, jvm) provide both implementations.",
+    "JanaLiveLessonComponents.kt exports all 5 composables in the com.hussein.jana.core.designsystem package.",
+    ".\\gradlew :core:designsystem:compileCommonMainKotlinMetadata completes with BUILD SUCCESSFUL."
+  ],
+  "verification": [
+    ".\\gradlew :core:designsystem:compileCommonMainKotlinMetadata"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

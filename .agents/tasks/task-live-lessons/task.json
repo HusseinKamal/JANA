@@ -1,0 +1,7 @@
+{
+  "task_id": "task-live-lessons",
+  "task_description": "Implement the Live Lessons feature for the JANA student app: full MVI screens (list + detail), domain/data layer with mock data, shared UI components, bilingual strings (EN+AR), platform calendar sync and file preview actions, and navigation wiring — all under feature/home/tabs/live and core/designsystem.",
+  "status": "pending",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003"],
+  "blocked_reason": null
+}

@@ -298,4 +298,34 @@
     <string name="schedule_action_book">جارٍ حجز مقعد...</string>
     <string name="schedule_action_syllabus">فتح المنهج...</string>
     <string name="schedule_action_coming_soon">قريباً</string>
+
+    <!-- Live Lessons tab -->
+    <string name="live_lessons_title">الحصص المباشرة</string>
+    <string name="live_upcoming_title">الحصة القادمة</string>
+    <string name="live_next_title">الحصص التالية</string>
+    <string name="live_join_zoom">انضم عبر Zoom</string>
+    <string name="live_starts_in">تبدأ خلال %1$d دقيقة</string>
+    <string name="live_status_upcoming">قادمة</string>
+    <string name="live_status_live_now">مباشر الآن</string>
+    <string name="live_status_ended">انتهت</string>
+    <string name="live_calendar_sync_title">مزامنة التقويم</string>
+    <string name="live_calendar_sync_desc">أضف حصصك إلى تقويم جهازك تلقائياً</string>
+    <string name="live_calendar_sync_btn">مزامنة</string>
+    <string name="live_calendar_synced">تمت المزامنة</string>
+    <string name="live_no_upcoming">لا توجد حصص قادمة</string>
+    <string name="live_no_lessons">لا توجد حصص أخرى</string>
+    <string name="lesson_detail_title">تفاصيل الحصة</string>
+    <string name="lesson_files_title">الملفات</string>
+    <string name="lesson_exams_title">الاختبارات</string>
+    <string name="lesson_file_preview">معاينة</string>
+    <string name="lesson_file_download">تنزيل</string>
+    <string name="lesson_exam_timed">موقّت</string>
+    <string name="lesson_exam_open">مفتوح</string>
+    <string name="lesson_exam_start">ابدأ الاختبار</string>
+    <string name="lesson_no_files">لا توجد ملفات</string>
+    <string name="lesson_no_exams">لا توجد اختبارات</string>
+    <string name="live_refresh">تحديث</string>
+    <string name="live_error_retry">حدث خطأ — اضغط للمحاولة مجدداً</string>
+    <string name="lesson_exam_view">عرض الاختبار</string>
+    <string name="live_sync_success">تمت مزامنة %1$d حصة.</string>
 </resources>

@@ -298,4 +298,34 @@
     <string name="schedule_action_book">Booking seat...</string>
     <string name="schedule_action_syllabus">Opening syllabus...</string>
     <string name="schedule_action_coming_soon">Coming soon</string>
+
+    <!-- Live Lessons tab -->
+    <string name="live_lessons_title">Live Lessons</string>
+    <string name="live_upcoming_title">Upcoming Lesson</string>
+    <string name="live_next_title">Next Lessons</string>
+    <string name="live_join_zoom">Join via Zoom</string>
+    <string name="live_starts_in">Starts in %1$d min</string>
+    <string name="live_status_upcoming">Upcoming</string>
+    <string name="live_status_live_now">Live Now</string>
+    <string name="live_status_ended">Ended</string>
+    <string name="live_calendar_sync_title">Calendar Sync</string>
+    <string name="live_calendar_sync_desc">Automatically add your lessons to your device calendar</string>
+    <string name="live_calendar_sync_btn">Sync</string>
+    <string name="live_calendar_synced">Synced</string>
+    <string name="live_no_upcoming">No upcoming lessons</string>
+    <string name="live_no_lessons">No other lessons</string>
+    <string name="lesson_detail_title">Lesson Details</string>
+    <string name="lesson_files_title">Files</string>
+    <string name="lesson_exams_title">Exams</string>
+    <string name="lesson_file_preview">Preview</string>
+    <string name="lesson_file_download">Download</string>
+    <string name="lesson_exam_timed">Timed</string>
+    <string name="lesson_exam_open">Open</string>
+    <string name="lesson_exam_start">Start Exam</string>
+    <string name="lesson_no_files">No files available</string>
+    <string name="lesson_no_exams">No exams available</string>
+    <string name="live_refresh">Refresh</string>
+    <string name="live_error_retry">Something went wrong — tap to retry</string>
+    <string name="lesson_exam_view">View Exam</string>
+    <string name="live_sync_success">%1$d lesson(s) synced successfully.</string>
 </resources>

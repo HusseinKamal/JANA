@@ -12,9 +12,11 @@ import com.hussein.jana.core.designsystem.home_snack_joining
 import com.hussein.jana.core.designsystem.home_snack_notifications
 import com.hussein.jana.core.designsystem.home_snack_quiz
 import com.hussein.jana.core.designsystem.home_snack_refill
-import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 /**
  * ViewModel for the Home tab.
@@ -49,7 +51,8 @@ class HomeTabViewModel(
 }
 
 /** Returns the current local hour (0–23) using the system clock. */
+@OptIn(ExperimentalTime::class)
 private fun computeCurrentHour(): Int =
-    Clock.System.now()
+    Instant.fromEpochMilliseconds(Clock.System.now().toEpochMilliseconds())
         .toLocalDateTime(TimeZone.currentSystemDefault())
         .hour

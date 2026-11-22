@@ -172,7 +172,7 @@ class ScheduleTabViewModelTest {
     // ── 5. SyncCalendarClicked ────────────────────────────────────────────────
 
     @Test
-    fun `SyncCalendarClicked emits ShowSnackbar with default syncComingSoon`() =
+    fun `SyncCalendarClicked emits OpenCalendar`() =
         runTest(testDispatcher) {
             val vm = buildVm()
             val effects = mutableListOf<ScheduleTabEffect>()
@@ -182,11 +182,7 @@ class ScheduleTabViewModelTest {
             advanceTimeBy(100)
 
             val effect = effects.firstOrNull()
-            assertTrue(effect is ScheduleTabEffect.ShowSnackbar)
-            assertEquals(
-                ScheduleStrings().syncComingSoon,
-                (effect as ScheduleTabEffect.ShowSnackbar).message,
-            )
+            assertTrue(effect is ScheduleTabEffect.OpenCalendar)
             collector.cancel()
         }
 
@@ -400,21 +396,21 @@ class ScheduleTabViewModelTest {
     // ── 17. updateStrings changes snackbar messages ───────────────────────────
 
     @Test
-    fun `updateStrings changes SyncCalendarClicked snackbar message`() =
+    fun `updateStrings changes snackbar messages`() =
         runTest(testDispatcher) {
             val vm = buildVm()
-            val arabicStrings = ScheduleStrings(syncComingSoon = "مزامنة التقويم قريباً")
+            val arabicStrings = ScheduleStrings(topUpComingSoon = "شحن الرصيد قريباً")
             vm.updateStrings(arabicStrings)
 
             val effects = mutableListOf<ScheduleTabEffect>()
             val collector = launch { vm.effect.collect { effects.add(it) } }
 
-            vm.onIntent(ScheduleTabIntent.SyncCalendarClicked)
+            vm.onIntent(ScheduleTabIntent.TopUpClicked)
             advanceTimeBy(100)
 
             val effect = effects.firstOrNull()
             assertTrue(effect is ScheduleTabEffect.ShowSnackbar)
-            assertEquals("مزامنة التقويم قريباً", (effect as ScheduleTabEffect.ShowSnackbar).message)
+            assertEquals("شحن الرصيد قريباً", (effect as ScheduleTabEffect.ShowSnackbar).message)
             collector.cancel()
         }
 
