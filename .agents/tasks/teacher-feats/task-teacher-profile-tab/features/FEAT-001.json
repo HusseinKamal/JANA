@@ -1,0 +1,37 @@
+{
+  "id": "FEAT-001",
+  "type": "refactor",
+  "description": "Shared UI foundation. Move JanaCourseCard from the courses feature into core/designsystem behind a JanaCourseCardUiModel. Add the shared JanaAvatar (Coil image over an initials fallback), JanaProfileHeader, JanaNavigationCard, JanaSubscriptionStatusCard, JanaChatBubble and JanaLoadingState/JanaErrorState/JanaEmptyState. Make the AI chat's UserMessageBubble delegate to JanaChatBubble. Add every new EN+AR string key. Extract the honorific name formatting out of HomeScreen into HOME/common/TeacherNameFormatting.kt. Rename CheckoutSession.courseId to itemId and CourseCheckoutSheetContent's courseTitle to itemTitle so the payment pieces can be reused for the live subscription. No user-visible change to the existing Courses, Course Details, JANA AI or Home title. Full spec: plan item 1 and the 'Shared component signatures' + 'New string keys' sections of d:/AndroidApps/JANA/JANA/.agents/tasks/teacher_plan.md.",
+  "status": "pending",
+  "steps": [
+    "Read d:/AndroidApps/JANA/JANA/.agents/tasks/teacher_plan.md sections 'Decisions', 'Shared component signatures', 'New string keys' and plan item 1.",
+    "Create core/designsystem/src/commonMain/kotlin/com/hussein/jana/core/designsystem/JanaCourseCard.kt with @Immutable data class JanaCourseCardUiModel(title, subjects, isLocked, isPurchasable, priceText: String?, completedLessons, totalLessons) and @Composable fun JanaCourseCard(model, onClick, onSubscribeClick, modifier = Modifier). Port the body of feature/home/.../tabs/courses/presentation/list/components/JanaCourseCard.kt keeping the identical look (border, thumbnail lock icon, subject chips, LockedFooter with JanaLockedBadge + JanaPriceTag + Subscribe only if isPurchasable, SubscribedFooter with progress + Start/Continue). Delete the old feature file.",
+    "Create feature/home/.../tabs/courses/presentation/common/CourseCardMapping.kt: @Composable internal fun Course.toCardUiModel(): JanaCourseCardUiModel (isLocked = !isSubscribed, isPurchasable, priceText = price?.formatted()). Update CoursesScreen.kt to call JanaCourseCard(model = course.toCardUiModel(), onClick = ..., onSubscribeClick = ...) and fix imports.",
+    "Create DS/JanaProfileComponents.kt: JanaAvatar(name, imageUrl, modifier, size = 40.dp, contentDescription = null), which is a Box clipped to CircleShape holding JanaInitialsAvatar(initialsOf(name), size) plus coil3.compose.AsyncImage(model = imageUrl, contentDescription, Modifier.matchParentSize().clip(CircleShape), contentScale = ContentScale.Crop) only when imageUrl is not blank; private initialsOf takes the first letter of up to 2 words, uppercased. JanaProfileHeader(name, subtitle, bio, imageUrl, modifier, avatarContentDescription) is a centered Column with an 88.dp avatar, headlineSmall Bold name, and subtitle/bio in bodyMedium onSurfaceVariant (hidden when blank). JanaNavigationCard(title, subtitle, icon: ImageVector, onClick, modifier) has the course-card look, a leading 40.dp primaryContainer circle with the icon, the title/subtitle, and a trailing Icons.AutoMirrored.Filled.NavigateNext.",
+    "Create DS/JanaSubscriptionStatusCard.kt: enum class JanaSubscriptionStatus { ACTIVE, EXPIRED, NOT_SUBSCRIBED } and JanaSubscriptionStatusCard(title, status, statusLabel, detailText, priceText, actionLabel, onAction, modifier, isActionLoading = false) with the course-card look. The title row ends in a JanaStatusChip (ACTIVE SuccessGreen.copy(alpha=0.15f)/SuccessGreen, EXPIRED errorContainer/onErrorContainer, NOT_SUBSCRIBED surfaceContainerHigh/onSurfaceVariant), followed by detailText bodySmall, JanaPriceTag when priceText != null, and a full-width ScholarlyTeal Button when actionLabel and onAction are both non-null (spinner + disabled while isActionLoading).",
+    "Create DS/JanaChatBubble.kt: JanaChatBubble(text, metaText, isOutgoing, modifier) generalising UserMessageBubble. Row fillMaxWidth with horizontal padding 16.dp and arrangement End/Start; Surface fillMaxWidth(0.8f) with combinedClickable long-press copy via LocalClipboardManager. Outgoing: ScholarlyTeal with OnPrimary text, shape topStart16/topEnd4/bottom16. Incoming: SurfaceContainerLow + 1.dp OutlineVariant border with OnBackground text, shape topStart4/topEnd16/bottom16. Body bodySmall lineHeight 20.sp; meta labelSmall at 0.7 alpha.",
+    "Create DS/JanaStateViews.kt: JanaLoadingState(modifier) (fillMaxWidth, padding 24.dp, centered CircularProgressIndicator(color = ScholarlyTeal)), JanaErrorState(message, retryLabel, onRetry, modifier) (centered Column, error-colored bodyMedium text + TextButton), JanaEmptyState(message, modifier) (centered bodyMedium onSurfaceVariant).",
+    "Change feature/home/.../tabs/janaai/components/UserMessageBubble.kt body to JanaChatBubble(text = msg.content, metaText = \"${msg.timestamp} • $userName\", isOutgoing = true, modifier = modifier), keeping the internal signature. Leave AiMessageBubble untouched.",
+    "Add the 18 string keys from the plan's table to core/designsystem/src/commonMain/composeResources/values/strings.xml AND values-ar/strings.xml (escape & as &amp;).",
+    "Create feature/home/src/commonMain/kotlin/com/hussein/jana/feature/home/common/TeacherNameFormatting.kt (package com.hussein.jana.feature.home.common) with @Composable fun teacherDisplayName(name: String, gender: TeacherGender): String (MALE → teacher_title_male, FEMALE → teacher_title_female, UNKNOWN → name) and @Composable fun teacherTitleWithSubject(name, gender, subject): String (teacher_title_with_subject, or the display name alone if the subject is blank). Make HomeScreen.homeTopBarTitle keep its blank-name → app_title_jana fallback and delegate to teacherTitleWithSubject.",
+    "In feature/home/.../tabs/courses/domain/model/Payment.kt rename CheckoutSession.courseId → itemId (KDoc: course id or subscription plan id) and update CoursePaymentRepositoryImpl.kt. In CourseCheckoutSheetContent.kt rename the parameter courseTitle → itemTitle and update CourseDetailScreen.kt's call. If any jvmTest file fails to compile because of these renames, fix only that reference.",
+    "Run verification commands 1-4. Commit: stage only the changed source/resource files by name (nothing under .agents/), message 'refactor: shared course card, profile, subscription, chat and state components in designsystem'."
+  ],
+  "acceptance_criteria": [
+    ".\\gradlew.bat :core:designsystem:compileCommonMainKotlinMetadata ends BUILD SUCCESSFUL",
+    ".\\gradlew.bat :feature:home:compileCommonMainKotlinMetadata ends BUILD SUCCESSFUL",
+    ".\\gradlew.bat :feature:home:jvmTest ends BUILD SUCCESSFUL with all existing tests passing",
+    ".\\gradlew.bat :androidApp:assembleDebug ends BUILD SUCCESSFUL",
+    "feature/home/.../tabs/courses/presentation/list/components/JanaCourseCard.kt no longer exists; CoursesScreen uses the designsystem JanaCourseCard via Course.toCardUiModel()",
+    "No designsystem file imports anything from com.hussein.jana.feature.*",
+    "Every new string key exists in both values/strings.xml and values-ar/strings.xml"
+  ],
+  "verification": [
+    ".\\gradlew.bat :core:designsystem:compileCommonMainKotlinMetadata",
+    ".\\gradlew.bat :feature:home:compileCommonMainKotlinMetadata",
+    ".\\gradlew.bat :feature:home:jvmTest",
+    ".\\gradlew.bat :androidApp:assembleDebug"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

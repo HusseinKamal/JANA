@@ -1,0 +1,7 @@
+{
+  "task_id": "task-teacher-profile-tab",
+  "task_description": "Replace the stub second bottom-nav tab ('Teacher' / 'معلمي') of the Jana Student app with a Teacher Profile screen for the ACTIVE teacher only (photo + honorific name + subject + bio, courses with subscribed/locked state reusing the shared course card and existing subscribe & pay flow, upcoming live lessons + live-lessons subscription status with checkout, and a Chat with Teacher entry opening a new Teacher Chat screen). MVI, Koin, EN+AR shared compose resources, state hoisting, shared designsystem UI. No new test classes (user request).",
+  "status": "pending",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003"],
+  "blocked_reason": null
+}
