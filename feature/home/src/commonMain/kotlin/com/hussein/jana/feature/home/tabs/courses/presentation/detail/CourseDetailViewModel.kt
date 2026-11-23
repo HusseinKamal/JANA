@@ -149,14 +149,15 @@ class CourseDetailViewModel(
             fail(PaymentFailure.FAILED)
             return
         }
-        if (verification.status != PaymentStatus.PENDING) pendingSessionId = null
-
         when {
             verification.status == PaymentStatus.PENDING -> fail(PaymentFailure.PENDING)
             verification.status == PaymentStatus.SUCCESS && verification.isSubscribed -> {
                 // Reflect the backend's view of the course; never flip isSubscribed locally.
+                // The session is kept until the re-fetch confirms the subscription, so a failed
+                // re-fetch makes Retry re-verify the paid session instead of charging again.
                 val refreshed = getCourseDetail(courseId).getOrNull()
                 if (refreshed?.isSubscribed == true) {
+                    pendingSessionId = null
                     val units = getCourseUnits(courseId).getOrNull()
                     setState {
                         copy(
@@ -170,7 +171,10 @@ class CourseDetailViewModel(
                     fail(PaymentFailure.FAILED)
                 }
             }
-            else -> fail(PaymentFailure.FAILED)
+            else -> {
+                pendingSessionId = null
+                fail(PaymentFailure.FAILED)
+            }
         }
     }
 

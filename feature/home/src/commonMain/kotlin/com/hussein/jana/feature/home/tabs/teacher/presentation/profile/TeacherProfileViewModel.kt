@@ -203,14 +203,15 @@ class TeacherProfileViewModel(
             fail(PaymentFailure.FAILED)
             return
         }
-        if (verification.status != PaymentStatus.PENDING) pendingSessionId = null
-
         when {
             verification.status == PaymentStatus.PENDING -> fail(PaymentFailure.PENDING)
             verification.status == PaymentStatus.SUCCESS && verification.isSubscribed -> {
                 // Reflect the backend's view of the subscription; never set ACTIVE locally.
+                // The session is kept until the re-fetch confirms ACTIVE, so a failed re-fetch
+                // makes Retry re-verify the paid session instead of opening a second checkout.
                 val refreshed = getLiveLessonsSubscription().getOrNull()
                 if (refreshed?.status == SubscriptionStatus.ACTIVE) {
+                    pendingSessionId = null
                     setState {
                         copy(
                             subscription = refreshed,
@@ -222,7 +223,10 @@ class TeacherProfileViewModel(
                     fail(PaymentFailure.FAILED)
                 }
             }
-            else -> fail(PaymentFailure.FAILED)
+            else -> {
+                pendingSessionId = null
+                fail(PaymentFailure.FAILED)
+            }
         }
     }
 

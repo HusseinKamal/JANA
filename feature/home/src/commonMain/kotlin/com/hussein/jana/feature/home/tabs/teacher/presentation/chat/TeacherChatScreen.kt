@@ -71,7 +71,6 @@ fun TeacherChatScreen(
     TeacherChatContent(
         state = state,
         snackbarHostState = snackbarHostState,
-        onBack = onBack,
         onIntent = viewModel::onIntent,
     )
 }
@@ -81,7 +80,6 @@ fun TeacherChatScreen(
 fun TeacherChatContent(
     state: TeacherChatUiState,
     snackbarHostState: SnackbarHostState,
-    onBack: () -> Unit,
     onIntent: (TeacherChatIntent) -> Unit,
 ) {
     Scaffold(
@@ -114,7 +112,7 @@ fun TeacherChatContent(
                     }
                 },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(onClick = { onIntent(TeacherChatIntent.Back) }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = stringResource(Res.string.nav_back),
