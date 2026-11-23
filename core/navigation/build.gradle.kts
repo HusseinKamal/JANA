@@ -21,6 +21,7 @@ kotlin {
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.androidx.navigation3.ui)
+            implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.koin.compose)
             implementation(project(":core:common"))

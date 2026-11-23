@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import org.koin.compose.koinInject
 
@@ -46,6 +47,14 @@ fun AppNavHost(
         NavDisplay(
             backStack = backStack,
             onBack = { navigator.back() },
+            // Give every back-stack entry its own saved state and ViewModelStore.
+            // Without this, koinViewModel() is scoped to the Activity, so a detail
+            // screen reused the first ViewModel it created and ignored new route
+            // arguments (courseId, openCheckout).
+            entryDecorators = listOf(
+                rememberSaveableStateHolderNavEntryDecorator(),
+                rememberEntryViewModelStoreDecorator(),
+            ),
             entryProvider = { key ->
                 @Suppress("UNCHECKED_CAST")
                 (providers.firstNotNullOfOrNull { it.entryFor(key) }
