@@ -14,6 +14,7 @@ import com.hussein.jana.feature.home.tabs.teacher.domain.usecase.GetTeacherUpcom
 import com.hussein.jana.feature.home.tabs.teacher.domain.usecase.SendTeacherMessageUseCase
 import com.hussein.jana.feature.home.tabs.teacher.domain.usecase.VerifyLiveSubscriptionPaymentUseCase
 import com.hussein.jana.feature.home.tabs.teacher.presentation.chat.TeacherChatViewModel
+import com.hussein.jana.feature.home.tabs.teacher.presentation.profile.TeacherProfileViewModel
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModel
@@ -34,4 +35,5 @@ val teacherModule = module {
     factoryOf(::SendTeacherMessageUseCase)
 
     viewModel { TeacherChatViewModel(get(), get(), get()) }
+    viewModel { TeacherProfileViewModel(get(), get(), get(), get(), get(), get(), get()) }
 }

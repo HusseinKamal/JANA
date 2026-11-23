@@ -32,11 +32,11 @@ import com.hussein.jana.core.designsystem.tab_live_lessons
 import com.hussein.jana.core.designsystem.tab_my_teacher_chat
 import com.hussein.jana.core.designsystem.tab_profile
 import com.hussein.jana.feature.home.common.teacherTitleWithSubject
-import com.hussein.jana.feature.home.tabs.chat.MyTeacherChatTabScreen
 import com.hussein.jana.feature.home.tabs.courses.CoursesTabScreen
 import com.hussein.jana.feature.home.tabs.janaai.JanaAiTabScreen
 import com.hussein.jana.feature.home.tabs.live.LiveLessonsTabScreen
 import com.hussein.jana.feature.home.tabs.profile.ProfileTabScreen
+import com.hussein.jana.feature.home.tabs.teacher.TeacherTabScreen
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -79,7 +79,7 @@ fun HomeScreen(
         ) {
             when (state.selectedTab) {
                 HomeTab.LIVE_LESSONS    -> LiveLessonsTabScreen()
-                HomeTab.MY_TEACHER_CHAT -> MyTeacherChatTabScreen()
+                HomeTab.MY_TEACHER_CHAT -> TeacherTabScreen()
                 HomeTab.JANA_AI         -> JanaAiTabScreen()
                 HomeTab.COURSES         -> CoursesTabScreen()
                 HomeTab.PROFILE         -> ProfileTabScreen()
