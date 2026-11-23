@@ -26,14 +26,12 @@ import com.hussein.jana.core.designsystem.OnSurfaceVariant
 import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.VellumCanvas
 import com.hussein.jana.core.designsystem.app_title_jana
-import com.hussein.jana.core.designsystem.teacher_title_female
-import com.hussein.jana.core.designsystem.teacher_title_male
-import com.hussein.jana.core.designsystem.teacher_title_with_subject
 import com.hussein.jana.core.designsystem.tab_courses
 import com.hussein.jana.core.designsystem.tab_jana_ai
 import com.hussein.jana.core.designsystem.tab_live_lessons
 import com.hussein.jana.core.designsystem.tab_my_teacher_chat
 import com.hussein.jana.core.designsystem.tab_profile
+import com.hussein.jana.feature.home.common.teacherTitleWithSubject
 import com.hussein.jana.feature.home.tabs.chat.MyTeacherChatTabScreen
 import com.hussein.jana.feature.home.tabs.courses.CoursesTabScreen
 import com.hussein.jana.feature.home.tabs.janaai.JanaAiTabScreen
@@ -104,16 +102,7 @@ private fun homeTopBarTitle(
     teacherSubject: String,
 ): String {
     if (teacherName.isBlank()) return stringResource(Res.string.app_title_jana)
-    val nameWithHonorific = when (teacherGender) {
-        TeacherGender.MALE    -> stringResource(Res.string.teacher_title_male, teacherName)
-        TeacherGender.FEMALE  -> stringResource(Res.string.teacher_title_female, teacherName)
-        TeacherGender.UNKNOWN -> teacherName
-    }
-    return if (teacherSubject.isBlank()) {
-        nameWithHonorific
-    } else {
-        stringResource(Res.string.teacher_title_with_subject, nameWithHonorific, teacherSubject)
-    }
+    return teacherTitleWithSubject(teacherName, teacherGender, teacherSubject)
 }
 
 // ── Bottom navigation ─────────────────────────────────────────────────────────

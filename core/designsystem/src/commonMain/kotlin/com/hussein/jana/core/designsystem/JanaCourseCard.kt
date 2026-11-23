@@ -1,4 +1,4 @@
-package com.hussein.jana.feature.home.tabs.courses.presentation.list.components
+package com.hussein.jana.core.designsystem
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -26,25 +26,30 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.hussein.jana.core.designsystem.JanaLockedBadge
-import com.hussein.jana.core.designsystem.JanaPriceTag
-import com.hussein.jana.core.designsystem.JanaStatusChip
-import com.hussein.jana.core.designsystem.Res
-import com.hussein.jana.core.designsystem.ScholarlyTeal
-import com.hussein.jana.core.designsystem.SurfaceContainerLowest
-import com.hussein.jana.core.designsystem.course_continue_btn
-import com.hussein.jana.core.designsystem.course_locked
-import com.hussein.jana.core.designsystem.course_progress_label
-import com.hussein.jana.core.designsystem.course_start_btn
-import com.hussein.jana.core.designsystem.course_subscribe_btn
-import com.hussein.jana.feature.home.tabs.courses.domain.model.Course
-import com.hussein.jana.feature.home.tabs.courses.presentation.common.formatted
 import org.jetbrains.compose.resources.stringResource
+
+/**
+ * UI model for [JanaCourseCard]. Feature modules map their domain course to this.
+ *
+ * @property isPurchasable Subscribe button is shown only when the card is locked and purchasable.
+ * @property priceText     Already formatted price; `null` hides the price.
+ */
+@Immutable
+data class JanaCourseCardUiModel(
+    val title: String,
+    val subjects: List<String>,
+    val isLocked: Boolean,
+    val isPurchasable: Boolean,
+    val priceText: String?,
+    val completedLessons: Int,
+    val totalLessons: Int,
+)
 
 /**
  * Card showing a course summary: title, subject chips and either
@@ -54,13 +59,11 @@ import org.jetbrains.compose.resources.stringResource
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun JanaCourseCard(
-    course: Course,
+    model: JanaCourseCardUiModel,
     onClick: () -> Unit,
     onSubscribeClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val isLocked = !course.isSubscribed
-
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -85,7 +88,7 @@ fun JanaCourseCard(
                     .background(MaterialTheme.colorScheme.surfaceContainerHigh),
                 contentAlignment = Alignment.Center,
             ) {
-                if (isLocked) {
+                if (model.isLocked) {
                     Icon(
                         imageVector = Icons.Rounded.Lock,
                         contentDescription = null,
@@ -98,7 +101,7 @@ fun JanaCourseCard(
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = course.title,
+                text = model.title,
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -108,7 +111,7 @@ fun JanaCourseCard(
 
             // Subject chips
             FlowRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                course.subjects.forEach { subject ->
+                model.subjects.forEach { subject ->
                     JanaStatusChip(
                         status = subject,
                         containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -119,10 +122,10 @@ fun JanaCourseCard(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            if (isLocked) {
-                LockedFooter(course = course, onSubscribeClick = onSubscribeClick)
+            if (model.isLocked) {
+                LockedFooter(model = model, onSubscribeClick = onSubscribeClick)
             } else {
-                SubscribedFooter(course = course, onClick = onClick)
+                SubscribedFooter(model = model, onClick = onClick)
             }
         }
     }
@@ -130,7 +133,7 @@ fun JanaCourseCard(
 
 @Composable
 private fun LockedFooter(
-    course: Course,
+    model: JanaCourseCardUiModel,
     onSubscribeClick: () -> Unit,
 ) {
     Row(
@@ -139,11 +142,11 @@ private fun LockedFooter(
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         JanaLockedBadge(text = stringResource(Res.string.course_locked))
-        course.price?.let { JanaPriceTag(priceText = it.formatted()) }
+        model.priceText?.let { JanaPriceTag(priceText = it) }
     }
 
     // Unpriced locked courses cannot be bought, so they show no Subscribe button.
-    if (course.isPurchasable) {
+    if (model.isPurchasable) {
         Spacer(modifier = Modifier.height(12.dp))
 
         CardActionButton(
@@ -155,22 +158,22 @@ private fun LockedFooter(
 
 @Composable
 private fun SubscribedFooter(
-    course: Course,
+    model: JanaCourseCardUiModel,
     onClick: () -> Unit,
 ) {
-    val progress = if (course.totalLessons > 0) {
-        course.completedLessons.toFloat() / course.totalLessons.toFloat()
+    val progress = if (model.totalLessons > 0) {
+        model.completedLessons.toFloat() / model.totalLessons.toFloat()
     } else {
         0f
     }
-    val buttonLabel = if (course.completedLessons > 0) {
+    val buttonLabel = if (model.completedLessons > 0) {
         stringResource(Res.string.course_continue_btn)
     } else {
         stringResource(Res.string.course_start_btn)
     }
     val progressLabel = stringResource(Res.string.course_progress_label)
-        .replace("%1\$d", course.completedLessons.toString())
-        .replace("%2\$d", course.totalLessons.toString())
+        .replace("%1\$d", model.completedLessons.toString())
+        .replace("%2\$d", model.totalLessons.toString())
 
     // Progress bar + label
     LinearProgressIndicator(

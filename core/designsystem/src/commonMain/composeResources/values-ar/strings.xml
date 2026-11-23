@@ -387,4 +387,26 @@
     <string name="payment_subscription_activated">تم تفعيل الاشتراك</string>
     <string name="payment_failed">فشل الدفع. حاول مرة أخرى.</string>
     <string name="payment_pending">الدفع قيد التأكيد</string>
+
+    <!-- Teacher profile tab -->
+    <string name="teacher_profile_photo_cd">صورة المعلم</string>
+    <string name="teacher_profile_chat_title">تحدث مع معلمك</string>
+    <string name="teacher_profile_chat_subtitle">اسأل واحصل على إجابات مباشرة</string>
+    <string name="teacher_profile_courses_section">الكورسات والاشتراكات</string>
+    <string name="teacher_profile_live_section">الحصص المباشرة والاشتراك</string>
+    <string name="subscription_live_plan_title">اشتراك الحصص المباشرة</string>
+    <string name="subscription_status_active">نشط</string>
+    <string name="subscription_status_expired">منتهي</string>
+    <string name="subscription_status_not_subscribed">غير مشترك</string>
+    <string name="subscription_active_until">نشط حتى %1$s</string>
+    <string name="subscription_expired_on">انتهى في %1$s</string>
+    <string name="subscription_live_unlock_desc">احضر كل الحصص المباشرة مع معلمك</string>
+    <string name="subscription_subscribe_btn">اشترك</string>
+    <string name="subscription_renew_btn">تجديد</string>
+
+    <!-- Teacher chat -->
+    <string name="teacher_chat_title">المحادثة</string>
+    <string name="teacher_chat_input_hint">اكتب رسالة…</string>
+    <string name="teacher_chat_empty">لا توجد رسائل بعد. ابدأ المحادثة!</string>
+    <string name="teacher_chat_send_failed">لم يتم إرسال الرسالة. حاول مرة أخرى.</string>
 </resources>

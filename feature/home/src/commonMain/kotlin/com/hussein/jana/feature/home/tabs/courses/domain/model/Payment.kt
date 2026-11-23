@@ -6,7 +6,8 @@ enum class PaymentStatus { SUCCESS, PENDING, FAILED }
 
 data class CheckoutSession(
     val id: String,
-    val courseId: String,
+    /** Id of the purchased item: a course id or a subscription plan id. */
+    val itemId: String,
     val amount: Double,
     val currencyCode: String,
     /** Hosted payment page, when the gateway requires a redirect. */

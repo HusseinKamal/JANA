@@ -269,7 +269,7 @@ fun CourseDetailContent(
             dismissEnabled = !state.checkout.isBusy,
         ) {
             CourseCheckoutSheetContent(
-                courseTitle = course.title,
+                itemTitle = course.title,
                 priceText = priceText,
                 checkout = state.checkout,
                 onMethodSelected = { onIntent(CourseDetailIntent.PaymentMethodSelected(it)) },

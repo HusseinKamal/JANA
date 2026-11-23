@@ -387,4 +387,26 @@
     <string name="payment_subscription_activated">Subscription activated</string>
     <string name="payment_failed">Payment failed. Please try again.</string>
     <string name="payment_pending">Payment is pending confirmation</string>
+
+    <!-- Teacher profile tab -->
+    <string name="teacher_profile_photo_cd">Teacher photo</string>
+    <string name="teacher_profile_chat_title">Chat with your teacher</string>
+    <string name="teacher_profile_chat_subtitle">Ask questions and get answers directly</string>
+    <string name="teacher_profile_courses_section">Courses &amp; subscriptions</string>
+    <string name="teacher_profile_live_section">Live lessons &amp; subscription</string>
+    <string name="subscription_live_plan_title">Live lessons subscription</string>
+    <string name="subscription_status_active">Active</string>
+    <string name="subscription_status_expired">Expired</string>
+    <string name="subscription_status_not_subscribed">Not subscribed</string>
+    <string name="subscription_active_until">Active until %1$s</string>
+    <string name="subscription_expired_on">Expired on %1$s</string>
+    <string name="subscription_live_unlock_desc">Join all live lessons with your teacher</string>
+    <string name="subscription_subscribe_btn">Subscribe</string>
+    <string name="subscription_renew_btn">Renew</string>
+
+    <!-- Teacher chat -->
+    <string name="teacher_chat_title">Chat</string>
+    <string name="teacher_chat_input_hint">Write a message…</string>
+    <string name="teacher_chat_empty">No messages yet. Say hello!</string>
+    <string name="teacher_chat_send_failed">Message not sent. Please try again.</string>
 </resources>

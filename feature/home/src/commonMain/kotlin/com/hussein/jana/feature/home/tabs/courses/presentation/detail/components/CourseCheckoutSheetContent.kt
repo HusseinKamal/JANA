@@ -58,7 +58,7 @@ import org.jetbrains.compose.resources.stringResource
  */
 @Composable
 fun CourseCheckoutSheetContent(
-    courseTitle: String,
+    itemTitle: String,
     priceText: String?,
     checkout: CheckoutUiState,
     onMethodSelected: (PaymentMethod) -> Unit,
@@ -80,7 +80,7 @@ fun CourseCheckoutSheetContent(
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = courseTitle,
+            text = itemTitle,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )

@@ -35,7 +35,8 @@ import com.hussein.jana.core.designsystem.courses_title
 import com.hussein.jana.core.designsystem.error_generic
 import com.hussein.jana.core.navigation.AppNavigator
 import com.hussein.jana.core.navigation.HomeRoute
-import com.hussein.jana.feature.home.tabs.courses.presentation.list.components.JanaCourseCard
+import com.hussein.jana.core.designsystem.JanaCourseCard
+import com.hussein.jana.feature.home.tabs.courses.presentation.common.toCardUiModel
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
@@ -149,7 +150,7 @@ fun CoursesContent(
                     ) {
                         items(state.courses, key = { it.id }) { course ->
                             JanaCourseCard(
-                                course = course,
+                                model = course.toCardUiModel(),
                                 onClick = { onIntent(CoursesIntent.OpenCourse(course.id)) },
                                 onSubscribeClick = { onIntent(CoursesIntent.SubscribeClicked(course.id)) },
                             )

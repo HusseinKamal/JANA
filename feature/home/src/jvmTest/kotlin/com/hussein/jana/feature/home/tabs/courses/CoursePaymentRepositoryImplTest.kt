@@ -19,7 +19,7 @@ class CoursePaymentRepositoryImplTest {
     fun `createCheckout alone does not subscribe`() = runTest {
         val session = repository.createCheckout(lockedCourse.id, PaymentMethod.CARD).getOrThrow()
 
-        assertEquals(lockedCourse.id, session.courseId)
+        assertEquals(lockedCourse.id, session.itemId)
         assertEquals(450.0, session.amount)
         assertEquals("EGP", session.currencyCode)
         assertFalse(store.find(lockedCourse.id)!!.isSubscribed)

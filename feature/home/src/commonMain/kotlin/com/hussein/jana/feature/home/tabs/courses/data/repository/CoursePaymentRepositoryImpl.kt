@@ -28,7 +28,7 @@ class CoursePaymentRepositoryImpl(
             ?: return Result.failure(IllegalStateException("Course $courseId has no price"))
         val session = CheckoutSession(
             id = "chk_${courseId}_${counter++}",
-            courseId = courseId,
+            itemId = courseId,
             amount = price.amount,
             currencyCode = price.currencyCode,
             checkoutUrl = null,
@@ -45,7 +45,7 @@ class CoursePaymentRepositoryImpl(
             ?: return Result.success(
                 PaymentVerification(checkoutId, PaymentStatus.FAILED, isSubscribed = false),
             )
-        store.markSubscribed(session.courseId)
+        store.markSubscribed(session.itemId)
         return Result.success(
             PaymentVerification(checkoutId, PaymentStatus.SUCCESS, isSubscribed = true),
         )

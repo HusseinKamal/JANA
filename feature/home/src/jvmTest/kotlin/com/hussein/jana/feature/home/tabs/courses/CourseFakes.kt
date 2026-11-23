@@ -91,7 +91,7 @@ internal class FakeCoursePaymentRepository(
     ): Result<CheckoutSession> {
         val session = CheckoutSession(
             id = "chk_${createdSessions.size}",
-            courseId = courseId,
+            itemId = courseId,
             amount = 450.0,
             currencyCode = "EGP",
         )
@@ -104,7 +104,7 @@ internal class FakeCoursePaymentRepository(
         verifiedSessionIds += checkoutId
         val status = verifyResults.removeFirstOrNull() ?: PaymentStatus.SUCCESS
         val session = createdSessions.first { it.id == checkoutId }
-        if (status == PaymentStatus.SUCCESS) courseRepository.markSubscribed(session.courseId)
+        if (status == PaymentStatus.SUCCESS) courseRepository.markSubscribed(session.itemId)
         return Result.success(
             PaymentVerification(checkoutId, status, isSubscribed = status == PaymentStatus.SUCCESS),
         )
