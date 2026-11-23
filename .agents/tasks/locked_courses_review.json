@@ -1,0 +1,8 @@
+{
+  "verdict": "APPROVED",
+  "findings": [
+    "Paid-but-refetch-failed retry creates a new checkout (non-blocking, confirmed): CourseDetailViewModel.verify() clears pendingSessionId as soon as verify returns SUCCESS, before the course re-fetch. If the re-fetch fails, Retry calls createCheckout again for an already-paid course. Keep the session until the re-fetch confirms isSubscribed, or make Retry in that state only re-fetch.",
+    "PENDING session cannot be abandoned (non-blocking, likely): while pendingSessionId is set, every Pay/Retry re-verifies the old session. DismissCheckout does not clear it, the method picker stays enabled but is ignored, and the button still reads 'Pay X'. Clear pendingSessionId on dismiss or method change, or label the action as a status check."
+  ],
+  "reviewDoc": "d:\\AndroidApps\\JANA\\JANA/.agents/tasks/locked_courses_review.md"
+}
