@@ -19,4 +19,6 @@ sealed interface HomeRoute : NavKey {
     @Serializable data class LessonDetail(val lessonId: String) : HomeRoute
     /** [openCheckout] opens the subscribe & pay sheet once the course loads (if still locked). */
     @Serializable data class CourseDetail(val courseId: String, val openCheckout: Boolean = false) : HomeRoute
+    /** Chat with the active teacher. The teacher comes from the session, so the route carries no id. */
+    @Serializable data object TeacherChat : HomeRoute
 }

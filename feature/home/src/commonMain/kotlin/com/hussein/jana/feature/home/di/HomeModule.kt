@@ -8,13 +8,14 @@ import com.hussein.jana.feature.home.tabs.home.HomeTabViewModel
 import com.hussein.jana.feature.home.tabs.janaai.AiChatViewModel
 import com.hussein.jana.feature.home.tabs.live.di.liveLessonsModule
 import com.hussein.jana.feature.home.tabs.schedule.ScheduleTabViewModel
+import com.hussein.jana.feature.home.tabs.teacher.di.teacherModule
 import com.hussein.jana.feature.home.tabs.teachers.TeachersTabViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val homeModule = module {
-    includes(liveLessonsModule, coursesModule)
+    includes(liveLessonsModule, coursesModule, teacherModule)
     viewModel { HomeViewModel() }
     viewModel { HomeTabViewModel() }
     viewModel { TeachersTabViewModel() }

@@ -7,6 +7,7 @@ import com.hussein.jana.core.navigation.FeatureEntryProvider
 import com.hussein.jana.core.navigation.HomeRoute
 import com.hussein.jana.feature.home.tabs.courses.presentation.detail.CourseDetailScreen
 import com.hussein.jana.feature.home.tabs.live.presentation.detail.LessonDetailScreen
+import com.hussein.jana.feature.home.tabs.teacher.presentation.chat.TeacherChatScreen
 import org.koin.compose.koinInject
 
 class HomeEntryProvider : FeatureEntryProvider {
@@ -26,6 +27,10 @@ class HomeEntryProvider : FeatureEntryProvider {
                 openCheckout = key.openCheckout,
                 onBack = { navigator.back() },
             )
+        }
+        is HomeRoute.TeacherChat -> NavEntry(key) {
+            val navigator: AppNavigator = koinInject()
+            TeacherChatScreen(onBack = { navigator.back() })
         }
         else -> null
     }
