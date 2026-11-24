@@ -1,5 +1,6 @@
 package com.hussein.jana.di
 
+import com.hussein.jana.core.designsystem.AppLocaleManager
 import com.hussein.jana.core.di.coreModule
 import com.hussein.jana.core.navigation.FeatureEntryProvider
 import com.hussein.jana.feature.auth.di.authModule
@@ -17,6 +18,7 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) = startKoin {
         homeModule,
         authModule,
         module {
+            single { AppLocaleManager() }
             single<List<FeatureEntryProvider>> { getAll<FeatureEntryProvider>() }
         },
     )

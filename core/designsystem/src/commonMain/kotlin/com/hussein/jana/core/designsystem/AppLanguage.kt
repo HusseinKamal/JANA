@@ -1,9 +1,6 @@
 package com.hussein.jana.core.designsystem
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.staticCompositionLocalOf
 
 enum class AppLanguage(val code: String) {
     ENGLISH("en"),
@@ -17,15 +14,9 @@ enum class AppLanguage(val code: String) {
     }
 }
 
-val LocalAppLanguage = compositionLocalOf { mutableStateOf(AppLanguage.ENGLISH) }
+/** Current app language, provided at the app root from [AppLocaleManager]. */
+val LocalAppLanguage = staticCompositionLocalOf { AppLanguage.ENGLISH }
 
-@Composable
-fun ApplyAppLanguageLocale() {
-    val language = LocalAppLanguage.current.value
-    SideEffect { applyLocale(language.code) }
-}
-
-expect fun applyLocale(languageCode: String)
+/** Persists [language] only; switching at runtime goes through [AppLocaleManager]. */
 expect fun saveLanguage(language: AppLanguage)
-expect fun saveLanguageAndRestart(language: AppLanguage)
 expect fun loadSavedLanguage(): AppLanguage

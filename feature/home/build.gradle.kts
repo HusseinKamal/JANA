@@ -22,6 +22,7 @@ kotlin {
             implementation(project(":core:common"))
             api(project(":core:designsystem"))
             implementation(project(":core:navigation"))
+            implementation(project(":core:datastore"))
             implementation(project(":shared-models"))
 
             implementation(libs.compose.runtime)

@@ -1,15 +1,15 @@
 package com.hussein.jana.core.designsystem
 
-actual fun applyLocale(languageCode: String) {
-    // iOS: RTL is handled by LocalLayoutDirection
-}
+import platform.Foundation.NSUserDefaults
 
-actual fun loadSavedLanguage(): AppLanguage = AppLanguage.ENGLISH
+private const val KEY_LANGUAGE = "jana_selected_language"
+
+actual fun loadSavedLanguage(): AppLanguage {
+    val code = NSUserDefaults.standardUserDefaults.stringForKey(KEY_LANGUAGE)
+        ?: return AppLanguage.ENGLISH
+    return AppLanguage.fromCode(code)
+}
 
 actual fun saveLanguage(language: AppLanguage) {
-    // iOS stub
-}
-
-actual fun saveLanguageAndRestart(language: AppLanguage) {
-    // iOS stub
+    NSUserDefaults.standardUserDefaults.setObject(language.code, KEY_LANGUAGE)
 }
