@@ -24,7 +24,6 @@ sealed interface EditProfileIntent : MviIntent {
     data class NameChanged(val value: String) : EditProfileIntent
     data class EmailChanged(val value: String) : EditProfileIntent
     data class PhoneChanged(val value: String) : EditProfileIntent
-    data object ChangePhotoClicked : EditProfileIntent
     data object SaveClicked : EditProfileIntent
     data object BackClicked : EditProfileIntent
 }
@@ -32,6 +31,5 @@ sealed interface EditProfileIntent : MviIntent {
 sealed interface EditProfileEffect : MviEffect {
     data object Saved : EditProfileEffect
     data object SaveFailed : EditProfileEffect
-    data object ShowPhotoComingSoon : EditProfileEffect
     data object NavigateBack : EditProfileEffect
 }

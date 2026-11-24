@@ -26,7 +26,6 @@ import com.hussein.jana.core.designsystem.btn_back
 import com.hussein.jana.core.designsystem.btn_retry
 import com.hussein.jana.core.designsystem.error_generic
 import com.hussein.jana.core.designsystem.profile_edit_profile
-import com.hussein.jana.core.designsystem.profile_photo_coming_soon
 import com.hussein.jana.core.designsystem.profile_saved
 import com.hussein.jana.feature.home.tabs.profile.presentation.edit.components.EditProfileForm
 import kotlinx.coroutines.delay
@@ -48,7 +47,6 @@ fun EditProfileScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val savedText = stringResource(Res.string.profile_saved)
     val errorText = stringResource(Res.string.error_generic)
-    val photoComingSoonText = stringResource(Res.string.profile_photo_coming_soon)
 
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { effect ->
@@ -59,7 +57,6 @@ fun EditProfileScreen(
                     onBack()
                 }
                 EditProfileEffect.SaveFailed -> snackbarHostState.showSnackbar(errorText)
-                EditProfileEffect.ShowPhotoComingSoon -> snackbarHostState.showSnackbar(photoComingSoonText)
                 EditProfileEffect.NavigateBack -> onBack()
             }
         }
@@ -124,7 +121,6 @@ fun EditProfileContent(
                 onNameChange = { onIntent(EditProfileIntent.NameChanged(it)) },
                 onEmailChange = { onIntent(EditProfileIntent.EmailChanged(it)) },
                 onPhoneChange = { onIntent(EditProfileIntent.PhoneChanged(it)) },
-                onChangePhotoClick = { onIntent(EditProfileIntent.ChangePhotoClicked) },
                 onSaveClick = { onIntent(EditProfileIntent.SaveClicked) },
                 modifier = Modifier
                     .fillMaxSize()

@@ -23,8 +23,6 @@ class EditProfileViewModel(
         is EditProfileIntent.NameChanged -> setState { copy(fullName = intent.value, nameError = null) }
         is EditProfileIntent.EmailChanged -> setState { copy(email = intent.value, emailError = null) }
         is EditProfileIntent.PhoneChanged -> setState { copy(phone = intent.value, phoneError = null) }
-        // TODO: image picker + POST /api/v1/me/avatar
-        EditProfileIntent.ChangePhotoClicked -> sendEffect(EditProfileEffect.ShowPhotoComingSoon)
         EditProfileIntent.SaveClicked -> save()
         EditProfileIntent.BackClicked -> sendEffect(EditProfileEffect.NavigateBack)
     }

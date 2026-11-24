@@ -8,8 +8,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Phone
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,7 +22,6 @@ import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.btn_save
 import com.hussein.jana.core.designsystem.email_label
 import com.hussein.jana.core.designsystem.name_label
-import com.hussein.jana.core.designsystem.profile_change_photo
 import com.hussein.jana.core.designsystem.profile_email_hint
 import com.hussein.jana.core.designsystem.profile_name_hint
 import com.hussein.jana.core.designsystem.profile_phone_hint
@@ -48,7 +45,6 @@ fun EditProfileForm(
     onNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
     onPhoneChange: (String) -> Unit,
-    onChangePhotoClick: () -> Unit,
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -60,15 +56,15 @@ fun EditProfileForm(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            // TODO: add a "Change photo" action once POST /api/v1/me/avatar exists. The
+            //  dependency-free expect/actual picker in WearVerse
+            //  feature/profile/.../presentation/editprofile/ImagePicker.kt can be ported then.
             JanaAvatar(
                 name = fullName,
                 imageUrl = photoUrl,
                 size = 96.dp,
                 contentDescription = stringResource(Res.string.profile_photo_cd),
             )
-            TextButton(onClick = onChangePhotoClick, enabled = !isSaving) {
-                Text(text = stringResource(Res.string.profile_change_photo))
-            }
         }
 
         JanaTextField(

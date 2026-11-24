@@ -418,8 +418,6 @@
     <string name="profile_name_hint">Your full name</string>
     <string name="profile_email_hint">name@example.com</string>
     <string name="profile_phone_hint">+20 100 000 0000</string>
-    <string name="profile_change_photo">Change photo</string>
-    <string name="profile_photo_coming_soon">Photo upload is coming soon</string>
     <string name="profile_saved">Profile updated</string>
     <string name="profile_section_learning">Learning</string>
     <string name="profile_syllabus">Syllabus</string>
