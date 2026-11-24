@@ -82,7 +82,9 @@ fun HomeScreen(
                 HomeTab.MY_TEACHER_CHAT -> TeacherTabScreen()
                 HomeTab.JANA_AI         -> JanaAiTabScreen()
                 HomeTab.COURSES         -> CoursesTabScreen()
-                HomeTab.PROFILE         -> ProfileTabScreen()
+                HomeTab.PROFILE         -> ProfileTabScreen(
+                    onOpenTab = { onIntent(HomeIntent.TabSelected(it)) },
+                )
             }
         }
     }

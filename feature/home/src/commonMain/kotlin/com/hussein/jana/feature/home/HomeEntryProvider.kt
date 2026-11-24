@@ -7,6 +7,9 @@ import com.hussein.jana.core.navigation.FeatureEntryProvider
 import com.hussein.jana.core.navigation.HomeRoute
 import com.hussein.jana.feature.home.tabs.courses.presentation.detail.CourseDetailScreen
 import com.hussein.jana.feature.home.tabs.live.presentation.detail.LessonDetailScreen
+import com.hussein.jana.feature.home.tabs.profile.presentation.edit.EditProfileScreen
+import com.hussein.jana.feature.home.tabs.profile.presentation.progress.ProgressScreen
+import com.hussein.jana.feature.home.tabs.profile.presentation.syllabus.SyllabusScreen
 import com.hussein.jana.feature.home.tabs.teacher.presentation.chat.TeacherChatScreen
 import org.koin.compose.koinInject
 
@@ -31,6 +34,18 @@ class HomeEntryProvider : FeatureEntryProvider {
         is HomeRoute.TeacherChat -> NavEntry(key) {
             val navigator: AppNavigator = koinInject()
             TeacherChatScreen(onBack = { navigator.back() })
+        }
+        is HomeRoute.EditProfile -> NavEntry(key) {
+            val navigator: AppNavigator = koinInject()
+            EditProfileScreen(onBack = { navigator.back() })
+        }
+        is HomeRoute.Syllabus -> NavEntry(key) {
+            val navigator: AppNavigator = koinInject()
+            SyllabusScreen(onBack = { navigator.back() })
+        }
+        is HomeRoute.Progress -> NavEntry(key) {
+            val navigator: AppNavigator = koinInject()
+            ProgressScreen(onBack = { navigator.back() })
         }
         else -> null
     }
