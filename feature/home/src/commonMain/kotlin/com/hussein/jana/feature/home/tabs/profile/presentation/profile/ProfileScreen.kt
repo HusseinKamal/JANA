@@ -84,14 +84,14 @@ fun ProfileScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val errorText = stringResource(Res.string.error_generic)
 
+    LaunchedEffect(Unit) { viewModel.onIntent(ProfileIntent.ScreenShown) }
+
     LaunchedEffect(viewModel.effect) {
         viewModel.effect.collect { effect ->
             when (effect) {
                 ProfileEffect.NavigateToEditProfile -> navigator.navigate(HomeRoute.EditProfile)
                 ProfileEffect.NavigateToSyllabus -> navigator.navigate(HomeRoute.Syllabus)
                 ProfileEffect.NavigateToProgress -> navigator.navigate(HomeRoute.Progress)
-                is ProfileEffect.NavigateToCourseDetail ->
-                    navigator.navigate(HomeRoute.CourseDetail(effect.courseId))
                 ProfileEffect.OpenTeacherTab -> onOpenTeacherTab()
                 ProfileEffect.NavigateToLogin -> navigator.replaceAll(AuthRoute.Login())
                 ProfileEffect.ShowError -> snackbarHostState.showSnackbar(errorText)

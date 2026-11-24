@@ -36,12 +36,13 @@ data class ProfileUiState(
 
 sealed interface ProfileIntent : MviIntent {
     data object Load : ProfileIntent
+    /** The tab entered composition; refreshes data that has no observable source. */
+    data object ScreenShown : ProfileIntent
     data object RetryProfile : ProfileIntent
     data object RetryProgress : ProfileIntent
     data object EditProfileClicked : ProfileIntent
     data object SyllabusClicked : ProfileIntent
     data object ProgressClicked : ProfileIntent
-    data class CourseClicked(val courseId: String) : ProfileIntent
     data class NotificationsToggled(val enabled: Boolean) : ProfileIntent
     data class NotificationTypeToggled(val type: NotificationType, val enabled: Boolean) : ProfileIntent
     data object LanguageRowClicked : ProfileIntent
@@ -58,7 +59,6 @@ sealed interface ProfileEffect : MviEffect {
     data object NavigateToEditProfile : ProfileEffect
     data object NavigateToSyllabus : ProfileEffect
     data object NavigateToProgress : ProfileEffect
-    data class NavigateToCourseDetail(val courseId: String) : ProfileEffect
     data object OpenTeacherTab : ProfileEffect
     data object NavigateToLogin : ProfileEffect
     data object ShowError : ProfileEffect

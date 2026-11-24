@@ -21,12 +21,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 
 private val TextFieldShape = RoundedCornerShape(12.dp)
 
 /**
  * Labelled, bordered text field. Shows [errorText] under the field and an error border when set.
+ *
+ * Pass [textDirection] = [TextDirection.Ltr] for values such as phone numbers, which have no
+ * strong-direction characters and would otherwise show their digit groups reversed in RTL.
+ * The text stays aligned to the layout's start edge.
  */
 @Composable
 fun JanaTextField(
@@ -40,9 +48,18 @@ fun JanaTextField(
     singleLine: Boolean = true,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     leadingIcon: ImageVector? = null,
+    textDirection: TextDirection = TextDirection.Unspecified,
 ) {
     val colors = MaterialTheme.colorScheme
     val isError = errorText != null
+    val isRtlLayout = LocalLayoutDirection.current == LayoutDirection.Rtl
+    // TextAlign.Start follows the text direction, so a forced direction needs an absolute
+    // alignment to stay on the layout's start edge.
+    val textAlign = when {
+        textDirection == TextDirection.Unspecified -> TextAlign.Unspecified
+        isRtlLayout -> TextAlign.Right
+        else -> TextAlign.Left
+    }
     Column(modifier = modifier) {
         Text(
             text = label,
@@ -82,6 +99,8 @@ fun JanaTextField(
                         enabled = enabled,
                         textStyle = MaterialTheme.typography.bodyMedium.copy(
                             color = if (enabled) colors.onSurface else colors.onSurfaceVariant,
+                            textDirection = textDirection,
+                            textAlign = textAlign,
                         ),
                         keyboardOptions = keyboardOptions,
                         singleLine = singleLine,
@@ -90,7 +109,7 @@ fun JanaTextField(
                     if (value.isEmpty() && placeholder != null) {
                         Text(
                             text = placeholder,
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = MaterialTheme.typography.bodyMedium.copy(textDirection = textDirection),
                             color = colors.onSurfaceVariant.copy(alpha = 0.6f),
                         )
                     }

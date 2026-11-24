@@ -13,6 +13,7 @@ import com.hussein.jana.core.designsystem.JanaSettingsSection
 import com.hussein.jana.core.designsystem.Res
 import com.hussein.jana.core.designsystem.profile_edit_profile
 import com.hussein.jana.core.designsystem.profile_photo_cd
+import com.hussein.jana.feature.home.tabs.profile.presentation.common.ltrIsolated
 import org.jetbrains.compose.resources.stringResource
 
 /** Student photo, name, email and phone in a bordered card, with an Edit profile action. */
@@ -35,7 +36,7 @@ fun ProfileHeaderCard(
             JanaProfileHeader(
                 name = name,
                 subtitle = email,
-                bio = phone,
+                bio = phone.takeIf { it.isNotBlank() }?.ltrIsolated(),
                 imageUrl = photoUrl,
                 avatarContentDescription = stringResource(Res.string.profile_photo_cd),
             )

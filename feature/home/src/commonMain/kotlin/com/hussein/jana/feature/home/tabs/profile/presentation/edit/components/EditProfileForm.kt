@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.dp
 import com.hussein.jana.core.designsystem.JanaAvatar
 import com.hussein.jana.core.designsystem.JanaButton
@@ -99,6 +100,8 @@ fun EditProfileForm(
             enabled = !isSaving,
             leadingIcon = Icons.Rounded.Phone,
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone, imeAction = ImeAction.Done),
+            // Phone numbers read left to right in Arabic too.
+            textDirection = TextDirection.Ltr,
         )
 
         JanaButton(

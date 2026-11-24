@@ -5,6 +5,7 @@ import com.hussein.jana.core.common.appVersion
 import com.hussein.jana.core.common.mvi.BaseMviViewModel
 import com.hussein.jana.core.designsystem.AppLanguage
 import com.hussein.jana.feature.home.tabs.courses.domain.usecase.GetCoursesUseCase
+import com.hussein.jana.feature.home.tabs.courses.domain.usecase.ObserveCoursesUseCase
 import com.hussein.jana.feature.home.tabs.profile.domain.model.NotificationPreferences
 import com.hussein.jana.feature.home.tabs.profile.domain.usecase.GetLearningProgressUseCase
 import com.hussein.jana.feature.home.tabs.profile.domain.usecase.GetStudentProfileUseCase
@@ -16,6 +17,7 @@ import com.hussein.jana.feature.home.tabs.profile.domain.usecase.SetAppLanguageU
 import com.hussein.jana.feature.home.tabs.profile.domain.usecase.UpdateNotificationPreferencesUseCase
 import com.hussein.jana.feature.home.tabs.teacher.domain.usecase.GetActiveTeacherProfileUseCase
 import com.hussein.jana.feature.home.tabs.teacher.domain.usecase.GetLiveLessonsSubscriptionUseCase
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 
 /**
@@ -31,6 +33,7 @@ class ProfileViewModel(
     private val getLearningProgress: GetLearningProgressUseCase,
     private val getActiveTeacherProfile: GetActiveTeacherProfileUseCase,
     private val getCourses: GetCoursesUseCase,
+    private val observeCourses: ObserveCoursesUseCase,
     private val getLiveLessonsSubscription: GetLiveLessonsSubscriptionUseCase,
     private val observeAppLanguage: ObserveAppLanguageUseCase,
     private val setAppLanguage: SetAppLanguageUseCase,
@@ -41,8 +44,19 @@ class ProfileViewModel(
     ProfileUiState(appVersion = appVersion),
 ) {
 
+    /** The first ScreenShown is covered by Load in init. */
+    private var hasBeenShown = false
+
     init {
         onIntent(ProfileIntent.Load)
+        // Subscribing to (or progressing in) a course from another tab changes the catalog.
+        // The current list is already covered by Load, so only later changes are applied.
+        viewModelScope.launch {
+            observeCourses().drop(1).collect { courses ->
+                setState { copy(subscribedCoursesCount = courses.count { it.isSubscribed }) }
+                loadProgress()
+            }
+        }
         // Edits saved in Edit Profile; applied only after the first load so the spinner shows.
         viewModelScope.launch {
             observeStudentProfile().collect { profile ->
@@ -63,12 +77,12 @@ class ProfileViewModel(
             loadProgress()
             loadTeacherPlatform()
         }
+        ProfileIntent.ScreenShown -> onScreenShown()
         ProfileIntent.RetryProfile -> loadProfile()
         ProfileIntent.RetryProgress -> loadProgress()
         ProfileIntent.EditProfileClicked -> sendEffect(ProfileEffect.NavigateToEditProfile)
         ProfileIntent.SyllabusClicked -> sendEffect(ProfileEffect.NavigateToSyllabus)
         ProfileIntent.ProgressClicked -> sendEffect(ProfileEffect.NavigateToProgress)
-        is ProfileIntent.CourseClicked -> sendEffect(ProfileEffect.NavigateToCourseDetail(intent.courseId))
         // TODO: request the OS notification permission (POST_NOTIFICATIONS on Android,
         //  UNUserNotificationCenter on iOS) when enabling; no expect/actual exists yet.
         is ProfileIntent.NotificationsToggled ->
@@ -117,6 +131,18 @@ class ProfileViewModel(
                 setState { copy(subscribedCoursesCount = courses.count { it.isSubscribed }) }
             }
         }
+        loadLiveSubscription()
+    }
+
+    /**
+     * The live subscription has no observable source, so it is re-fetched each time the tab is
+     * shown again (for example after subscribing from the Teacher tab).
+     */
+    private fun onScreenShown() {
+        if (hasBeenShown) loadLiveSubscription() else hasBeenShown = true
+    }
+
+    private fun loadLiveSubscription() {
         viewModelScope.launch {
             getLiveLessonsSubscription().onSuccess {
                 setState { copy(liveSubscriptionStatus = it.status) }

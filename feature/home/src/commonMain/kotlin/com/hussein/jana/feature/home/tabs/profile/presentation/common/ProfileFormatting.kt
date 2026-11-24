@@ -29,6 +29,12 @@ internal fun Float.percentText(): String =
 internal fun lessonsProgressText(completed: Int, total: Int): String =
     stringResource(Res.string.profile_progress_lessons, completed, total)
 
+/**
+ * Wraps the text in Unicode LTR isolate marks (LRI ... PDI) so values without strong-direction
+ * characters, such as phone numbers, keep their order inside RTL text.
+ */
+internal fun String.ltrIsolated(): String = "\u2066$this\u2069"
+
 @Composable
 internal fun AppLanguage.label(): String = when (this) {
     AppLanguage.ENGLISH -> stringResource(Res.string.language_english)

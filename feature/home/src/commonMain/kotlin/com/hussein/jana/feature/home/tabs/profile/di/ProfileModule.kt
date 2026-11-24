@@ -41,7 +41,7 @@ val profileModule = module {
     factoryOf(::GetLearningProgressUseCase)
 
     viewModel {
-        ProfileViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get())
+        ProfileViewModel(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get())
     }
     viewModel { EditProfileViewModel(get(), get()) }
     viewModel { SyllabusViewModel(get()) }
