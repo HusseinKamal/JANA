@@ -23,9 +23,10 @@ import org.koin.compose.koinInject
  * Navigation state that must outlive [AppNavHost]: the back stack, the per-entry
  * [ViewModelStore]s and the [SaveableStateHolder].
  *
- * The app root wraps [AppNavHost] in `key(language)` so a runtime language switch rebuilds
- * the tree and Compose resources reload their strings. Creating this state above that key
- * keeps the current screen, its ViewModels and its saved UI state across the rebuild.
+ * The app root creates this inside `key(language)`, so a runtime language switch drops it
+ * and starts a fresh back stack on Home. Do not hoist it above that key: sharing one
+ * [SaveableStateHolder] between the old and new trees crashes with
+ * "Key ... was used multiple times".
  */
 @Stable
 class AppNavState internal constructor(

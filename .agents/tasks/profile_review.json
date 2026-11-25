@@ -1,0 +1,27 @@
+{
+  "verdict": "APPROVED",
+  "findings": [
+    {
+      "blocking": false,
+      "confidence": "confirmed",
+      "file": "feature/home/src/commonMain/kotlin/com/hussein/jana/feature/home/tabs/profile/presentation/profile/ProfileViewModel.kt",
+      "problem": "Each observeCourses() emission calls loadProgress(), which sets isProgressLoading = true, so the learning summary blinks to a spinner after any subscription or lesson change; quick emissions also start overlapping uncancelled requests.",
+      "requiredFix": "Optional: add a silent refresh that keeps the current progress visible and cancels the previous reload job."
+    },
+    {
+      "blocking": false,
+      "confidence": "confirmed",
+      "file": "feature/home/src/commonMain/kotlin/com/hussein/jana/feature/home/tabs/profile/presentation/profile/ProfileViewModel.kt",
+      "problem": "'Allow notifications' only persists to DataStore; no OS permission is requested (TODO present).",
+      "requiredFix": "Optional now: keep tracking the TODO and add a notification-permission expect/actual before notifications are delivered."
+    },
+    {
+      "blocking": false,
+      "confidence": "confirmed",
+      "file": "core/designsystem/src/iosMain/kotlin/com/hussein/jana/core/designsystem/AppLocale.ios.kt; core/designsystem/src/iosMain/kotlin/com/hussein/jana/core/designsystem/AppLanguagePlatform.kt",
+      "problem": "The iOS actuals have never been compiled; the iOS tasks are SKIPPED on Windows.",
+      "requiredFix": "Compile :core:designsystem for iOS on macOS before release. No code change required."
+    }
+  ],
+  "reviewDoc": "d:\\AndroidApps\\JANA\\JANA\\.agents\\tasks\\profile_review.md"
+}

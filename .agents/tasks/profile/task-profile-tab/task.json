@@ -1,0 +1,7 @@
+{
+  "task_id": "task-profile-tab",
+  "task_description": "Replace the Profile tab stub (HomeTab.PROFILE) in the Jana Student KMP app with a full MVI Profile screen: student header + Edit Profile screen, notification toggles persisted in DataStore, runtime ar/en language switch (RTL) on Android/iOS/Desktop without restart, Syllabus screen, Progress summary + Progress screen, teacher-platform/subscriptions entries, about/version and logout with confirmation. Shared state-hoisted UI goes to core/designsystem; strings in EN+AR. Full design and ordered steps: d:/AndroidApps/JANA/JANA/.agents/tasks/profile_plan.md.",
+  "status": "completed",
+  "feature_order": ["FEAT-001", "FEAT-002"],
+  "blocked_reason": null
+}
